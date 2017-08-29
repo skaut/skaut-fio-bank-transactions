@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Fio Bank transactions
- * Plugin URI:        https://github.com/skaut/fio-integration
+ * Plugin URI:        https://github.com/skaut/fio-transactions
  * Description:       Zobrazování transakcí z Fio banky.
  * Version:           0.1
  * Author:            David Odehnal
