@@ -57,17 +57,22 @@ final class Settings {
 			$this->adminDirUrl . 'img/fio.png'
 		);
 
-		add_submenu_page(
+		/*add_submenu_page(
 			FIOTRANSACTIONS_NAME,
 			__( 'Obecné', 'fio-transactions' ),
 			__( 'Obecné', 'fio-transactions' ),
 			Helpers::getFioManagerCapability(),
 			FIOTRANSACTIONS_NAME,
 			[ $this, 'printSettingPage' ]
-		);
+		);*/
 	}
 
 	public function printSettingPage() {
+		?>
+		<script>
+            document.location.href = '<?php echo esc_js( admin_url( 'edit.php?post_type=fio_accounts' ) ); ?>';
+		</script>
+		<?php
 		if ( ! current_user_can( Helpers::getFioManagerCapability() ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}

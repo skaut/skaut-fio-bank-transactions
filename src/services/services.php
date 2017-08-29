@@ -35,15 +35,11 @@ class Services {
 		};
 
 		self::$services['frontend'] = function ( Container $container ) {
-			return new Frontend( $container['fioGateway'] );
-		};
-
-		self::$services['adminSettings'] = function ( Container $container ) {
-			return new Settings();
+			return new Frontend( $container['fioAccountFactory'] );
 		};
 
 		self::$services['admin'] = function ( Container $container ) {
-			return new Admin( $container['adminSettings'] );
+			return new Admin( $container['accountsInit'] );
 		};
 	}
 
