@@ -1,4 +1,3 @@
-# fio-transactions
 WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 
 Kdo si chcete plugin stáhnout je na 
