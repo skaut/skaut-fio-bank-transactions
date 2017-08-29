@@ -17,7 +17,7 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.
 
 **Jsme na GitHubu**
-[https://github.com/skaut/fio-transactions/](https://github.com/skaut/fio-transactions/)
+[https://github.com/skaut/fio-bank-transactions/](https://github.com/skaut/fio-bank-transactions/)
 
 == Installation ==
 1. Stáhnout si plugin a aktivovat
