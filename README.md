@@ -1,2 +1,2 @@
-# fio-integration
-WordPress plugin pro zobrazování informací z Fio banky přes shordcode.
+# fio-transactions
+WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
