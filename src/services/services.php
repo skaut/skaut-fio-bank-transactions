@@ -5,7 +5,9 @@ declare( strict_types=1 );
 namespace FioTransactions\Services;
 
 use Pimple\Container;
-use FioTransactions\Apis\FioGateway;
+use FioTransactions\api\AccountFactory;
+use FioTransactions\Accounts\AccountsInit;
+use FioTransactions\General\General;
 use FioTransactions\Frontend\Frontend;
 use FioTransactions\Admin\Settings;
 use FioTransactions\Admin\Admin;
@@ -20,8 +22,16 @@ class Services {
 	}
 
 	private static function registerServices() {
-		self::$services['fioGateway'] = function ( Container $container ) {
-			return new FioGateway();
+		self::$services['fioAccountFactory'] = function ( Container $container ) {
+			return new AccountFactory();
+		};
+
+		self::$services['accountsInit'] = function ( Container $container ) {
+			return new AccountsInit();
+		};
+
+		self::$services['general'] = function ( Container $container ) {
+			return new General( $container['accountsInit'] );
 		};
 
 		self::$services['frontend'] = function ( Container $container ) {

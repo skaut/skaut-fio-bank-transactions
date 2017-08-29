@@ -53,6 +53,7 @@ class FioTransactions {
 	}
 
 	protected function init() {
+		( Services::getServicesContainer()['general'] );
 		if ( is_admin() ) {
 			( Services::getServicesContainer()['admin'] );
 		} else {
