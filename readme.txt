@@ -20,7 +20,7 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 
 == Installation ==
 1. Stáhnout si plugin a aktivovat
-2. Zadat FIO klíč
+2. Získat a zadat API klíč podle [návodu.](http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
 3. 
 
 == Frequently Asked Questions ==
