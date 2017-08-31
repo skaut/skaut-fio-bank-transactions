@@ -26,7 +26,7 @@ class Columns {
 	}
 
 	public function lastModifiedAdminColumn( array $columns = [] ): array {
-		$columns['modified_last'] = __( 'Naposledy upraveno', 'fio-transactions' );
+		$columns['modified_last'] = __( 'Naposledy upraveno', 'fio-bank-transactions' );
 
 		return $columns;
 	}
@@ -43,7 +43,7 @@ class Columns {
 		}
 
 		$post           = get_post( $postId );
-		$modifiedDate   = sprintf( _x( 'Před %s', '%s = human-readable time difference', 'fio-transactions' ), human_time_diff( strtotime( $post->post_modified ), current_time( 'timestamp' ) ) );
+		$modifiedDate   = sprintf( _x( 'Před %s', '%s = human-readable time difference', 'fio-bank-transactions' ), human_time_diff( strtotime( $post->post_modified ), current_time( 'timestamp' ) ) );
 		$modifiedAuthor = get_the_modified_author();
 
 		echo $modifiedDate;
