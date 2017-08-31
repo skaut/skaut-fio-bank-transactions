@@ -3,15 +3,10 @@ Contributors: davidulus, skaut, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 4.8
 Tested up to: 4.9
-<<<<<<< HEAD
 Requires PHP: 7.1
-Stable tag: 1.0
+Stable tag: 0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-=======
-Stable tag: 0.1
-License: GPLv3 or laterLicense URI: http://www.gnu.org/licenses/gpl-3.0.html
->>>>>>> 8a9f5cb5ade18e82e3d74b018cf76351ebd91d5a
 
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 
