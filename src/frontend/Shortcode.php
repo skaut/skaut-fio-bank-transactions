@@ -109,11 +109,12 @@ final class Shortcode {
 			try {
 				$transactions = $account->getTransactionsSince( '-1 year' );
 			} catch ( \Exception $e ) {
+				// Only for debug purposes, will be deleted in version 1.0
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					error_log( $e->getMessage() );
 				}
 
-				return '';
+				return '<div>' . __( 'Chyba při spojení s Fio bankou.', 'fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . __( 'Zkuste to znovu.', 'fio-bank-transactions' ) . '</a></div>';
 			}
 
 			return $this->prepareTable( $transactions );
