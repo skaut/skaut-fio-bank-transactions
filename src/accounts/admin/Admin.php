@@ -50,6 +50,8 @@ final class Admin {
 		       style="width: 100%;"
 		       pattern="[a-zA-Z0-9]{64}"
 		       required="required"/>
+		<p><a href="http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance"
+		        target="_blank"><?php _e( 'Jak získám token?', 'fio-bank-transactions' ); ?></a></p>
 		<?php
 	}
 
@@ -63,7 +65,8 @@ final class Admin {
 				<button type="button" class="handlediv" aria-expanded="true"><span
 						class="screen-reader-text"><?php _e( 'Zobrazit / skrýt panel: Token', 'fio-bank-transactions' ); ?></span><span
 						class="toggle-indicator" aria-hidden="true"></span></button>
-				<h2 class="hndle ui-sortable-handle"><span><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></span>
+				<h2 class="hndle ui-sortable-handle">
+					<span><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></span>
 				</h2>
 				<div class="inside" style="padding: 0.75em 1.5em 1.25em 1.5em;">
 					<label class="screen-reader-text"
