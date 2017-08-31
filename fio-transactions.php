@@ -80,12 +80,12 @@ class FioTransactions {
 	public function activation() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-transactions' ) );
+			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-transactions' ) );
+			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 	}
 
@@ -113,7 +113,7 @@ WHERE `option_name` LIKE %s
 
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
 
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
@@ -126,7 +126,7 @@ WHERE `option_name` LIKE %s
 
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
 
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
