@@ -96,7 +96,7 @@ final class Settings {
 			FIOTRANSACTIONS_NAME . '_settings',
 			__( 'Test', 'fio-transactions' ),
 			function () {
-				echo sprintf( __( 'Návod pro nastavení pluginu najdete v <a href="%s" target="_blank">nápovědě</a>.', 'fio-transactions' ), self::HELP_PAGE_URL );
+				echo sprintf( __( 'Návod pro nastavení pluginu najdete v <a href="%s" target="_blank">nápovědě</a>.', 'fio-bank-transactions' ), self::HELP_PAGE_URL );
 			},
 			FIOTRANSACTIONS_NAME
 		);
