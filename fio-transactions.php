@@ -6,7 +6,7 @@
  * Version:           0.1
  * Author:            David Odehnal
  * Author URI:        https://davidodehnal.cz/
- * Text Domain:       fio-transactions
+ * Text Domain:       fio-bank-transactions
  */
 
 namespace FioTransactions;
