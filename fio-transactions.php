@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Fio Bank transactions
- * Plugin URI:        https://github.com/skaut/fio-transactions
+ * Plugin URI:        https://github.com/skaut/fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
  * Version:           0.1
  * Author:            David Odehnal
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
-define( 'FIOTRANSACTIONS_NAME', 'fio_transactions' );
+define( 'FIOTRANSACTIONS_NAME', 'fio-bank-transactions' );
 define( 'FIOTRANSACTIONS_VERSION', '0.1' );
 
 class FioTransactions {
