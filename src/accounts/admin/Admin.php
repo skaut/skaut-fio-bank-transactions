@@ -21,7 +21,7 @@ final class Admin {
 		if ( $postType == AccountsInit::ACCOUNTS_TYPE_SLUG ) {
 			add_meta_box(
 				FIOTRANSACTIONS_NAME . '_token_metabox',
-				__( 'Token', 'fio-transactions' ),
+				__( 'Token', 'fio-bank-transactions' ),
 				[ $this, 'TokenFieldContent' ],
 				AccountsInit::ACCOUNTS_TYPE_SLUG,
 				'advanced',
@@ -42,10 +42,10 @@ final class Admin {
 
 	public function TokenFieldContent( \WP_Post $post ) {
 		?>
-		<h2><?php _e( 'Zadejte 64 znakový token z internetového bankovnictví', 'fio-transactions' ); ?>:</h2>
+		<h2><?php _e( 'Zadejte 64 znakový token z internetového bankovnictví', 'fio-bank-transactions' ); ?>:</h2>
 		<input type="text" name="<?php echo FIOTRANSACTIONS_NAME . '_token'; ?>"
 		       value="<?php echo get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ); ?>"
-		       placeholder="<?php _e( 'token', 'fio-transactions' ); ?>"
+		       placeholder="<?php _e( 'token', 'fio-bank-transactions' ); ?>"
 		       class="regular-text"
 		       style="width: 100%;"
 		       pattern="[a-zA-Z0-9]{64}"
@@ -61,13 +61,13 @@ final class Admin {
 		<div class="meta-box-sortables">
 			<div class="postbox" style="margin-top: 2.5em;">
 				<button type="button" class="handlediv" aria-expanded="true"><span
-						class="screen-reader-text"><?php _e( 'Zobrazit / skrýt panel: Token', 'fio-transactions' ); ?></span><span
+						class="screen-reader-text"><?php _e( 'Zobrazit / skrýt panel: Token', 'fio-bank-transactions' ); ?></span><span
 						class="toggle-indicator" aria-hidden="true"></span></button>
-				<h2 class="hndle ui-sortable-handle"><span><?php _e( 'Zadejte token', 'fio-transactions' ); ?></span>
+				<h2 class="hndle ui-sortable-handle"><span><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></span>
 				</h2>
 				<div class="inside" style="padding: 0.75em 1.5em 1.25em 1.5em;">
 					<label class="screen-reader-text"
-					       for="post_author_override"><?php _e( 'Zadejte token', 'fio-transactions' ); ?></label>
+					       for="post_author_override"><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></label>
 
 				</div>
 			</div>
