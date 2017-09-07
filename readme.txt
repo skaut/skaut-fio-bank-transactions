@@ -1,4 +1,4 @@
-=== FIO transactions ===
+=== skaut FIO bank transactions ===
 Contributors: davidulus, skaut, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 4.8
