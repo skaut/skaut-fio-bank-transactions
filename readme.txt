@@ -1,4 +1,4 @@
-=== FIO BANK - transactions ===
+=== Fio bank - transactions ===
 Contributors: davidulus, skaut, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 4.8
@@ -24,7 +24,6 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je mož
 == Installation ==
 1. Stáhnout si plugin a aktivovat
 2. Získat a zadat token podle [návodu.](http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
-3. V př
 
 == Frequently Asked Questions ==
 **Jak plugin správně nastavit?**
