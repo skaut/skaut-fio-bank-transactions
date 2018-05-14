@@ -3,7 +3,7 @@
  * Plugin Name:       Fio bank - transactions
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
- * Version:           0.1
+ * Version:           0.1-beta
  * Author:            David Odehnal
  * Author URI:        https://davidodehnal.cz/
  * Text Domain:       skaut-fio-bank-transactions
