@@ -1,7 +1,7 @@
 === Fio bank - transactions ===
 Contributors: davidulus, skaut, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
-Requires at least: 4.8
+Requires at least: 4.9.6
 Tested up to: 5.0
 Requires PHP: 7.1
 Stable tag: 0.1
@@ -13,7 +13,7 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 == Description ==
 
 <h2> Minimální požadavky</h2>
-- WordPress 4.8 a vyšší
+- WordPress 4.9.6 a vyšší
 - PHP 7.1 a vyšší
 
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.
@@ -38,4 +38,4 @@ Je potřeba vytvořit nový účet a zadat token podle [návodu.](http://napoved
 = 0.1 =
 * Zobrazuje data stará 1 rok
 * PHP 7.1 a vyšší
-* vyžadován WordPress 4.8 a vyšší
+* vyžadován WordPress 4.9.6 a vyšší
