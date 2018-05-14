@@ -4,7 +4,7 @@ Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 4.9.6
 Tested up to: 5.0
 Requires PHP: 7.1
-Stable tag: 0.1
+Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
