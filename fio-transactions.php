@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name:       Fio bank - transactions
- * Plugin URI:        https://github.com/skaut/fio-bank-transactions
+ * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
  * Version:           0.1
  * Author:            David Odehnal
  * Author URI:        https://davidodehnal.cz/
- * Text Domain:       fio-bank-transactions
+ * Text Domain:       skaut-fio-bank-transactions
  */
 
 namespace FioTransactions;
