@@ -62,7 +62,7 @@ class FioTransactions {
 	}
 
 	protected function isCompatibleVersionOfWp() {
-		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) {
+		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
 			return true;
 		}
 
@@ -80,7 +80,7 @@ class FioTransactions {
 	public function activation() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
@@ -113,7 +113,7 @@ WHERE `option_name` LIKE %s
 
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.8 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
 
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
