@@ -4,7 +4,7 @@ Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 4.9.6
 Tested up to: 5.0
 Requires PHP: 7.1
-Stable tag: trunk
+Stable tag: 1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,9 @@ Je potřeba vytvořit nový účet a zadat token podle [návodu.](http://napoved
 
 
 == Changelog ==
+= 1.0 =
+* 
+
 = 0.1 =
 * Zobrazuje data stará 1 rok
 * PHP 7.1 a vyšší
