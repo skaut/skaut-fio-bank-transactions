@@ -4,8 +4,8 @@
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
  * Version:           1.0
- * Author:            David Odehnal
- * Author URI:        https://davidodehnal.cz/
+ * Author:            Junák - český skaut
+ * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
  */
 
