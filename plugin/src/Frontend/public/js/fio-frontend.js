@@ -2,7 +2,6 @@
     'use strict';
 
     $.fn.dataTable.moment( 'DD.MM.YYYY' );
-    $.fn.dataTable.moment( 'd.m.y' );
     var $dataTable = $('.fioTransactionsTable').DataTable({
         responsive: true,
         language: {
