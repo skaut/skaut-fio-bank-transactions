@@ -8,7 +8,7 @@ use FioTransactions\Utils\Helpers;
 
 final class Settings {
 
-	const HELP_PAGE_URL = 'https://napoveda.skaut.cz/';
+	const HELP_PAGE_URL = 'https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions';
 
 	private $adminDirUrl = '';
 
