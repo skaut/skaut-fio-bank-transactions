@@ -1,7 +1,8 @@
-.fio_transactions_amount {
+.fio_bank_transactions_amount {
 	text-align: right;
+	white-space: nowrap;
 }
 
-.fio_transactions_outcome {
+.fio_bank_transactions_outcome {
 	color: #b00;
 }
