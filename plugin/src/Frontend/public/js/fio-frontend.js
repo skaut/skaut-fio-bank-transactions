@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
 
-    $.fn.dataTable.moment( 'DD.MM.YY' );
+    $.fn.dataTable.moment( 'DD.MM.YYYY' );
     $.fn.dataTable.moment( 'd.m.y' );
     var $dataTable = $('.fioTransactionsTable').DataTable({
         responsive: true,
@@ -13,7 +13,7 @@
         columnDefs: [
             {
                 "targets": [0],
-                "render": $.fn.dataTable.moment('DD.MM.YY')
+                "render": $.fn.dataTable.moment('DD.MM.YYYY')
             }
         ]
     });
