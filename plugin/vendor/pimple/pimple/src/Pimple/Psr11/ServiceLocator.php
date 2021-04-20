@@ -38,7 +38,7 @@ use Psr\Container\ContainerInterface;
 class ServiceLocator implements ContainerInterface
 {
     private $container;
-    private $aliases = array();
+    private $aliases = [];
 
     /**
      * @param PimpleContainer $container The Container instance used to locate services
@@ -49,14 +49,14 @@ class ServiceLocator implements ContainerInterface
         $this->container = $container;
 
         foreach ($ids as $key => $id) {
-            $this->aliases[is_int($key) ? $id : $key] = $id;
+            $this->aliases[\is_int($key) ? $id : $key] = $id;
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!isset($this->aliases[$id])) {
             throw new UnknownIdentifierException($id);
@@ -68,7 +68,7 @@ class ServiceLocator implements ContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function has($id)
+    public function has(string $id)
     {
         return isset($this->aliases[$id]) && isset($this->container[$this->aliases[$id]]);
     }

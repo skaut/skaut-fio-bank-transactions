@@ -17,7 +17,7 @@
     "no-dev": "true"
   },
   "require": {
-    "php": "^7.0",
+    "php": "^7.4",
     "pimple/pimple": "~3.0",
     "mhujer/fio-api-php": "^4.0"
   },
