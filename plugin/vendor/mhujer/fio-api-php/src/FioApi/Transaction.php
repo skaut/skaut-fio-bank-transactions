@@ -27,6 +27,9 @@ class Transaction
     protected $senderBankName;
 
     /** @var string|null */
+    protected $senderName;
+
+    /** @var string|null */
     protected $constantSymbol;
 
     /** @var string|null */
@@ -64,6 +67,7 @@ class Transaction
         ?string $senderAccountNumber,
         ?string $senderBankCode,
         ?string $senderBankName,
+        ?string $senderName,
         ?string $constantSymbol,
         ?string $variableSymbol,
         ?string $specificSymbol,
@@ -82,6 +86,7 @@ class Transaction
         $this->senderAccountNumber = $senderAccountNumber;
         $this->senderBankCode = $senderBankCode;
         $this->senderBankName = $senderBankName;
+        $this->senderName = $senderName;
         $this->constantSymbol = $constantSymbol;
         $this->variableSymbol = $variableSymbol;
         $this->specificSymbol = $specificSymbol;
@@ -108,12 +113,13 @@ class Transaction
             !empty($data->column2) ? $data->column2->value : null, //Protiúčet
             !empty($data->column3) ? $data->column3->value : null, //Kód banky
             !empty($data->column12) ? $data->column12->value : null, //Název banky
+            !empty($data->column10) ? $data->column10->value : null, //Název protiúčtu
             !empty($data->column4) ? $data->column4->value : null, //KS
             !empty($data->column5) ? $data->column5->value : null, //VS
             !empty($data->column6) ? $data->column6->value : null, //SS
             !empty($data->column7) ? $data->column7->value : null, //Uživatelská identifikace
             !empty($data->column16) ? $data->column16->value : null, //Zpráva pro příjemce
-            $data->column8->value, //Typ
+            !empty($data->column8) ? $data->column8->value : '', //Typ
             !empty($data->column9) ? $data->column9->value : null, //Provedl
             !empty($data->column25) ? $data->column25->value : null, //Komentář
             !empty($data->column17) ? $data->column17->value : null, //ID pokynu
@@ -154,6 +160,11 @@ class Transaction
     public function getSenderBankName(): ?string
     {
         return $this->senderBankName;
+    }
+
+    public function getSenderName(): ?string
+    {
+        return $this->senderName;
     }
 
     public function getConstantSymbol(): ?string
