@@ -57,17 +57,33 @@ final class Shortcode {
 	public function enqueueStylesAndScripts() {
 		wp_enqueue_style(
 			'datatables',
-			'https://cdn.datatables.net/v/dt/dt-1.10.15/r-2.1.1/datatables.min.css',
+			'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css',
 			[],
-			'1.10.15',
+			'1.10.24',
 			'all'
 		);
 
 		wp_enqueue_script(
 			'datatables',
-			'https://cdn.datatables.net/v/dt/dt-1.10.15/r-2.1.1/datatables.min.js',
+			'https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js',
 			[ 'jquery' ],
-			'1.10.15',
+			'1.10.24',
+			true
+		);
+
+		wp_enqueue_script(
+			'fio-momentjs',
+			'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js',
+			[ 'datatables' ],
+			'2.8.4',
+			true
+		);
+
+		wp_enqueue_script(
+			'fio-datetime-momentjs',
+			'https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js',
+			[ 'fio-momentjs' ],
+			'1.10.24',
 			true
 		);
 
