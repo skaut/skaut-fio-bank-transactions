@@ -29,6 +29,9 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je mož
 **Jak plugin správně nastavit?**
 Je potřeba vytvořit nový účet a zadat token podle [návodu.](http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
 
+**Nápověda k pluginu**
+https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions
+
 == Screenshots ==
 
 
