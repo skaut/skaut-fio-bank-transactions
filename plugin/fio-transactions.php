@@ -22,7 +22,7 @@ define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
 define( 'FIOTRANSACTIONS_NAME', 'fio_bank_transactions' );
-define( 'FIOTRANSACTIONS_VERSION', '1.0' );
+define( 'FIOTRANSACTIONS_VERSION', '1.1' );
 
 class FioTransactions {
 
@@ -70,7 +70,7 @@ class FioTransactions {
 	}
 
 	protected function isCompatibleVersionOfPhp() {
-		if ( version_compare( PHP_VERSION, '7.1', '>=' ) ) {
+		if ( version_compare( PHP_VERSION, '7.4', '>=' ) ) {
 			return true;
 		}
 
@@ -85,7 +85,7 @@ class FioTransactions {
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 	}
 
@@ -126,7 +126,7 @@ WHERE `option_name` LIKE %s
 
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.1 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
 
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
