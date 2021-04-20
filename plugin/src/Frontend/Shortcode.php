@@ -124,6 +124,7 @@ final class Shortcode {
 
 			try {
 				$transactions = $account->getTransactionsSince( '-1 year' );
+				$transactions = array_reverse( $transactions );
 			} catch ( \Exception $e ) {
 				// Only for debug purposes, will be deleted in version 1.0
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
