@@ -1,6 +1,6 @@
 (function () {
-    tinymce.PluginManager.add('fio_transactions_accounts', function (editor, url) {
-        editor.addButton('fio_transactions_accounts', {
+    tinymce.PluginManager.add('fio_bank_transactions_accounts', function (editor, url) {
+        editor.addButton('fio_bank_transactions_accounts', {
             title: 'insert_account_transactions',
             icon: 'dashicons-money',
             onclick: function () {

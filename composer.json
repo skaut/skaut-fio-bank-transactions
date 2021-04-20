@@ -1,5 +1,5 @@
 {
-  "name": "fio/Transactions",
+  "name": "fio/transactions",
   "type": "library",
   "description": "Show transactions from Fio Bank",
   "license": "proprietary",
@@ -18,8 +18,8 @@
   },
   "require": {
     "php": "^7.4",
-    "pimple/pimple": "~3.0",
-    "mhujer/fio-api-php": "^4.0"
+    "pimple/pimple": "~3",
+    "mhujer/fio-api-php": "^4"
   },
   "minimum-stability": "stable",
   "autoload": {
