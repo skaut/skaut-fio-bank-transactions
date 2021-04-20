@@ -28,8 +28,9 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je mož
 == Frequently Asked Questions ==
 **Nápověda k pluginu**
 [https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions](https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions)
+
 **Jak získat Fio token?**
-Je potřeba vytvořit zadat a token podle [návodu.](http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
+Je potřeba vytvořit nový token podle [návodu.](http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
 
 == Screenshots ==
 
