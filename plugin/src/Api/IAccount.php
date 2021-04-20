@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace FioTransactions\api;
+namespace FioTransactions\Api;
 
 interface IAccount {
 	public function getTransactionsFromTo( string $from, string $to ): array;

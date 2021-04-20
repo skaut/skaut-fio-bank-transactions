@@ -1,0 +1,30 @@
+{
+  "name": "fio/transactions",
+  "type": "library",
+  "description": "Show transactions from Fio Bank",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "David Odehnal",
+      "email": "info@davidodehnal.cz"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor",
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "notify-on-install": false,
+    "no-dev": "true"
+  },
+  "require": {
+    "php": "^7.4",
+    "pimple/pimple": "~3.0",
+    "mhujer/fio-api-php": "^4.0"
+  },
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "FioTransactions\\": "src/"
+    }
+  }
+}
