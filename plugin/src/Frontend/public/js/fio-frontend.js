@@ -14,7 +14,8 @@
                 "targets": [0],
                 "render": $.fn.dataTable.moment('DD.MM.YYYY')
             }
-        ]
+        ],
+        order: [[ 0, 'desc' ]]
     });
 
     $dataTable.on('init.dt', function () {
