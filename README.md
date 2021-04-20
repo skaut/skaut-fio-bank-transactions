@@ -1,5 +1,3 @@
-<b>Plugin zatím není HOTOVÝ!</b>
-
 WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 
 Kdo si chcete plugin stáhnout je na https://cs.wordpress.org/plugins/skaut-fio-bank-transactions/
