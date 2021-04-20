@@ -29,13 +29,13 @@ final class Shortcode {
 	}
 
 	public function registerTinymcePlugin( array $plugins = [] ): array {
-		$plugins[ FIOTRANSACTIONS_NAME . '_accounts' ] = $this->adminDirUrl . 'js/fio-tinymceAccountsButton.js';
+		$plugins[ 'fio_transactions_accounts' ] = $this->adminDirUrl . 'js/fio-tinymceAccountsButton.js';
 
 		return $plugins;
 	}
 
 	public function addTinymceButton( array $buttons = [] ): array {
-		$buttons[] = FIOTRANSACTIONS_NAME . '_accounts';
+		$buttons[] = 'fio_transactions_accounts';
 
 		return $buttons;
 	}

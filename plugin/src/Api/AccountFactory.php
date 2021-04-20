@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace FioTransactions\api;
+namespace FioTransactions\Api;
 
 use FioApi\Downloader;
 
