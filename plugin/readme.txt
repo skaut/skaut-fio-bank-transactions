@@ -37,7 +37,7 @@ Je potřeba vytvořit nový token podle [návodu.](http://napoveda.fapi.cz/artic
 
 == Changelog ==
 = 1.1.1 =
-* oprava řazení plateb podle datumu
+* oprava řazení plateb podle data
 
 = 1.1 =
 * PHP 7.4 a vyšší
