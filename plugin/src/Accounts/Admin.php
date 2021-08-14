@@ -44,14 +44,14 @@ final class Admin {
 		?>
 		<h2><?php _e( 'Zadejte 64 znakový token z internetového bankovnictví', 'fio-bank-transactions' ); ?>:</h2>
 		<input type="text" name="<?php echo FIOTRANSACTIONS_NAME . '_token'; ?>"
-		       value="<?php echo get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ); ?>"
+		       value="<?php echo esc_attr( get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ) ); ?>"
 		       placeholder="<?php _e( 'token', 'fio-bank-transactions' ); ?>"
 		       class="regular-text"
 		       style="width: 100%;"
 		       pattern="[a-zA-Z0-9]{64}"
 		       required="required"/>
 		<p><a href="http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance"
-		        target="_blank"><?php _e( 'Jak získám token?', 'fio-bank-transactions' ); ?></a></p>
+		      target="_blank"><?php _e( 'Jak získám token?', 'fio-bank-transactions' ); ?></a></p>
 		<?php
 	}
 
