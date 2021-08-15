@@ -4,7 +4,7 @@ Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 5.0
 Tested up to: 5.7
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,6 +36,9 @@ Je potřeba vytvořit nový token podle [návodu.](http://napoveda.fapi.cz/artic
 
 
 == Changelog ==
+= 1.1.2 =
+* oprava chyb
+
 = 1.1.1 =
 * oprava řazení plateb podle data
 
