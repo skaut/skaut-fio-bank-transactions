@@ -2,7 +2,7 @@
 Contributors: davidulus, skaut, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 5.0
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 7.4
 Stable tag: 1.1.2
 License: GPLv3 or later
