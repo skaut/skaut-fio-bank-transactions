@@ -3,7 +3,7 @@
  * Plugin Name:       Fio bank - transactions
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            Junák - český skaut
  * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
@@ -22,7 +22,7 @@ define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
 define( 'FIOTRANSACTIONS_NAME', 'fio_bank_transactions' );
-define( 'FIOTRANSACTIONS_VERSION', '1.1.1' );
+define( 'FIOTRANSACTIONS_VERSION', '1.1.2' );
 
 class FioTransactions {
 
