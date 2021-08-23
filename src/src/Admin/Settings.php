@@ -81,14 +81,14 @@ final class Settings {
 		</script>
 		<?php
 		if ( ! current_user_can( Helpers::getFioManagerCapability() ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
 		settings_errors();
 		?>
 		<div class="wrap">
-			<h1><?php _e( 'Test', 'fio-transactions' ); ?></h1>
-			<form method="POST" action="<?php echo admin_url( 'options.php' ); ?>">
+			<h1><?php esc_html_e( 'Test', 'fio-transactions' ); ?></h1>
+			<form method="POST" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
 				<?php
 				settings_fields( FIOTRANSACTIONS_NAME );
 				do_settings_sections( FIOTRANSACTIONS_NAME );
@@ -104,7 +104,7 @@ final class Settings {
 			FIOTRANSACTIONS_NAME . '_settings',
 			__( 'Test', 'fio-transactions' ),
 			function () {
-				echo sprintf( __( 'Návod pro nastavení pluginu najdete v <a href="%s" target="_blank">nápovědě</a>.', 'fio-bank-transactions' ), self::HELP_PAGE_URL );
+				printf( esc_html__( 'Návod pro nastavení pluginu najdete v %1$snápovědě%2$s.', 'fio-bank-transactions' ), '<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank">', '</a>' );
 			},
 			FIOTRANSACTIONS_NAME
 		);
@@ -129,7 +129,7 @@ final class Settings {
 	}
 
 	public function fieldTest() {
-		echo '<input name="' . FIOTRANSACTIONS_NAME . '_test" id="' . FIOTRANSACTIONS_NAME . '_test" type="text" value="' . esc_attr( get_option( FIOTRANSACTIONS_NAME . '_test' ) ) . '" class="regular-text" />';
+		echo '<input name="' . esc_attr( FIOTRANSACTIONS_NAME ) . '_test" id="' . esc_attr( FIOTRANSACTIONS_NAME ) . '_test" type="text" value="' . esc_attr( get_option( FIOTRANSACTIONS_NAME . '_test' ) ) . '" class="regular-text" />';
 	}
 
 }
