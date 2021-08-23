@@ -20,17 +20,17 @@ final class AccountsInit {
 			( new Admin() );
 		}
 
-		add_action( 'init', [ $this, 'registerPostType' ] );
+		add_action( 'init', array( $this, 'registerPostType' ) );
 
 		if ( is_admin() ) {
-			add_filter( 'default_content', [ $this, 'defaultContent' ] );
-			add_filter( 'enter_title_here', [ $this, 'titlePlaceholder' ] );
-			add_filter( 'post_updated_messages', [ $this, 'updatedMessages' ] );
+			add_filter( 'default_content', array( $this, 'defaultContent' ) );
+			add_filter( 'enter_title_here', array( $this, 'titlePlaceholder' ) );
+			add_filter( 'post_updated_messages', array( $this, 'updatedMessages' ) );
 		}
 	}
 
 	public function registerPostType() {
-		$labels       = [
+		$labels       = array(
 			'name'                  => _x( 'Správa účtů', 'Post Type General Name', 'fio-bank-transactions' ),
 			'singular_name'         => _x( 'Účet', 'Post Type Singular Name', 'fio-bank-transactions' ),
 			'menu_name'             => __( 'Správa účtů', 'fio-bank-transactions' ),
@@ -57,9 +57,9 @@ final class AccountsInit {
 			'uploaded_to_this_item' => __( 'Přiřazeno k tomuto účtu', 'fio-bank-transactions' ),
 			'items_list'            => __( 'Seznam účtů', 'fio-bank-transactions' ),
 			'items_list_navigation' => __( 'Navigace v seznamu účtů', 'fio-bank-transactions' ),
-			'filter_items_list'     => __( 'Filtrovat účty', 'fio-bank-transactions' )
-		];
-		$capabilities = [
+			'filter_items_list'     => __( 'Filtrovat účty', 'fio-bank-transactions' ),
+		);
+		$capabilities = array(
 			'edit_post'              => Helpers::getFioManagerCapability(),
 			'read_post'              => Helpers::getFioManagerCapability(),
 			'delete_post'            => Helpers::getFioManagerCapability(),
@@ -73,12 +73,12 @@ final class AccountsInit {
 			'delete_others_posts'    => Helpers::getFioManagerCapability(),
 			'edit_private_posts'     => Helpers::getFioManagerCapability(),
 			'edit_published_posts'   => Helpers::getFioManagerCapability(),
-			'create_posts'           => Helpers::getFioManagerCapability()
-		];
-		$args         = [
+			'create_posts'           => Helpers::getFioManagerCapability(),
+		);
+		$args         = array(
 			'label'               => __( 'Účty', 'fio-bank-transactions' ),
 			'labels'              => $labels,
-			'supports'            => [ 'title', 'author', 'revisions' ],
+			'supports'            => array( 'title', 'author', 'revisions' ),
 			'hierarchical'        => false,
 			'public'              => false,
 			'show_ui'             => true,
@@ -92,8 +92,8 @@ final class AccountsInit {
 			'publicly_queryable'  => false,
 			'rewrite'             => false,
 			'capabilities'        => $capabilities,
-			'show_in_rest'        => false
-		];
+			'show_in_rest'        => false,
+		);
 		register_post_type( self::ACCOUNTS_TYPE_SLUG, $args );
 	}
 
@@ -115,15 +115,15 @@ final class AccountsInit {
 		return $title;
 	}
 
-	public function updatedMessages( array $messages = [] ): array {
+	public function updatedMessages( array $messages = array() ): array {
 		$post                                 = get_post();
-		$messages[ self::ACCOUNTS_TYPE_SLUG ] = [
+		$messages[ self::ACCOUNTS_TYPE_SLUG ] = array(
 			0  => '', // Unused. Messages start at index 1.
 			1  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type updated.
 			2  => __( 'Hotovo', 'fio-bank-transactions' ), // Custom field updated.
 			3  => __( 'Hotovo', 'fio-bank-transactions' ), // Custom field deleted.
 			4  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type updated.
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Účet byl obnoven na starší verzi z %s'), wp_post_revision_title( absint( $_GET['revision'] ), false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Účet byl obnoven na starší verzi z %s' ), wp_post_revision_title( absint( $_GET['revision'] ), false ) ) : false,
 			6  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type published.
 			7  => __( 'Účet byl uložen', 'fio-bank-transactions' ), // My Post Type saved.
 			8  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type submitted.
@@ -132,24 +132,26 @@ final class AccountsInit {
 				// translators: Publish box date format, see http://php.net/date
 				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) )
 			),
-			10 => __( 'Koncept účtu aktualizován', 'fio-bank-transactions' ) // My Post Type draft updated.
-		];
+			10 => __( 'Koncept účtu aktualizován', 'fio-bank-transactions' ), // My Post Type draft updated.
+		);
 
 		return $messages;
 	}
 
 	public function getAllAccounts(): array {
-		$accountsWpQuery = new \WP_Query( [
-			'post_type'     => self::ACCOUNTS_TYPE_SLUG,
-			'nopaging'      => true,
-			'no_found_rows' => true
-		] );
+		$accountsWpQuery = new \WP_Query(
+			array(
+				'post_type'     => self::ACCOUNTS_TYPE_SLUG,
+				'nopaging'      => true,
+				'no_found_rows' => true,
+			)
+		);
 
 		if ( $accountsWpQuery->have_posts() ) {
 			return $accountsWpQuery->posts;
 		}
 
-		return [];
+		return array();
 	}
 
 }

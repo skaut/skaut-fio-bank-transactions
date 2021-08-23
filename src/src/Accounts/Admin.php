@@ -13,8 +13,8 @@ final class Admin {
 	private function initHooks() {
 		( new Columns() );
 
-		add_action( 'add_meta_boxes', [ $this, 'addMetaboxForTokenField' ] );
-		add_action( 'save_post', [ $this, 'saveTokenCustomField' ] );
+		add_action( 'add_meta_boxes', array( $this, 'addMetaboxForTokenField' ) );
+		add_action( 'save_post', array( $this, 'saveTokenCustomField' ) );
 	}
 
 	public function addMetaboxForTokenField( string $postType ) {
@@ -22,7 +22,7 @@ final class Admin {
 			add_meta_box(
 				FIOTRANSACTIONS_NAME . '_token_metabox',
 				__( 'Token', 'fio-bank-transactions' ),
-				[ $this, 'TokenFieldContent' ],
+				array( $this, 'TokenFieldContent' ),
 				AccountsInit::ACCOUNTS_TYPE_SLUG,
 				'advanced',
 				'high'
@@ -44,14 +44,14 @@ final class Admin {
 		?>
 		<h2><?php _e( 'Zadejte 64 znakový token z internetového bankovnictví', 'fio-bank-transactions' ); ?>:</h2>
 		<input type="text" name="<?php echo FIOTRANSACTIONS_NAME . '_token'; ?>"
-		       value="<?php echo esc_attr( get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ) ); ?>"
-		       placeholder="<?php _e( 'token', 'fio-bank-transactions' ); ?>"
-		       class="regular-text"
-		       style="width: 100%;"
-		       pattern="[a-zA-Z0-9]{64}"
-		       required="required"/>
+			   value="<?php echo esc_attr( get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ) ); ?>"
+			   placeholder="<?php _e( 'token', 'fio-bank-transactions' ); ?>"
+			   class="regular-text"
+			   style="width: 100%;"
+			   pattern="[a-zA-Z0-9]{64}"
+			   required="required"/>
 		<p><a href="http://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance"
-		      target="_blank"><?php _e( 'Jak získám token?', 'fio-bank-transactions' ); ?></a></p>
+			  target="_blank"><?php _e( 'Jak získám token?', 'fio-bank-transactions' ); ?></a></p>
 		<?php
 	}
 
@@ -70,7 +70,7 @@ final class Admin {
 				</h2>
 				<div class="inside" style="padding: 0.75em 1.5em 1.25em 1.5em;">
 					<label class="screen-reader-text"
-					       for="post_author_override"><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></label>
+						   for="post_author_override"><?php _e( 'Zadejte token', 'fio-bank-transactions' ); ?></label>
 
 				</div>
 			</div>

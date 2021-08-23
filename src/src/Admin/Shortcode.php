@@ -18,23 +18,26 @@ final class Shortcode {
 	}
 
 	private function initHooks() {
-		add_action( 'admin_footer', [ $this, 'initAvailableAccounts' ] );
+		add_action( 'admin_footer', array( $this, 'initAvailableAccounts' ) );
 
-		add_action( 'admin_init', function () {
-			if ( get_user_option( 'rich_editing' ) ) {
-				add_filter( 'mce_external_plugins', [ $this, 'registerTinymcePlugin' ] );
-				add_filter( 'mce_buttons', [ $this, 'addTinymceButton' ] );
+		add_action(
+			'admin_init',
+			function () {
+				if ( get_user_option( 'rich_editing' ) ) {
+					add_filter( 'mce_external_plugins', array( $this, 'registerTinymcePlugin' ) );
+					add_filter( 'mce_buttons', array( $this, 'addTinymceButton' ) );
+				}
 			}
-		} );
+		);
 	}
 
-	public function registerTinymcePlugin( array $plugins = [] ): array {
-		$plugins[ 'fio_bank_transactions_accounts' ] = $this->adminDirUrl . 'js/fio-tinymceAccountsButton.js';
+	public function registerTinymcePlugin( array $plugins = array() ): array {
+		$plugins['fio_bank_transactions_accounts'] = $this->adminDirUrl . 'js/fio-tinymceAccountsButton.js';
 
 		return $plugins;
 	}
 
-	public function addTinymceButton( array $buttons = [] ): array {
+	public function addTinymceButton( array $buttons = array() ): array {
 		$buttons[] = 'fio_bank_transactions_accounts';
 
 		return $buttons;
@@ -43,7 +46,7 @@ final class Shortcode {
 	public function initAvailableAccounts() {
 		?>
 		<script>
-            window.accountOptions = [];
+			window.accountOptions = [];
 
 			<?php
 			foreach ( (array) $this->accountsInit->getAllAccounts() as $account ) {

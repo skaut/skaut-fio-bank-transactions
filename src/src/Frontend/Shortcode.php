@@ -19,9 +19,9 @@ final class Shortcode {
 	}
 
 	private function initHooks() {
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueueStylesAndScripts' ] );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueueStylesAndScripts' ) );
 
-		add_shortcode( 'fio', [ $this, 'processShortcode' ] );
+		add_shortcode( 'fio', array( $this, 'processShortcode' ) );
 	}
 
 	private function prepareTable( array $transactions ): string {
@@ -58,7 +58,7 @@ final class Shortcode {
 		wp_enqueue_style(
 			'datatables',
 			'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css',
-			[],
+			array(),
 			'1.10.24',
 			'all'
 		);
@@ -66,7 +66,7 @@ final class Shortcode {
 		wp_enqueue_script(
 			'datatables',
 			'https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js',
-			[ 'jquery' ],
+			array( 'jquery' ),
 			'1.10.24',
 			true
 		);
@@ -74,7 +74,7 @@ final class Shortcode {
 		wp_enqueue_script(
 			'fio-momentjs',
 			'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js',
-			[ 'datatables' ],
+			array( 'datatables' ),
 			'2.8.4',
 			true
 		);
@@ -82,7 +82,7 @@ final class Shortcode {
 		wp_enqueue_script(
 			'fio-datetime-momentjs',
 			'https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js',
-			[ 'fio-momentjs' ],
+			array( 'fio-momentjs' ),
 			'1.10.24',
 			true
 		);
@@ -90,7 +90,7 @@ final class Shortcode {
 		wp_enqueue_style(
 			FIOTRANSACTIONS_NAME,
 			$this->frontendDirUrl . 'css/fio-frontend.css',
-			[],
+			array(),
 			FIOTRANSACTIONS_VERSION,
 			'all'
 		);
@@ -98,21 +98,22 @@ final class Shortcode {
 		wp_enqueue_script(
 			FIOTRANSACTIONS_NAME,
 			$this->frontendDirUrl . 'js/fio-frontend.js',
-			[ 'jquery' ],
+			array( 'jquery' ),
 			FIOTRANSACTIONS_VERSION,
 			true
 		);
 	}
 
-	public function processShortcode( array $atts = [] ): string {
+	public function processShortcode( array $atts = array() ): string {
 		if ( isset( $atts['account'] ) && $atts['account'] > 0 ) {
-
-			$accountsWpQuery = new \WP_Query( [
-				'post_type'      => AccountsInit::ACCOUNTS_TYPE_SLUG,
-				'p'              => absint( $atts['account'] ),
-				'posts_per_page' => 1,
-				'fields'         => 'ids'
-			] );
+			$accountsWpQuery = new \WP_Query(
+				array(
+					'post_type'      => AccountsInit::ACCOUNTS_TYPE_SLUG,
+					'p'              => absint( $atts['account'] ),
+					'posts_per_page' => 1,
+					'fields'         => 'ids',
+				)
+			);
 
 			if ( ! $accountsWpQuery->have_posts() ) {
 				return '';
@@ -135,7 +136,6 @@ final class Shortcode {
 			}
 
 			return $this->prepareTable( $transactions );
-
 		}
 
 		return '';
