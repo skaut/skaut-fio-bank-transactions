@@ -59,7 +59,7 @@ gulp.task( 'build:deps:npm:datatables.net:files', function () {
 
 gulp.task( 'build:deps:npm:datatables.net', gulp.parallel( 'build:deps:npm:datatables.net:files', function () {
 	return gulp
-		.src( ['node_modules/datatables.net-dt/css/jquery.dataTables.min.css', 'node_modules/datatables.net/js/jquery.dataTables.min.js'] )
+		.src( ['node_modules/datatables.net-dt/css/jquery.dataTables.min.css', 'node_modules/datatables.net/js/jquery.dataTables.min.js', 'node_modules/datatables.net-plugins/sorting/datetime-moment.js'] )
 		.pipe( gulp.dest( 'dist/bundled/' ) );
 } ) );
 
