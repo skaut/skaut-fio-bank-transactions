@@ -39,7 +39,7 @@ class FioTransactions {
 			return;
 		}
 
-		require FIOTRANSACTIONS_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+		require FIOTRANSACTIONS_PATH . 'vendor/scoper-autoload.php';
 
 		$this->init();
 	}
