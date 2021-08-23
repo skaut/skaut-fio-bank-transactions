@@ -19,14 +19,21 @@ class Helpers {
 	}
 
 	public static function showAdminNotice( string $message, string $type = 'warning', string $hideNoticeOnPage = '' ) {
-		add_action( 'admin_notices', function () use ( $message, $type, $hideNoticeOnPage ) {
-			if ( ! $hideNoticeOnPage || $hideNoticeOnPage != get_current_screen()->id ) {
-				$class = 'notice notice-' . $type . ' is-dismissible';
-				printf( '<div class="%1$s"><p>%2$s</p><button type="button" class="notice-dismiss">
+		add_action(
+			'admin_notices',
+			function () use ( $message, $type, $hideNoticeOnPage ) {
+				if ( ! $hideNoticeOnPage || $hideNoticeOnPage != get_current_screen()->id ) {
+					$class = 'notice notice-' . $type . ' is-dismissible';
+					printf(
+						'<div class="%1$s"><p>%2$s</p><button type="button" class="notice-dismiss">
 		<span class="screen-reader-text">' . __( 'Zavřít' ) . '</span>
-	</button></div>', esc_attr( $class ), $message );
+	</button></div>',
+						esc_attr( $class ),
+						$message
+					);
+				}
 			}
-		} );
+		);
 	}
 
 	public static function getFioManagerCapability(): string {
@@ -44,7 +51,7 @@ class Helpers {
 	}
 
 	public static function getCurrentUrl(): string {
-		return ( isset( $_SERVER['HTTPS'] ) ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		return ( isset( $_SERVER['HTTPS'] ) ? 'https' : 'http' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	}
 
 	public static function validateNonceFromUrl( string $url, string $nonceName ) {
@@ -54,8 +61,8 @@ class Helpers {
 	}
 
 	public static function getNonceFromUrl( string $url, string $nonceName ): string {
-		$result = [];
-		if ( preg_match( "~" . $nonceName . "=([^\&,\s,\/,\#,\%,\?]*)~", $url, $result ) ) {
+		$result = array();
+		if ( preg_match( '~' . $nonceName . '=([^\&,\s,\/,\#,\%,\?]*)~', $url, $result ) ) {
 			if ( is_array( $result ) && isset( $result[1] ) && $result[1] ) {
 				return $result[1];
 			}
