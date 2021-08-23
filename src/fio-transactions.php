@@ -39,7 +39,30 @@ class FioTransactions {
 			return;
 		}
 
-		require FIOTRANSACTIONS_PATH . 'vendor/scoper-autoload.php';
+		require __DIR__ . '/vendor/scoper-autoload.php';
+
+		require __DIR__ . '/src/Accounts/AccountsInit.php';
+		require __DIR__ . '/src/Accounts/Admin.php';
+		require __DIR__ . '/src/Accounts/Columns.php';
+
+		require __DIR__ . '/src/Admin/Admin.php';
+		require __DIR__ . '/src/Admin/Settings.php';
+		require __DIR__ . '/src/Admin/Shortcode.php';
+
+		require __DIR__ . '/src/Api/IAccount.php';
+		require __DIR__ . '/src/Api/IAccountFactory.php';
+		require __DIR__ . '/src/Api/TAccount.php';
+		require __DIR__ . '/src/Api/Account.php';
+		require __DIR__ . '/src/Api/AccountFactory.php';
+
+		require __DIR__ . '/src/Frontend/Frontend.php';
+		require __DIR__ . '/src/Frontend/Shortcode.php';
+
+		require __DIR__ . '/src/General/General.php';
+
+		require __DIR__ . '/src/Services/Services.php';
+
+		require __DIR__ . '/src/Utils/Helpers.php';
 
 		$this->init();
 	}
