@@ -1,27 +1,37 @@
 {
-  "name": "fio/transactions",
-  "type": "library",
-  "description": "Show transactions from Fio Bank",
+  "name": "skaut/fio-bank-transactions",
+  "description": "A WordPress plugin to show transactions from Fio Bank",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "WordPress",
+    "WordPress plugin",
+    "skaut",
+    "Fio",
+    "Fio Bank",
+    "transactions"
+  ],
+  "homepage": "https://wordpress.org/plugins/skaut-fio-bank-transactions",
+  "readme": "README.md",
   "license": "proprietary",
   "authors": [
     {
       "name": "David Odehnal",
       "email": "info@davidodehnal.cz"
+    },
+    {
+      "name": "Marek Dědič",
+      "email": "developer@dedic.eu"
     }
   ],
-  "config": {
-    "vendor-dir": "vendor",
-    "optimize-autoloader": true,
-    "classmap-authoritative": true,
-    "notify-on-install": false,
-    "no-dev": "true"
+  "support": {
+    "issues": "https://github.com/skaut/skaut-fio-bank-transaction/issues",
+    "source": "https://github.com/skaut/skaut-fio-bank-transaction"
   },
   "require": {
     "php": "^7.4",
     "pimple/pimple": "~3",
     "mhujer/fio-api-php": "^4"
   },
-  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "FioTransactions\\": "src/"
