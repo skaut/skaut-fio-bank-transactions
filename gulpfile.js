@@ -63,12 +63,17 @@ gulp.task( 'build:deps:npm:datatables.net', gulp.parallel( 'build:deps:npm:datat
 		.pipe( gulp.dest( 'dist/bundled/' ) );
 } ) );
 
-
+gulp.task( 'build:deps:npm:moment', function () {
+	return gulp
+		.src( 'node_modules/moment/min/moment.min.js' )
+		.pipe( gulp.dest( 'dist/bundled/' ) );
+} );
 
 gulp.task(
 	'build:deps:npm',
 	gulp.series(
 		'build:deps:npm:datatables.net',
+		'build:deps:npm:moment',
 	)
 );
 

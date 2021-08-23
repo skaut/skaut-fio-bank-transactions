@@ -73,9 +73,9 @@ final class Shortcode {
 
 		wp_enqueue_script(
 			'fio-momentjs',
-			'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js',
+			FIOTRANSACTIONS_URL . 'bundled/moment.min.js',
 			array( FIOTRANSACTIONS_NAME . '_datatables' ),
-			'2.8.4',
+			FIOTRANSACTIONS_VERSION,
 			true
 		);
 
