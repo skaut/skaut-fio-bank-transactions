@@ -31,6 +31,10 @@ final class Admin {
 	}
 
 	public function saveTokenCustomField( int $postId ) {
+		if ( ! isset( $_POST[FIOTRANSACTIONS_NAME. '_metabox_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[FIOTRANSACTIONS_NAME. '_metabox_nonce'] ) ), FIOTRANSACTIONS_NAME. '_metabox' ) ) {
+			return;
+		}
+
 		if ( array_key_exists( FIOTRANSACTIONS_NAME . '_token', $_POST ) ) {
 			update_post_meta(
 				$postId,
@@ -41,6 +45,7 @@ final class Admin {
 	}
 
 	public function TokenFieldContent( \WP_Post $post ) {
+		wp_nonce_field( FIOTRANSACTIONS_NAME. '_metabox', FIOTRANSACTIONS_NAME. '_metabox_nonce' );
 		?>
 		<h2><?php esc_html_e( 'Zadejte 64 znakový token z internetového bankovnictví', 'fio-bank-transactions' ); ?>:</h2>
 		<input type="text" name="<?php echo esc_attr( FIOTRANSACTIONS_NAME ) . '_token'; ?>"
