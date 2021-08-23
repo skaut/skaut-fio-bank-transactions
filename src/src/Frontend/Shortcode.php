@@ -56,25 +56,25 @@ final class Shortcode {
 
 	public function enqueueStylesAndScripts() {
 		wp_enqueue_style(
-			'datatables',
-			'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css',
+			FIOTRANSACTIONS_NAME . '_datatables',
+			FIOTRANSACTIONS_URL . 'bundled/jquery.dataTables.min.css',
 			array(),
-			'1.10.24',
+			FIOTRANSACTIONS_VERSION,
 			'all'
 		);
 
 		wp_enqueue_script(
-			'datatables',
-			'https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js',
+			FIOTRANSACTIONS_NAME . '_datatables',
+			FIOTRANSACTIONS_URL . 'bundled/jquery.dataTables.min.js',
 			array( 'jquery' ),
-			'1.10.24',
+			FIOTRANSACTIONS_VERSION,
 			true
 		);
 
 		wp_enqueue_script(
 			'fio-momentjs',
 			'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js',
-			array( 'datatables' ),
+			array( FIOTRANSACTIONS_NAME . '_datatables' ),
 			'2.8.4',
 			true
 		);
@@ -101,6 +101,14 @@ final class Shortcode {
 			array( 'jquery' ),
 			FIOTRANSACTIONS_VERSION,
 			true
+		);
+
+		wp_localize_script(
+			FIOTRANSACTIONS_NAME,
+			'fioTransactionsFrontendLocalize',
+			array(
+				'datatablesFilesUrl' => SKAUTISINTEGRATION_URL . 'bundled/datatables-files',
+			)
 		);
 	}
 
