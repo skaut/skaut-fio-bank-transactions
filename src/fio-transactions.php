@@ -103,12 +103,12 @@ class FioTransactions {
 	public function activation() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( __( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ) );
 		}
 	}
 
