@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace FioTransactions\Api;
 
-use FioApi\Downloader;
+use FioTransactions\Vendor\FioApi\Downloader;
 
 final class Account implements IAccount {
 

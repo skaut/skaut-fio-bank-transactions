@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 namespace FioTransactions\Services;
 
-use Pimple\Container;
+use FioTransactions\Vendor\Pimple\Container;
 use FioTransactions\Api\AccountFactory;
 use FioTransactions\Accounts\AccountsInit;
 use FioTransactions\General\General;
