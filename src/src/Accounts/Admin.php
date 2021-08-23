@@ -35,7 +35,7 @@ final class Admin {
 			update_post_meta(
 				$postId,
 				FIOTRANSACTIONS_NAME . '_token',
-				$_POST[ FIOTRANSACTIONS_NAME . '_token' ]
+				sanitize_meta( FIOTRANSACTIONS_NAME . '_token', wp_unslash( $_POST[ FIOTRANSACTIONS_NAME . '_token' ] ), 'post' )
 			);
 		}
 	}
