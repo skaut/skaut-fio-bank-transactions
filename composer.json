@@ -39,10 +39,5 @@
     "phpcompatibility/phpcompatibility-wp": "^2.1",
     "wp-coding-standards/wpcs": "^2.3",
     "humbug/php-scoper": "^0.15.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "FioTransactions\\": "src/"
-    }
   }
 }
