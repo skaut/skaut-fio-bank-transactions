@@ -5,7 +5,7 @@
     var $dataTable = $('.fioTransactionsTable').DataTable({
         responsive: true,
         language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Czech.json',
+            url: fioTransactionsFrontendLocalize.datatablesFilesUrl + '/cs.json',
             search: "Hledat",
             clear: "Zrušit"
         },
