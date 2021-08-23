@@ -81,9 +81,9 @@ final class Shortcode {
 
 		wp_enqueue_script(
 			'fio-datetime-momentjs',
-			'https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js',
+			FIOTRANSACTIONS_URL . 'bundled/datetime-moment.js',
 			array( 'fio-momentjs' ),
-			'1.10.24',
+			FIOTRANSACTIONS_VERSION,
 			true
 		);
 
