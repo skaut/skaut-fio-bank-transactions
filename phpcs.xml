@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset>
-	<!--config name="ignore_warnings_on_exit" value="1"/-->
+	<config name="ignore_warnings_on_exit" value="1"/>
 	<file>src</file>
 	<!--file>tests</file-->
 	<file>.phan</file>
