@@ -30,7 +30,8 @@
   "require": {
     "php": "^7.4",
     "pimple/pimple": "~3",
-    "mhujer/fio-api-php": "^4"
+    "mhujer/fio-api-php": "^4",
+    "composer/ca-bundle": "^1.2"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6",
