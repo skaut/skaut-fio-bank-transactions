@@ -11,6 +11,12 @@ gulp.task(
 	)
 );
 
+gulp.task( 'build:deps:composer:fio-api-key', function () {
+	return gulp
+		.src( ['vendor/mhujer/fio-api-php/**/*.pem'] )
+		.pipe( gulp.dest( 'dist/vendor/mhujer/fio-api-php' ) );
+} );
+
 gulp.task(
 	'build:deps:composer:autoloader',
 	gulp.series(
@@ -47,6 +53,7 @@ gulp.task(
 	'build:deps:composer',
 	gulp.series(
 		'build:deps:composer:scoper',
+		'build:deps:composer:fio-api-key',
 		'build:deps:composer:autoloader'
 	)
 );
