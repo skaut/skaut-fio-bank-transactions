@@ -1,0 +1,57 @@
+{
+  "name": "skaut-fio-bank-transactions",
+  "version": "1.1.2",
+  "description": "A WordPress plugin to show transactions from Fio Bank",
+  "keywords": [
+    "wordpress",
+    "skaut",
+    "fio",
+    "transactions"
+  ],
+  "homepage": "https://wordpress.org/plugins/skaut-fio-bank-transactions",
+  "bugs": {
+    "url": "https://github.com/skaut/skaut-fio-bank-transactions/issues"
+  },
+  "license": "proprietary",
+  "author": "David Odehnal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skaut/skaut-fio-bank-transactions.git"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
+    "lint:css": "run-p -c --aggregate-output lint:css:*",
+    "lint:php:phan": "export PHAN_DISABLE_XDEBUG_WARN=1; vendor/bin/phan",
+    "lint:php:phpcs": "vendor/bin/phpcs",
+    "lint:php:phpmd": "vendor/bin/phpmd src,.phan/config.php,scoper.inc.php text phpmd.xml",
+    "lint:php": "run-p -c --aggregate-output lint:php:*",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
+    "lint:ts": "run-p -c --aggregate-output lint:ts:*",
+    "disabled_lint": "run-p -c --aggregate-output lint:*",
+    "lint": "npm run lint:php:phpcs"
+  },
+  "devDependencies": {
+    "@wordpress/browserslist-config": "^4.1.0",
+    "@wordpress/eslint-plugin": "^9.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-compat": "^3.13.0",
+    "gulp": "^4.0.2",
+    "gulp-replace": "^1.1.3",
+    "gulp-shell": "^0.8.0",
+    "merge-stream": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "stylelint": "^13.13.1",
+    "stylelint-config-wordpress": "^17.0.0",
+    "stylelint-no-unsupported-browser-features": "^5.0.1"
+  },
+  "browserslist": [
+    "extends @wordpress/browserslist-config"
+  ],
+  "dependencies": {
+    "datatables.net": "^1.10.25",
+    "datatables.net-dt": "^1.1.0",
+    "datatables.net-plugins": "^1.10.24",
+    "moment": "^2.29.1"
+  }
+}

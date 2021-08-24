@@ -7,6 +7,13 @@ updates:
   assignees:
     - marekdedic
     - kalich5
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  assignees:
+    - marekdedic
+    - kalich5
 - package-ecosystem: composer
   directory: "/"
   schedule:
