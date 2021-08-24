@@ -1,5 +1,5 @@
 === Fio bank - transactions ===
-Contributors: davidulus, skaut, marekdedic, kalich5, genabitu
+Contributors: davidulus, skaut, marekdedic, kalich5
 Tags: skaut, multisite, plugin, shortcode, fio, transactions
 Requires at least: 5.0
 Tested up to: 5.8
