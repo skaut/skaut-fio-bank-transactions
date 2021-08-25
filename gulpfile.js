@@ -20,7 +20,10 @@ gulp.task( 'build:deps:composer:certs', function () {
 gulp.task(
 	'build:deps:composer:autoloader',
 	gulp.series(
-		shell.task( 'composer dump-autoload --no-dev' ),
+		shell.task(
+			'composer dump-autoload --no-dev' +
+				( process.env.NODE_ENV === 'production' ? ' -o' : '' )
+		),
 		function () {
 			return merge(
 				gulp.src( [
