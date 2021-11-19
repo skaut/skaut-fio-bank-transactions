@@ -61,7 +61,7 @@
   "dependencies": {
     "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
-    "datatables.net-plugins": "^1.10.24",
+    "datatables.net-plugins": "^1.11.3",
     "moment": "^2.29.1"
   }
 }
