@@ -40,6 +40,6 @@
     "phpmd/phpmd": "^2.10",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
     "wp-coding-standards/wpcs": "^2.3",
-    "humbug/php-scoper": "^0.15.0"
+    "humbug/php-scoper": "^0.16.2"
   }
 }
