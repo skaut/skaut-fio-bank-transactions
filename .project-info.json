@@ -1,5 +1,5 @@
 {
-    "name": "WordPress plugin: Fio bank – transakce",
+    "name": "WordPress plugin: Fio banka – transakce",
     "short-description": "Plugin pro WordPress, který napojuje FIO banku.",
     "description": "Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.",
     "tags": [
