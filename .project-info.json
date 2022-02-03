@@ -1,0 +1,44 @@
+{
+    "name": "WordPress plugin: Fio bank – transakce",
+    "short-description": "Plugin pro WordPress, který napojuje FIO banku.",
+    "description": "Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.",
+    "tags": [
+        "wordpress",
+        "php",
+        "javascript",
+        "fio"
+    ],
+    "maintainers": [
+        {
+            "name": "Michal Janata – Kalich",
+            "email": "mlha@skaut.cz"
+        },
+        {
+            "name": "Marek Dědič – Mlha",
+            "email": "mlha@skaut.cz"
+        }
+    ],
+    "links": [
+        {
+            "type": "email",
+            "uri": "mailto:kalich@skaut.cz"
+        },
+        {
+            "type": "homepage",
+            "uri": "https://wordpress.org/plugins/skaut-fio-bank-transactions/"
+        },
+        {
+            "type": "issue-tracker",
+            "uri": "https://github.com/skaut/skaut-fio-bank-transactions/issues"
+        },
+        {
+            "type": "docs",
+            "uri": "https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions"
+        },
+        {
+            "type": "github-repo",
+            "uri": "https://github.com/skaut/skaut-fio-bank-transactions",
+            "name": "skaut/skaut-fio-bank-transactions"
+        }
+    ]
+}
