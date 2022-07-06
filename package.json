@@ -62,6 +62,6 @@
     "datatables.net": "^1.12.1",
     "datatables.net-dt": "^1.12.1",
     "datatables.net-plugins": "^1.11.5",
-    "moment": "^2.29.3"
+    "moment": "^2.29.4"
   }
 }
