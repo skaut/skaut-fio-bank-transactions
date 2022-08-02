@@ -29,7 +29,7 @@
     "source": "https://github.com/skaut/skaut-fio-bank-transaction"
   },
   "require": {
-    "php": "^7.4",
+    "php": "^7.4 || ^8.0",
     "pimple/pimple": "~3",
     "mhujer/fio-api-php": "^4",
     "composer/ca-bundle": "^1.2"
