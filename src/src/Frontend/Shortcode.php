@@ -107,7 +107,7 @@ final class Shortcode {
 			FIOTRANSACTIONS_NAME,
 			'fioTransactionsFrontendLocalize',
 			array(
-				'datatablesFilesUrl' => SKAUTISINTEGRATION_URL . 'bundled/datatables-files',
+				'datatablesFilesUrl' => FIOTRANSACTIONS_URL . 'bundled/datatables-files',
 			)
 		);
 	}
