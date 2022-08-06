@@ -23,6 +23,7 @@ return array(
 			->path( '#^psr/http-factory/#' )
 			->path( '#^psr/http-message/#' )
 			->path( '#^ralouphie/getallheaders/#' )
+			->path( '#^symfony/deprecation-contracts/#' )
 			->path( '#^composer/#' )
 			->in( 'vendor' ),
 		Finder::create()->files()
