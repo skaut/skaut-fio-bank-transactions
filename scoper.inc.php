@@ -7,27 +7,34 @@
 
 use Isolated\Symfony\Component\Finder\Finder;
 
+/**
+ * Constructs a finder for composer dependencies.
+ *
+ * @return Finder The initialized Finder.
+ */
+function dependency_finder() {
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec
+	exec( 'composer show --no-dev --name-only', $dependencies );
+	$finder = Finder::create()->files()->name( array( '*.php', '/LICENSE(.txt)?/' ) )->in( 'vendor' );
+
+	foreach ( $dependencies as $dependency ) {
+		$finder->path( '#^' . $dependency . '/#' );
+	}
+
+	return $finder;
+}
+
 return array(
 	'prefix'                     => 'FioTransactions\\Vendor',
 	'finders'                    => array(
+		dependency_finder(),
 		Finder::create()->files()
 			->name( array( '*.php', '/LICENSE(.txt)?/' ) )
-
-			->path( '#^guzzlehttp/guzzle/#' )
-			->path( '#^guzzlehttp/promises/#' )
-			->path( '#^guzzlehttp/psr7/#' )
-			->path( '#^mhujer/fio-api-php/#' )
-			->path( '#^pimple/pimple/#' )
-			->path( '#^psr/container/#' )
-			->path( '#^psr/http-client/#' )
-			->path( '#^psr/http-factory/#' )
-			->path( '#^psr/http-message/#' )
-			->path( '#^ralouphie/getallheaders/#' )
-			->path( '#^symfony/deprecation-contracts/#' )
-			->path( '#^composer/#' )
-			->in( 'vendor' ),
+			->depth( 0 )
+			->in( 'vendor/composer' ),
 		Finder::create()->files()
 			->name( 'autoload.php' )
+			->depth( 0 )
 			->in( 'vendor' ),
 	),
 	'patchers'                   => array(
