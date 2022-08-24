@@ -42,7 +42,7 @@
     "lint": "npm run lint:php:phpcs"
   },
   "devDependencies": {
-    "@wordpress/browserslist-config": "^4.1.2",
+    "@wordpress/browserslist-config": "^5.0.0",
     "@wordpress/eslint-plugin": "^12.9.0",
     "@wordpress/stylelint-config": "^20.0.2",
     "eslint": "^8.22.0",
