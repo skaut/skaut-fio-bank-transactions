@@ -6,9 +6,7 @@ const shell = require( 'gulp-shell' );
 
 gulp.task(
 	'build:deps:composer:scoper',
-	shell.task(
-		'vendor/bin/php-scoper add-prefix --force --output-dir=dist/vendor'
-	)
+	shell.task('vendor/bin/php-scoper add-prefix --force')
 );
 
 gulp.task( 'build:deps:composer:certs', function () {
