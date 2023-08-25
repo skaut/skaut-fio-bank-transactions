@@ -28,6 +28,11 @@
     "issues": "https://github.com/skaut/skaut-fio-bank-transaction/issues",
     "source": "https://github.com/skaut/skaut-fio-bank-transaction"
   },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
   "require": {
     "php": "^7.4 || ^8.0",
     "pimple/pimple": "~3",
@@ -41,6 +46,7 @@
     "phpmd/phpmd": "^2.10",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
     "wp-coding-standards/wpcs": "^2.3",
-    "humbug/php-scoper": "^0.18.1"
+    "humbug/php-scoper": "^0.18.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
   }
 }
