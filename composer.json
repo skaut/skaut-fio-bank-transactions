@@ -45,7 +45,7 @@
     "phan/phan": "^5.1",
     "phpmd/phpmd": "^2.10",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
-    "wp-coding-standards/wpcs": "^2.3",
+    "wp-coding-standards/wpcs": "^3.0",
     "humbug/php-scoper": "^0.18.1",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
   }
