@@ -45,7 +45,6 @@ jobs:
           restore-keys: |
             composer-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
             composer-dependencies-${{ runner.os }}-${{ env.cache-version }}-
-            composer-dependencies-${{ runner.os }}-
 
       - name: "Install Composer dependencies"
         run: |
@@ -59,7 +58,6 @@ jobs:
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-
-            npm-dependencies-${{ runner.os }}-
 
       - name: "Install NPM dependencies"
         run: |
@@ -115,7 +113,6 @@ jobs:
           restore-keys: |
             composer-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
             composer-dependencies-${{ runner.os }}-${{ env.cache-version }}-
-            composer-dependencies-${{ runner.os }}-
 
       - name: "Install Composer dependencies"
         run: |
@@ -129,7 +126,6 @@ jobs:
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-
-            npm-dependencies-${{ runner.os }}-
 
       - name: "Install NPM dependencies"
         run: |
