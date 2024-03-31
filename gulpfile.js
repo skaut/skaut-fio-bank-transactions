@@ -1,8 +1,7 @@
-const gulp = require( 'gulp' );
-
-const merge = require( 'merge-stream' );
-const replace = require( 'gulp-replace' );
-const shell = require( 'gulp-shell' );
+import gulp from 'gulp';
+import replace from 'gulp-replace';
+import shell from 'gulp-shell';
+import merge from 'merge-stream';
 
 gulp.task(
 	'build:deps:composer:scoper',
