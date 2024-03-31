@@ -28,6 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/skaut/skaut-fio-bank-transactions.git"
   },
+  "type": "module",
   "scripts": {
     "clean": "rimraf dist/*",
     "prebuild": "npm run clean",
