@@ -73,6 +73,15 @@ class FioTransactions {
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
+
+		// Plugin deprecation notice
+		add_action( 'admin_notices', array( $this, 'deprecation_notice' ) );
+	}
+
+	function deprecation_notice() {
+		echo '<div class="notice notice-error"><p>';
+		echo 'Plugin Fio bank – transactions má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.';
+		echo '</p></div>';
 	}
 
 	protected function init() {
