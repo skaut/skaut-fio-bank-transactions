@@ -10,6 +10,10 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
 
+== PŘERUŠENÍ PODPORY PLUGINU ==
+
+Plugin má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.
+
 == Description ==
 
 <h2> Minimální požadavky</h2>
