@@ -69,6 +69,7 @@ class FioTransactions {
 
 		require __DIR__ . '/src/Frontend/Frontend.php';
 		require __DIR__ . '/src/Frontend/Renderer.php';
+		require __DIR__ . '/src/Frontend/TableSettings.php';
 
 		require __DIR__ . '/src/General/General.php';
 

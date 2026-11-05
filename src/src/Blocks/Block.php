@@ -6,6 +6,7 @@ namespace FioTransactions\Blocks;
 
 use FioTransactions\Accounts\AccountsInit;
 use FioTransactions\Frontend\Renderer;
+use FioTransactions\Frontend\TableSettings;
 use FioTransactions\Utils\Helpers;
 
 /**
@@ -59,16 +60,16 @@ final class Block {
 					'period'     => array(
 						'type'    => 'string',
 						'enum'    => array( 'days', 'last_7_days', 'this_month', 'last_month' ),
-						'default' => Renderer::DEFAULT_PERIOD,
+						'default' => TableSettings::DEFAULT_PERIOD,
 					),
 					'days'       => array(
 						'type'    => 'number',
-						'default' => Renderer::DEFAULT_DAYS,
+						'default' => TableSettings::DEFAULT_DAYS,
 					),
 					'columns'    => array(
 						'type'    => 'array',
 						'items'   => array( 'type' => 'string' ),
-						'default' => explode( ',', Renderer::DEFAULT_COLUMNS ),
+						'default' => explode( ',', TableSettings::DEFAULT_COLUMNS ),
 					),
 					'ss'         => array(
 						'type'    => 'string',
@@ -88,8 +89,8 @@ final class Block {
 					),
 					'pageLength' => array(
 						'type'    => 'number',
-						'enum'    => Renderer::PAGE_LENGTHS,
-						'default' => Renderer::DEFAULT_PAGE_LENGTH,
+						'enum'    => TableSettings::PAGE_LENGTHS,
+						'default' => TableSettings::DEFAULT_PAGE_LENGTH,
 					),
 				),
 			)
@@ -105,14 +106,14 @@ final class Block {
 		return $this->renderer->render(
 			array(
 				'account'     => $attributes['account'] ?? 0,
-				'period'      => $attributes['period'] ?? Renderer::DEFAULT_PERIOD,
-				'days'        => $attributes['days'] ?? Renderer::DEFAULT_DAYS,
+				'period'      => $attributes['period'] ?? TableSettings::DEFAULT_PERIOD,
+				'days'        => $attributes['days'] ?? TableSettings::DEFAULT_DAYS,
 				'columns'     => implode( ',', array_map( 'strval', $columns ) ),
 				'ss'          => $attributes['ss'] ?? '',
 				'vs_prefix'   => $attributes['vsPrefix'] ?? '',
 				'search'      => $attributes['showSearch'] ?? true,
 				'paging'      => $attributes['paging'] ?? true,
-				'page_length' => $attributes['pageLength'] ?? Renderer::DEFAULT_PAGE_LENGTH,
+				'page_length' => $attributes['pageLength'] ?? TableSettings::DEFAULT_PAGE_LENGTH,
 			)
 		);
 	}
@@ -132,7 +133,7 @@ final class Block {
 		}
 
 		$periods = array();
-		foreach ( Renderer::getPeriods() as $value => $label ) {
+		foreach ( TableSettings::getPeriods() as $value => $label ) {
 			$periods[] = array(
 				'value' => $value,
 				'label' => $label,
@@ -140,7 +141,7 @@ final class Block {
 		}
 
 		$columns = array();
-		foreach ( Renderer::getColumns() as $value => $label ) {
+		foreach ( TableSettings::getColumns() as $value => $label ) {
 			$columns[] = array(
 				'value' => $value,
 				'label' => $label,
@@ -156,8 +157,8 @@ final class Block {
 					'columns'    => $columns,
 					'canEmbed'   => Helpers::userCanEmbedAccounts( get_current_user_id() ),
 					'postType'   => AccountsInit::ACCOUNTS_TYPE_SLUG,
-					'maxDays'    => Renderer::MAX_DAYS,
-					'defaultDay' => Renderer::DEFAULT_DAYS,
+					'maxDays'    => TableSettings::MAX_DAYS,
+					'defaultDay' => TableSettings::DEFAULT_DAYS,
 				)
 			) . ';',
 			'before'
