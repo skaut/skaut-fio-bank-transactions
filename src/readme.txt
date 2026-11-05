@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions, bank
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.8
+Stable tag: 2.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,7 +64,7 @@ Without an additional authorization in the internet banking, the Fio API provide
 
 == Changelog ==
 
-= 1.3.8 =
+= 2.0.0 =
 * All texts of the plugin are in English and prepared for translation on translate.wordpress.org
 * The DataTables texts (search, paging) follow the site language
 * Fix: the buttons "Incoming", "Outgoing" and "All transactions" did not filter the table when the search box was hidden
