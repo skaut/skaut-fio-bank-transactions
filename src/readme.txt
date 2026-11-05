@@ -66,7 +66,8 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 * Fix: Czech texts in the TinyMCE dialog, account number format "number/bank code"
 * Fix: uninstall removes all accounts, tokens and cached data
 * Updated DataTables to version 3 (no jQuery or moment.js needed), Guzzle and other dependencies
-* Requires WordPress 7.0 and PHP 8.3, tested with WordPress 7.1
+* Requires WordPress 7.0, tested with WordPress 7.1
+* Requires PHP 8.3 (PHP 7.4–8.2 are no longer supported; security support for PHP 8.2 ends on 31 December 2026)
 
 = 1.2.3 =
 * Added a deprecation notice
