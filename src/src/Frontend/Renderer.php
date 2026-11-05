@@ -13,9 +13,23 @@ use FioTransactions\Utils\Helpers;
  */
 final class Renderer {
 
-	const DEFAULT_DAYS    = 365;
-	const MAX_DAYS        = 3650;
+	const DEFAULT_DAYS = 90;
+	/**
+	 * Without an extra authorization in the internet banking the Fio API returns only the last 90 days.
+	 */
+	const MAX_DAYS        = 90;
+	const DEFAULT_PERIOD  = 'days';
 	const DEFAULT_COLUMNS = 'date,amount,account,message,comment,type';
+
+	/**
+	 * Available periods: key => label.
+	 */
+	const PERIODS = array(
+		'days'        => 'Posledních N dní',
+		'last_7_days' => 'Posledních 7 dní',
+		'this_month'  => 'Tento měsíc',
+		'last_month'  => 'Minulý měsíc',
+	);
 
 	/**
 	 * Available columns: key => header.
@@ -43,12 +57,13 @@ final class Renderer {
 	 * Normalizes user supplied attributes (shortcode or block).
 	 *
 	 * @param array<string, mixed> $atts Raw attributes.
-	 * @return array{account: int, days: int, columns: array<int, string>, ss: string, vs_prefix: string}
+	 * @return array{account: int, period: string, days: int, columns: array<int, string>, ss: string, vs_prefix: string}
 	 */
 	public static function normalizeAttributes( array $atts ): array {
 		$atts = array_merge(
 			array(
 				'account'   => 0,
+				'period'    => self::DEFAULT_PERIOD,
 				'days'      => self::DEFAULT_DAYS,
 				'columns'   => self::DEFAULT_COLUMNS,
 				'ss'        => '',
@@ -60,6 +75,11 @@ final class Renderer {
 		$days = absint( $atts['days'] );
 		if ( $days < 1 ) {
 			$days = self::DEFAULT_DAYS;
+		}
+
+		$period = strtolower( trim( strval( $atts['period'] ) ) );
+		if ( ! array_key_exists( $period, self::PERIODS ) ) {
+			$period = self::DEFAULT_PERIOD;
 		}
 
 		$columns = array_values(
@@ -76,6 +96,7 @@ final class Renderer {
 
 		return array(
 			'account'   => absint( $atts['account'] ),
+			'period'    => $period,
 			'days'      => min( $days, self::MAX_DAYS ),
 			'columns'   => $columns,
 			'ss'        => preg_replace( '/\D/', '', strval( $atts['ss'] ) ),
@@ -111,7 +132,8 @@ final class Renderer {
 			return '';
 		}
 
-		$transactions = $this->getTransactions( $token, $atts['days'] );
+		list( $from, $until ) = self::getDateRange( $atts['period'], $atts['days'], new \DateTimeImmutable( 'now', wp_timezone() ) );
+		$transactions         = $this->getTransactions( $token, $from, $until );
 		if ( null === $transactions ) {
 			return '<div>' . esc_html__( 'Chyba při spojení s Fio bankou.', 'skaut-fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . esc_html__( 'Zkuste to znovu.', 'skaut-fio-bank-transactions' ) . '</a></div>';
 		}
@@ -151,8 +173,34 @@ final class Renderer {
 	 *
 	 * @return array<int, array<string, string|float>>|null Null when no data is available.
 	 */
-	private function getTransactions( string $token, int $days ): ?array {
-		$cacheKey   = FIOTRANSACTIONS_NAME . '_tx_' . md5( $token . '|' . $days );
+	/**
+	 * Returns the first and the last day (Y-m-d) of the period.
+	 *
+	 * @return array{0: string, 1: string}
+	 */
+	public static function getDateRange( string $period, int $days, \DateTimeImmutable $today ): array {
+		$today = $today->setTime( 0, 0 );
+
+		switch ( $period ) {
+			case 'last_7_days':
+				$from = $today->modify( '-6 days' );
+				break;
+			case 'this_month':
+				$from = $today->modify( 'first day of this month' );
+				break;
+			case 'last_month':
+				$from  = $today->modify( 'first day of last month' );
+				$today = $today->modify( 'last day of last month' );
+				break;
+			default:
+				$from = $today->modify( '-' . max( 0, min( $days, self::MAX_DAYS ) - 1 ) . ' days' );
+		}
+
+		return array( $from->format( 'Y-m-d' ), $today->format( 'Y-m-d' ) );
+	}
+
+	private function getTransactions( string $token, string $from, string $until ): ?array {
+		$cacheKey   = FIOTRANSACTIONS_NAME . '_tx_' . md5( $token . '|' . $from . '|' . $until );
 		$staleKey   = $cacheKey . '_stale';
 		$cached     = get_transient( $cacheKey );
 		$expiration = intval( apply_filters( FIOTRANSACTIONS_NAME . '_cache_expiration', 15 * 60 ) );
@@ -163,7 +211,7 @@ final class Renderer {
 
 		try {
 			$account      = $this->accountFactory->createByToken( $token );
-			$transactions = array_reverse( array_map( array( self::class, 'transactionToArray' ), $account->getTransactionsSince( '-' . $days . ' days' ) ) );
+			$transactions = array_reverse( array_map( array( self::class, 'transactionToArray' ), $account->getTransactionsFromTo( $from, $until ) ) );
 		} catch ( \Throwable $e ) {
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 				// The exception message contains the request URL including the secret API token - never log it unredacted.

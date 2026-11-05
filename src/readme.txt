@@ -28,12 +28,15 @@ Tabulku mohou vkládat jen uživatelé s oprávněním `edit_others_posts` (edit
 `[fio account="123"]` – parametry:
 
 - `account` – ID účtu (povinné)
-- `days` – počet dní zpět, výchozí 365
+- `period` – období: `days` (posledních N dní, výchozí), `last_7_days` (posledních 7 dní), `this_month` (tento měsíc), `last_month` (minulý měsíc)
+- `days` – počet dní zpět pro `period="days"`, výchozí a maximum 90 (Fio banka bez dodatečné autorizace vydá jen posledních 90 dní)
 - `columns` – sloupce oddělené čárkou: `date`, `amount`, `account`, `name`, `vs`, `ss`, `ks`, `message`, `comment`, `type`; výchozí `date,amount,account,message,comment,type`
 - `ss` – zobrazit jen platby s tímto specifickým symbolem
 - `vs_prefix` – zobrazit jen platby, jejichž variabilní symbol začíná zadanými číslicemi
 
-Příklad: `[fio account="123" days="90" columns="date,amount,vs,message" vs_prefix="2026"]`
+Příklady: `[fio account="123" days="30" columns="date,amount,vs,message" vs_prefix="2026"]`, `[fio account="123" period="last_month"]`
+
+V bloku se období vybírá v postranním panelu.
 
 **Jsme na GitHubu**
 [https://github.com/skaut/skaut-fio-bank-transactions/](https://github.com/skaut/skaut-fio-bank-transactions/)
@@ -60,7 +63,9 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 * Security: the list of accounts is no longer printed on every admin page for every user
 * Security: stricter validation when saving the token, escaping of all table values
 * New: block "Transakce z Fio banky"
-* New: shortcode attributes days, columns, ss and vs_prefix; new columns VS, SS, KS and counterparty name
+* New: shortcode attributes period, days, columns, ss and vs_prefix; new columns VS, SS, KS and counterparty name
+* New: period "last 7 days", "this month" and "last month" in the block and the shortcode
+* Change: at most the last 90 days are shown (default 90 instead of 1 year), because the Fio API returns only 90 days of history without an extra authorization
 * Fix: transactions are cached, so the Fio API limit (1 request per 30 seconds) no longer causes "Chyba při spojení s Fio bankou"; the last downloaded data is shown when the API is unavailable
 * Fix: the plugin now uses the new Fio API endpoint (fioapi.fio.cz)
 * Fix: Czech texts in the TinyMCE dialog, account number format "number/bank code"

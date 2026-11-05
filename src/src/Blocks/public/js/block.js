@@ -13,10 +13,11 @@
 	const ServerSideRender = wp.serverSideRender;
 	const data = window.fioTransactionsBlock || {
 		accounts: [],
+		periods: [],
 		columns: [],
 		canEmbed: false,
-		maxDays: 3650,
-		defaultDay: 365,
+		maxDays: 90,
+		defaultDay: 90,
 	};
 
 	function accountSelect(attributes, setAttributes) {
@@ -53,18 +54,29 @@
 				PanelBody,
 				{ title: 'Nastavení' },
 				accountSelect(attributes, setAttributes),
-				el(TextControl, {
-					label: 'Počet dní zpět',
-					type: 'number',
-					min: 1,
-					max: data.maxDays,
-					value: attributes.days,
+				el(SelectControl, {
+					label: 'Období',
+					value: attributes.period,
+					options: data.periods,
 					onChange(value) {
-						setAttributes({
-							days: parseInt(value, 10) || data.defaultDay,
-						});
+						setAttributes({ period: value });
 					},
 				}),
+				attributes.period === 'days' &&
+					el(TextControl, {
+						label: 'Počet dní zpět (max. ' + data.maxDays + ')',
+						help: 'Fio banka bez dodatečné autorizace vydá jen posledních 90 dní.',
+						type: 'number',
+						min: 1,
+						max: data.maxDays,
+						value: Math.min(attributes.days, data.maxDays),
+						onChange(value) {
+							const days = parseInt(value, 10) || data.defaultDay;
+							setAttributes({
+								days: Math.max(1, Math.min(days, data.maxDays)),
+							});
+						},
+					}),
 				el(TextControl, {
 					label: 'Jen specifický symbol (SS)',
 					value: attributes.ss,

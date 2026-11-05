@@ -9,7 +9,8 @@ namespace FioTransactions\Frontend;
  *
  * Attributes:
  * - account   (required) ID of the account.
- * - days      Number of days to show, default 365.
+ * - period    days (default), last_7_days, this_month or last_month.
+ * - days      Number of days to show for period "days", default and maximum 90.
  * - columns   Comma separated list of columns: date, amount, account, name, vs, ss, ks, message, comment, type.
  * - ss        Show only transactions with this specific symbol.
  * - vs_prefix Show only transactions whose variable symbol starts with this prefix.

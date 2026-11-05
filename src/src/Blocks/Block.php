@@ -53,6 +53,11 @@ final class Block {
 						'type'    => 'number',
 						'default' => 0,
 					),
+					'period'   => array(
+						'type'    => 'string',
+						'enum'    => array_keys( Renderer::PERIODS ),
+						'default' => Renderer::DEFAULT_PERIOD,
+					),
 					'days'     => array(
 						'type'    => 'number',
 						'default' => Renderer::DEFAULT_DAYS,
@@ -84,6 +89,7 @@ final class Block {
 		return $this->renderer->render(
 			array(
 				'account'   => $attributes['account'] ?? 0,
+				'period'    => $attributes['period'] ?? Renderer::DEFAULT_PERIOD,
 				'days'      => $attributes['days'] ?? Renderer::DEFAULT_DAYS,
 				'columns'   => implode( ',', array_map( 'strval', $columns ) ),
 				'ss'        => $attributes['ss'] ?? '',
@@ -106,6 +112,14 @@ final class Block {
 			}
 		}
 
+		$periods = array();
+		foreach ( Renderer::PERIODS as $value => $label ) {
+			$periods[] = array(
+				'value' => $value,
+				'label' => $label,
+			);
+		}
+
 		$columns = array();
 		foreach ( Renderer::COLUMNS as $value => $label ) {
 			$columns[] = array(
@@ -119,6 +133,7 @@ final class Block {
 			'window.fioTransactionsBlock = ' . wp_json_encode(
 				array(
 					'accounts'   => $accounts,
+					'periods'    => $periods,
 					'columns'    => $columns,
 					'canEmbed'   => Helpers::userCanEmbedAccounts( get_current_user_id() ),
 					'postType'   => AccountsInit::ACCOUNTS_TYPE_SLUG,
