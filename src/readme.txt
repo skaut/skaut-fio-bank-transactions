@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,21 +36,22 @@ Nad tabulkou může návštěvník přepínat mezi všemi, příchozími a odcho
 
 == Installation ==
 1. Stáhnout si plugin a aktivovat
-2. Získat a zadat token podle [návodu.](https://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
+2. Získat a zadat token podle [návodu.](https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance)
 
 == Frequently Asked Questions ==
 **Nápověda k pluginu**
 [https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions](https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions)
 
 **Jak získat Fio token?**
-Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance)
+Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance)
 
 == Screenshots ==
 
 
 == Changelog ==
 
-= 1.3.5 =
+= 1.3.6 =
+* Fix: updated link to the guide on how to create a Fio API token
 * New: block settings "Zobrazit vyhledávání", "Stránkování" and "Počet řádků na stránce" (10, 25, 50, 100 or all)
 * New: buttons "Všechny transakce", "Příchozí" and "Odchozí" above the table
 * Fix: the ordering arrows are always on the right side of the column header

@@ -65,7 +65,7 @@ final class Admin {
 				style="width: 100%;"
 				pattern="[a-zA-Z0-9]{64}"
 				required="required"/>
-		<p><a href="https://napoveda.fapi.cz/article/144-jak-vygenerovat-token-ve-fio-bance"
+		<p><a href="https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance"
 				target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Jak získám token?', 'skaut-fio-bank-transactions' ); ?></a></p>
 		<?php
 	}
