@@ -9,7 +9,7 @@ use FioTransactions\Frontend\Renderer;
 use FioTransactions\Utils\Helpers;
 
 /**
- * "Transakce z Fio banky" block (server rendered).
+ * "Fio bank transactions" block (server rendered).
  */
 final class Block {
 
@@ -33,16 +33,19 @@ final class Block {
 		wp_register_script(
 			FIOTRANSACTIONS_NAME . '_block',
 			plugin_dir_url( __FILE__ ) . 'public/js/block.js',
-			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-server-side-render' ),
+			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-server-side-render', 'wp-i18n' ),
 			FIOTRANSACTIONS_VERSION,
 			true
 		);
+		// Translations come from the translate.wordpress.org language packs.
+		wp_set_script_translations( FIOTRANSACTIONS_NAME . '_block', 'skaut-fio-bank-transactions' );
 
 		register_block_type(
 			self::NAME,
 			array(
 				'api_version'     => 3,
-				'title'           => 'Transakce z Fio banky',
+				'title'           => __( 'Fio bank transactions', 'skaut-fio-bank-transactions' ),
+				'description'     => __( 'Table of transactions from a Fio banka account.', 'skaut-fio-bank-transactions' ),
 				'category'        => 'widgets',
 				'icon'            => 'money-alt',
 				'editor_script'   => FIOTRANSACTIONS_NAME . '_block',
@@ -55,7 +58,7 @@ final class Block {
 					),
 					'period'     => array(
 						'type'    => 'string',
-						'enum'    => array_keys( Renderer::PERIODS ),
+						'enum'    => array( 'days', 'last_7_days', 'this_month', 'last_month' ),
 						'default' => Renderer::DEFAULT_PERIOD,
 					),
 					'days'       => array(
@@ -129,7 +132,7 @@ final class Block {
 		}
 
 		$periods = array();
-		foreach ( Renderer::PERIODS as $value => $label ) {
+		foreach ( Renderer::getPeriods() as $value => $label ) {
 			$periods[] = array(
 				'value' => $value,
 				'label' => $label,
@@ -137,7 +140,7 @@ final class Block {
 		}
 
 		$columns = array();
-		foreach ( Renderer::COLUMNS as $value => $label ) {
+		foreach ( Renderer::getColumns() as $value => $label ) {
 			$columns[] = array(
 				'value' => $value,
 				'label' => $label,

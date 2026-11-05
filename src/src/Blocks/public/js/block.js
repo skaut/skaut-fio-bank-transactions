@@ -12,6 +12,8 @@
 	const ToggleControl = wp.components.ToggleControl;
 	const Placeholder = wp.components.Placeholder;
 	const ServerSideRender = wp.serverSideRender;
+	const __ = wp.i18n.__;
+	const sprintf = wp.i18n.sprintf;
 	const data = window.fioTransactionsBlock || {
 		accounts: [],
 		periods: [],
@@ -23,9 +25,17 @@
 
 	function accountSelect(attributes, setAttributes) {
 		return el(SelectControl, {
-			label: 'Účet',
+			label: __('Account', 'skaut-fio-bank-transactions'),
 			value: String(attributes.account || ''),
-			options: [{ value: '', label: '— Vyberte účet —' }].concat(
+			options: [
+				{
+					value: '',
+					label: __(
+						'— Select an account —',
+						'skaut-fio-bank-transactions'
+					),
+				},
+			].concat(
 				data.accounts.map(function (account) {
 					return {
 						value: String(account.value),
@@ -53,10 +63,10 @@
 			null,
 			el(
 				PanelBody,
-				{ title: 'Nastavení' },
+				{ title: __('Settings', 'skaut-fio-bank-transactions') },
 				accountSelect(attributes, setAttributes),
 				el(SelectControl, {
-					label: 'Období',
+					label: __('Period', 'skaut-fio-bank-transactions'),
 					value: attributes.period,
 					options: data.periods,
 					onChange(value) {
@@ -65,8 +75,18 @@
 				}),
 				attributes.period === 'days' &&
 					el(TextControl, {
-						label: 'Počet dní zpět (max. ' + data.maxDays + ')',
-						help: 'Fio banka bez dodatečné autorizace vydá jen posledních 90 dní.',
+						label: sprintf(
+							/* translators: %d: maximum number of days */
+							__(
+								'Number of days (max. %d)',
+								'skaut-fio-bank-transactions'
+							),
+							data.maxDays
+						),
+						help: __(
+							'Without an additional authorization, Fio banka provides only the last 90 days.',
+							'skaut-fio-bank-transactions'
+						),
 						type: 'number',
 						min: 1,
 						max: data.maxDays,
@@ -79,14 +99,20 @@
 						},
 					}),
 				el(TextControl, {
-					label: 'Jen specifický symbol (SS)',
+					label: __(
+						'Only this specific symbol (SS)',
+						'skaut-fio-bank-transactions'
+					),
 					value: attributes.ss,
 					onChange(value) {
 						setAttributes({ ss: onlyDigits(value) });
 					},
 				}),
 				el(TextControl, {
-					label: 'Jen variabilní symbol začínající na',
+					label: __(
+						'Only variable symbols starting with',
+						'skaut-fio-bank-transactions'
+					),
 					value: attributes.vsPrefix,
 					onChange(value) {
 						setAttributes({ vsPrefix: onlyDigits(value) });
@@ -95,19 +121,28 @@
 			),
 			el(
 				PanelBody,
-				{ title: 'Zobrazení tabulky', initialOpen: false },
+				{
+					title: __('Table display', 'skaut-fio-bank-transactions'),
+					initialOpen: false,
+				},
 				el(ToggleControl, {
-					label: 'Zobrazit vyhledávání',
+					label: __('Show search', 'skaut-fio-bank-transactions'),
 					checked: attributes.showSearch,
 					onChange(value) {
 						setAttributes({ showSearch: value });
 					},
 				}),
 				el(ToggleControl, {
-					label: 'Stránkování',
+					label: __('Pagination', 'skaut-fio-bank-transactions'),
 					help: attributes.paging
-						? 'Tabulka se dělí na stránky.'
-						: 'Zobrazí se všechny transakce najednou.',
+						? __(
+								'The table is split into pages.',
+								'skaut-fio-bank-transactions'
+							)
+						: __(
+								'All transactions are shown at once.',
+								'skaut-fio-bank-transactions'
+							),
 					checked: attributes.paging,
 					onChange(value) {
 						setAttributes({ paging: value });
@@ -115,13 +150,24 @@
 				}),
 				attributes.paging &&
 					el(SelectControl, {
-						label: 'Počet řádků na stránce',
+						label: __(
+							'Rows per page',
+							'skaut-fio-bank-transactions'
+						),
 						value: String(attributes.pageLength),
 						options: [10, 25, 50, 100]
 							.map(function (n) {
 								return { value: String(n), label: String(n) };
 							})
-							.concat([{ value: '-1', label: 'Vše' }]),
+							.concat([
+								{
+									value: '-1',
+									label: __(
+										'All',
+										'skaut-fio-bank-transactions'
+									),
+								},
+							]),
 						onChange(value) {
 							setAttributes({ pageLength: parseInt(value, 10) });
 						},
@@ -129,7 +175,10 @@
 			),
 			el(
 				PanelBody,
-				{ title: 'Sloupce', initialOpen: false },
+				{
+					title: __('Columns', 'skaut-fio-bank-transactions'),
+					initialOpen: false,
+				},
 				data.columns.map(function (column) {
 					return el(CheckboxControl, {
 						key: column.value,
@@ -160,13 +209,28 @@
 		if (!data.canEmbed) {
 			content = el(
 				Placeholder,
-				{ icon: 'money-alt', label: 'Transakce z Fio banky' },
-				'Nemáte oprávnění vkládat transakce z bankovních účtů.'
+				{
+					icon: 'money-alt',
+					label: __(
+						'Fio bank transactions',
+						'skaut-fio-bank-transactions'
+					),
+				},
+				__(
+					'You are not allowed to insert transactions of bank accounts.',
+					'skaut-fio-bank-transactions'
+				)
 			);
 		} else if (!attributes.account) {
 			content = el(
 				Placeholder,
-				{ icon: 'money-alt', label: 'Transakce z Fio banky' },
+				{
+					icon: 'money-alt',
+					label: __(
+						'Fio bank transactions',
+						'skaut-fio-bank-transactions'
+					),
+				},
 				accountSelect(attributes, setAttributes)
 			);
 		} else {
@@ -181,7 +245,7 @@
 
 	wp.blocks.registerBlockType('skaut-fio-bank-transactions/transactions', {
 		apiVersion: 3,
-		title: 'Transakce z Fio banky',
+		title: __('Fio bank transactions', 'skaut-fio-bank-transactions'),
 		icon: 'money-alt',
 		category: 'widgets',
 		edit: Edit,

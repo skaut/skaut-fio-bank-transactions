@@ -57,7 +57,7 @@ final class Admin {
 	public function TokenFieldContent( \WP_Post $post ) {
 		wp_nonce_field( FIOTRANSACTIONS_NAME . '_metabox', FIOTRANSACTIONS_NAME . '_metabox_nonce' );
 		?>
-		<h2><?php esc_html_e( 'Zadejte 64 znakový token z internetového bankovnictví', 'skaut-fio-bank-transactions' ); ?>:</h2>
+		<h2><?php esc_html_e( 'Enter the 64-character token from the Fio internet banking', 'skaut-fio-bank-transactions' ); ?>:</h2>
 		<input type="text" name="<?php echo esc_attr( FIOTRANSACTIONS_NAME ) . '_token'; ?>"
 				value="<?php echo esc_attr( get_post_meta( $post->ID, FIOTRANSACTIONS_NAME . '_token', true ) ); ?>"
 				placeholder="<?php esc_attr_e( 'token', 'skaut-fio-bank-transactions' ); ?>"
@@ -66,7 +66,7 @@ final class Admin {
 				pattern="[a-zA-Z0-9]{64}"
 				required="required"/>
 		<p><a href="https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance"
-				target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Jak získám token?', 'skaut-fio-bank-transactions' ); ?></a></p>
+				target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'How do I get a token?', 'skaut-fio-bank-transactions' ); ?></a></p>
 		<?php
 	}
 }

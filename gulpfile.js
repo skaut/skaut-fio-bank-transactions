@@ -58,7 +58,7 @@ gulp.task(
 
 gulp.task('build:deps:npm:datatables.net:files', function () {
 	return gulp
-		.src(['node_modules/datatables.net-plugins/i18n/cs.json'])
+		.src(['node_modules/datatables.net-plugins/i18n/*.json'])
 		.pipe(gulp.dest('dist/bundled/datatables-files'));
 });
 

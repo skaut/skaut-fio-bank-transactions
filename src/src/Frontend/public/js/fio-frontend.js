@@ -3,6 +3,7 @@
 
 	const DataTable = window.DataTable;
 	const directions = new WeakMap();
+	const localize = window.fioTransactionsFrontendLocalize;
 
 	// Rows of a table are shown according to the direction selected above it.
 	DataTable.ext.search.push(function (settings, searchData, dataIndex) {
@@ -22,10 +23,8 @@
 			// The date column is sorted by its ISO `data-order` attribute.
 			const dataTable = new DataTable(table, {
 				language: {
-					url:
-						window.fioTransactionsFrontendLocalize
-							.datatablesFilesUrl + '/cs.json',
-					lengthLabels: { '-1': 'Vše' },
+					url: localize.languageUrl || undefined,
+					lengthLabels: { '-1': localize.all },
 				},
 				order: [[0, 'desc']],
 				// Searching must stay on, otherwise DataTables skips the direction filter as well;

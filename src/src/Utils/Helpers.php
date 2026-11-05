@@ -16,7 +16,7 @@ class Helpers {
 					$class = 'notice notice-' . $type . ' is-dismissible';
 					printf(
 						'<div class="%1$s"><p>%2$s</p><button type="button" class="notice-dismiss">
-		<span class="screen-reader-text">' . esc_html__( 'Zavřít', 'skaut-fio-bank-transactions' ) . '</span>
+		<span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'skaut-fio-bank-transactions' ) . '</span>
 	</button></div>',
 						esc_attr( $class ),
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

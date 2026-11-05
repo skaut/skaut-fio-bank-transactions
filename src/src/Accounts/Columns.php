@@ -37,7 +37,7 @@ class Columns {
 	}
 
 	public function lastModifiedAdminColumn( array $columns = array() ): array {
-		$columns['modified_last'] = __( 'Naposledy upraveno', 'skaut-fio-bank-transactions' );
+		$columns['modified_last'] = __( 'Last modified', 'skaut-fio-bank-transactions' );
 
 		return $columns;
 	}
@@ -59,7 +59,7 @@ class Columns {
 		}
 		$modifiedDate = sprintf(
 			/* translators: %s: human-readable time difference */
-			_x( 'Před %s', '%s = human-readable time difference', 'skaut-fio-bank-transactions' ),
+			_x( '%s ago', '%s = human-readable time difference', 'skaut-fio-bank-transactions' ),
 			human_time_diff( intval( strtotime( $post->post_modified_gmt . ' UTC' ) ), time() )
 		);
 		$modifiedAuthor = get_the_modified_author();

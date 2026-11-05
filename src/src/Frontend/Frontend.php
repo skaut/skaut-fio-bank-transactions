@@ -56,8 +56,30 @@ final class Frontend {
 			FIOTRANSACTIONS_NAME,
 			'fioTransactionsFrontendLocalize',
 			array(
-				'datatablesFilesUrl' => FIOTRANSACTIONS_URL . 'bundled/datatables-files',
+				'languageUrl' => self::getDataTablesLanguageUrl(),
+				'all'         => __( 'All', 'skaut-fio-bank-transactions' ),
 			)
 		);
+	}
+
+	/**
+	 * URL of the DataTables translation matching the site language, or '' for English.
+	 */
+	private static function getDataTablesLanguageUrl(): string {
+		$locale     = determine_locale();
+		$candidates = array_unique(
+			array(
+				str_replace( '_', '-', $locale ),
+				strtok( $locale, '_' ),
+			)
+		);
+
+		foreach ( $candidates as $candidate ) {
+			if ( is_string( $candidate ) && '' !== $candidate && file_exists( FIOTRANSACTIONS_PATH . 'bundled/datatables-files/' . $candidate . '.json' ) ) {
+				return FIOTRANSACTIONS_URL . 'bundled/datatables-files/' . $candidate . '.json';
+			}
+		}
+
+		return '';
 	}
 }

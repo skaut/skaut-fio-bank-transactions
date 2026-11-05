@@ -27,30 +27,41 @@ final class Renderer {
 	const DEFAULT_PAGE_LENGTH = 10;
 
 	/**
-	 * Available periods: key => label.
+	 * Available periods: key => translated label.
+	 *
+	 * @return array<string, string>
 	 */
-	const PERIODS = array(
-		'days'        => 'Posledních N dní',
-		'last_7_days' => 'Posledních 7 dní',
-		'this_month'  => 'Tento měsíc',
-		'last_month'  => 'Minulý měsíc',
-	);
+	public static function getPeriods(): array {
+		return array(
+			'days'        => __( 'Last N days', 'skaut-fio-bank-transactions' ),
+			'last_7_days' => __( 'Last 7 days', 'skaut-fio-bank-transactions' ),
+			'this_month'  => __( 'This month', 'skaut-fio-bank-transactions' ),
+			'last_month'  => __( 'Last month', 'skaut-fio-bank-transactions' ),
+		);
+	}
 
 	/**
-	 * Available columns: key => header.
+	 * Available columns: key => translated header.
+	 *
+	 * @return array<string, string>
 	 */
-	const COLUMNS = array(
-		'date'    => 'Datum',
-		'amount'  => 'Částka',
-		'account' => 'Protiúčet',
-		'name'    => 'Název protiúčtu',
-		'vs'      => 'VS',
-		'ss'      => 'SS',
-		'ks'      => 'KS',
-		'message' => 'Zpráva pro příjemce',
-		'comment' => 'Poznámka',
-		'type'    => 'Typ',
-	);
+	public static function getColumns(): array {
+		return array(
+			'date'    => __( 'Date', 'skaut-fio-bank-transactions' ),
+			'amount'  => __( 'Amount', 'skaut-fio-bank-transactions' ),
+			'account' => __( 'Counterparty account', 'skaut-fio-bank-transactions' ),
+			'name'    => __( 'Counterparty name', 'skaut-fio-bank-transactions' ),
+			/* translators: Abbreviation of "variable symbol", a payment identifier used by Czech and Slovak banks. */
+			'vs'      => __( 'VS', 'skaut-fio-bank-transactions' ),
+			/* translators: Abbreviation of "specific symbol", a payment identifier used by Czech and Slovak banks. */
+			'ss'      => __( 'SS', 'skaut-fio-bank-transactions' ),
+			/* translators: Abbreviation of "constant symbol", a payment identifier used by Czech and Slovak banks. */
+			'ks'      => __( 'KS', 'skaut-fio-bank-transactions' ),
+			'message' => __( 'Message for recipient', 'skaut-fio-bank-transactions' ),
+			'comment' => __( 'Note', 'skaut-fio-bank-transactions' ),
+			'type'    => __( 'Type', 'skaut-fio-bank-transactions' ),
+		);
+	}
 
 	private $accountFactory;
 
@@ -91,7 +102,7 @@ final class Renderer {
 		}
 
 		$period = strtolower( trim( strval( $atts['period'] ) ) );
-		if ( ! array_key_exists( $period, self::PERIODS ) ) {
+		if ( ! array_key_exists( $period, self::getPeriods() ) ) {
 			$period = self::DEFAULT_PERIOD;
 		}
 
@@ -99,7 +110,7 @@ final class Renderer {
 			array_unique(
 				array_intersect(
 					array_map( 'trim', explode( ',', strtolower( strval( $atts['columns'] ) ) ) ),
-					array_keys( self::COLUMNS )
+					array_keys( self::getColumns() )
 				)
 			)
 		);
@@ -158,7 +169,7 @@ final class Renderer {
 		list( $from, $until ) = self::getDateRange( $atts['period'], $atts['days'], new \DateTimeImmutable( 'now', wp_timezone() ) );
 		$transactions         = $this->getTransactions( $token, $from, $until );
 		if ( null === $transactions ) {
-			return '<div>' . esc_html__( 'Chyba při spojení s Fio bankou.', 'skaut-fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . esc_html__( 'Zkuste to znovu.', 'skaut-fio-bank-transactions' ) . '</a></div>';
+			return '<div>' . esc_html__( 'Could not connect to Fio banka.', 'skaut-fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . esc_html__( 'Try again.', 'skaut-fio-bank-transactions' ) . '</a></div>';
 		}
 
 		$transactions = self::filterTransactions( $transactions, $atts['ss'], $atts['vs_prefix'] );
@@ -305,18 +316,19 @@ final class Renderer {
 		do_action( FIOTRANSACTIONS_NAME . '_transactionsForTable', $transactions );
 
 		$html  = '<div class="fioTransactions">';
-		$html .= '<div class="fioTransactionsFilter" role="group" aria-label="' . esc_attr__( 'Zobrazit transakce', 'skaut-fio-bank-transactions' ) . '" hidden>';
+		$html .= '<div class="fioTransactionsFilter" role="group" aria-label="' . esc_attr__( 'Show transactions', 'skaut-fio-bank-transactions' ) . '" hidden>';
 		foreach ( array(
-			'all' => __( 'Všechny transakce', 'skaut-fio-bank-transactions' ),
-			'in'  => __( 'Příchozí', 'skaut-fio-bank-transactions' ),
-			'out' => __( 'Odchozí', 'skaut-fio-bank-transactions' ),
+			'all' => __( 'All transactions', 'skaut-fio-bank-transactions' ),
+			'in'  => __( 'Incoming', 'skaut-fio-bank-transactions' ),
+			'out' => __( 'Outgoing', 'skaut-fio-bank-transactions' ),
 		) as $direction => $label ) {
 			$html .= '<button type="button" class="fioTransactionsFilter__button" data-direction="' . esc_attr( $direction ) . '" aria-pressed="' . ( 'all' === $direction ? 'true' : 'false' ) . '">' . esc_html( $label ) . '</button>';
 		}
-		$html .= '</div>';
-		$html .= '<table class="fioTransactionsTable" data-fio-search="' . ( $options['search'] ? 'true' : 'false' ) . '" data-fio-paging="' . ( $options['paging'] ? 'true' : 'false' ) . '" data-fio-page-length="' . esc_attr( strval( $options['page_length'] ) ) . '"><thead><tr>';
+		$html   .= '</div>';
+		$html   .= '<table class="fioTransactionsTable" data-fio-search="' . ( $options['search'] ? 'true' : 'false' ) . '" data-fio-paging="' . ( $options['paging'] ? 'true' : 'false' ) . '" data-fio-page-length="' . esc_attr( strval( $options['page_length'] ) ) . '"><thead><tr>';
+		$headers = self::getColumns();
 		foreach ( $columns as $column ) {
-			$html .= '<th>' . esc_html( self::COLUMNS[ $column ] ) . '</th>';
+			$html .= '<th>' . esc_html( $headers[ $column ] ) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 

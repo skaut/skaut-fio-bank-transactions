@@ -36,7 +36,7 @@ final class Settings {
 
 	public function addSettingsLinkToPluginsTable( array $links = array() ): array {
 		$mylinks = array(
-			'<a href="' . esc_url( admin_url( 'admin.php?page=' . FIOTRANSACTIONS_NAME ) ) . '">' . esc_html__( 'Nastavení', 'skaut-fio-bank-transactions' ) . '</a>',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=' . FIOTRANSACTIONS_NAME ) ) . '">' . esc_html__( 'Settings', 'skaut-fio-bank-transactions' ) . '</a>',
 		);
 
 		return array_merge( $links, $mylinks );
@@ -44,7 +44,7 @@ final class Settings {
 
 	public function addHelpLinkToPluginsTable( array $links = array() ): array {
 		$mylinks = array(
-			'<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Nápověda', 'skaut-fio-bank-transactions' ) . '</a>',
+			'<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Help', 'skaut-fio-bank-transactions' ) . '</a>',
 		);
 
 		return array_merge( $links, $mylinks );
@@ -52,7 +52,7 @@ final class Settings {
 
 	public function setupSettingPage() {
 		add_menu_page(
-			__( 'Obecné', 'skaut-fio-bank-transactions' ),
+			__( 'General', 'skaut-fio-bank-transactions' ),
 			__( 'Fio Bank', 'skaut-fio-bank-transactions' ),
 			Helpers::getFioManagerCapability(),
 			FIOTRANSACTIONS_NAME,
@@ -68,7 +68,7 @@ final class Settings {
 		</script>
 		<?php
 		if ( ! current_user_can( Helpers::getFioManagerCapability() ) ) {
-			wp_die( esc_html__( 'Nemáte dostatečná oprávnění pro přístup k této stránce.', 'skaut-fio-bank-transactions' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'skaut-fio-bank-transactions' ) );
 		}
 
 		settings_errors();
@@ -93,7 +93,7 @@ final class Settings {
 			function () {
 				printf(
 					/* translators: 1: opening link tag, 2: closing link tag */
-					esc_html__( 'Návod pro nastavení pluginu najdete v %1$snápovědě%2$s.', 'skaut-fio-bank-transactions' ),
+					esc_html__( 'You can find the plugin setup guide in the %1$shelp%2$s.', 'skaut-fio-bank-transactions' ),
 					'<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
