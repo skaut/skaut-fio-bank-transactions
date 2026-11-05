@@ -9,7 +9,7 @@ use FioTransactions\Api\IAccountFactory;
 use FioTransactions\Utils\Helpers;
 
 /**
- * Renders the transactions table - shared by the [fio] shortcode and the block.
+ * Renders the transactions table of the block.
  */
 final class Renderer {
 
@@ -54,7 +54,7 @@ final class Renderer {
 	}
 
 	/**
-	 * Normalizes user supplied attributes (shortcode or block).
+	 * Normalizes user supplied block attributes.
 	 *
 	 * @param array<string, mixed> $atts Raw attributes.
 	 * @return array{account: int, period: string, days: int, columns: array<int, string>, ss: string, vs_prefix: string}
@@ -147,7 +147,7 @@ final class Renderer {
 	}
 
 	/**
-	 * The shortcode/block may only be used by trusted users - otherwise e.g. a contributor could
+	 * The block may only be used by trusted users - otherwise e.g. a contributor could
 	 * display transactions of any account in a post preview just by guessing its ID.
 	 */
 	private function isAllowed(): bool {

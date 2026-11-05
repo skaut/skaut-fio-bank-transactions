@@ -3,7 +3,7 @@
  * Plugin Name:       Fio bank - transactions
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
- * Version:           1.3.2
+ * Version:           1.3.3
  * Author:            Junák - český skaut
  * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
@@ -29,7 +29,7 @@ define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
 define( 'FIOTRANSACTIONS_NAME', 'fio_bank_transactions' );
-define( 'FIOTRANSACTIONS_VERSION', '1.3.2' );
+define( 'FIOTRANSACTIONS_VERSION', '1.3.3' );
 
 class FioTransactions {
 
@@ -56,7 +56,6 @@ class FioTransactions {
 
 		require __DIR__ . '/src/Admin/Admin.php';
 		require __DIR__ . '/src/Admin/Settings.php';
-		require __DIR__ . '/src/Admin/Shortcode.php';
 
 		require __DIR__ . '/src/Api/IAccount.php';
 		require __DIR__ . '/src/Api/IAccountFactory.php';
@@ -68,7 +67,6 @@ class FioTransactions {
 
 		require __DIR__ . '/src/Frontend/Frontend.php';
 		require __DIR__ . '/src/Frontend/Renderer.php';
-		require __DIR__ . '/src/Frontend/Shortcode.php';
 
 		require __DIR__ . '/src/General/General.php';
 
@@ -91,9 +89,9 @@ class FioTransactions {
 
 		( new General( $accountsInit, $renderer ) );
 		if ( is_admin() ) {
-			( new Admin( $accountsInit ) );
+			( new Admin() );
 		} else {
-			( new Frontend( $renderer ) );
+			( new Frontend() );
 		}
 	}
 

@@ -1,4 +1,4 @@
-WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
+WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes blok „Transakce z Fio banky“.
 
 ## O pluginu
 

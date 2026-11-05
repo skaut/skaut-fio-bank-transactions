@@ -38,7 +38,7 @@ class Helpers {
 	}
 
 	/**
-	 * Capability a user needs to embed account transactions via the [fio] shortcode.
+	 * Capability a user needs to embed account transactions via the block.
 	 *
 	 * Contributors and authors must not be able to display (e.g. in a post preview) transactions
 	 * of an arbitrary account just by guessing its ID.

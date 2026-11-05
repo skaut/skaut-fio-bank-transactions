@@ -10,10 +10,7 @@ final class Settings {
 
 	const HELP_PAGE_URL = 'https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions';
 
-	private $adminDirUrl = '';
-
 	public function __construct() {
-		$this->adminDirUrl = plugin_dir_url( __FILE__ ) . 'public/';
 		$this->initHooks();
 	}
 
@@ -60,7 +57,7 @@ final class Settings {
 			Helpers::getFioManagerCapability(),
 			FIOTRANSACTIONS_NAME,
 			array( $this, 'printSettingPage' ),
-			$this->adminDirUrl . 'img/fio.png'
+			'dashicons-money-alt'
 		);
 	}
 

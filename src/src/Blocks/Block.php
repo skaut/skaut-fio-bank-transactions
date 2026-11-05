@@ -9,7 +9,7 @@ use FioTransactions\Frontend\Renderer;
 use FioTransactions\Utils\Helpers;
 
 /**
- * "Transakce z Fio banky" block - a server rendered equivalent of the [fio] shortcode.
+ * "Transakce z Fio banky" block (server rendered).
  */
 final class Block {
 

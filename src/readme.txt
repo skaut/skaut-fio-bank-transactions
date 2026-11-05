@@ -1,14 +1,14 @@
 === Fio bank - transactions ===
 Contributors: skaut, davidulus, marekdedic, kalich5
-Tags: skaut, shortcode, block, fio, transactions
+Tags: skaut, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode nebo blok.
+Plugin pro zobrazování tabulky transakcí z Fio banky přes blok.
 
 == Description ==
 
@@ -16,23 +16,17 @@ Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode nebo blo
 - WordPress 7.0 a vyšší
 - PHP 8.3 a vyšší
 
-Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode nebo blok „Transakce z Fio banky“. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.
+Plugin pro zobrazování tabulky transakcí z Fio banky přes blok „Transakce z Fio banky“. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.
 
 Tabulku mohou vkládat jen uživatelé s oprávněním `edit_others_posts` (editor a výš); oprávnění lze změnit filtrem `fio_bank_transactions_embed_capability`. Data z Fio banky se ukládají do mezipaměti na 15 minut (filtr `fio_bank_transactions_cache_expiration`), při chybě spojení se zobrazí poslední stažená data.
 
-<h2>Shortcode</h2>
-`[fio account="123"]` – parametry:
+<h2>Blok „Transakce z Fio banky“</h2>
+V postranním panelu bloku se nastavuje:
 
-- `account` – ID účtu (povinné)
-- `period` – období: `days` (posledních N dní, výchozí), `last_7_days` (posledních 7 dní), `this_month` (tento měsíc), `last_month` (minulý měsíc)
-- `days` – počet dní zpět pro `period="days"`, výchozí a maximum 90 (Fio banka bez dodatečné autorizace vydá jen posledních 90 dní)
-- `columns` – sloupce oddělené čárkou: `date`, `amount`, `account`, `name`, `vs`, `ss`, `ks`, `message`, `comment`, `type`; výchozí `date,amount,account,message,comment,type`
-- `ss` – zobrazit jen platby s tímto specifickým symbolem
-- `vs_prefix` – zobrazit jen platby, jejichž variabilní symbol začíná zadanými číslicemi
-
-Příklady: `[fio account="123" days="30" columns="date,amount,vs,message" vs_prefix="2026"]`, `[fio account="123" period="last_month"]`
-
-V bloku se období vybírá v postranním panelu.
+- účet,
+- období: posledních N dní (max. 90, Fio banka bez dodatečné autorizace vydá jen posledních 90 dní), posledních 7 dní, tento měsíc nebo minulý měsíc,
+- filtr podle specifického symbolu a začátku variabilního symbolu,
+- zobrazené sloupce: datum, částka, protiúčet, název protiúčtu, VS, SS, KS, zpráva pro příjemce, poznámka, typ.
 
 **Jsme na GitHubu**
 [https://github.com/skaut/skaut-fio-bank-transactions/](https://github.com/skaut/skaut-fio-bank-transactions/)
@@ -53,19 +47,21 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.2 =
+= 1.3.3 =
+* Removed: the [fio] shortcode and the button in the classic editor (TinyMCE); tables are inserted only with the block "Transakce z Fio banky". Existing [fio] shortcodes have to be replaced with the block.
+* New: the admin menu "Fio Bank" uses the same dollar icon as the block
 * The plugin is maintained again: the "discontinued support" notice was removed
 * Security: the Fio API token is no longer written to the PHP error log
 * Security: only editors and administrators (filter fio_bank_transactions_embed_capability) can display account transactions; contributors can no longer show any account in a post preview
 * Security: the list of accounts is no longer printed on every admin page for every user
 * Security: stricter validation when saving the token, escaping of all table values
 * New: block "Transakce z Fio banky"
-* New: shortcode attributes period, days, columns, ss and vs_prefix; new columns VS, SS, KS and counterparty name
-* New: period "last 7 days", "this month" and "last month" in the block and the shortcode
+* New: block settings for period, days, columns, SS and VS prefix; new columns VS, SS, KS and counterparty name
+* New: period "last 7 days", "this month" and "last month"
 * Change: at most the last 90 days are shown (default 90 instead of 1 year), because the Fio API returns only 90 days of history without an extra authorization
 * Fix: transactions are cached, so the Fio API limit (1 request per 30 seconds) no longer causes "Chyba při spojení s Fio bankou"; the last downloaded data is shown when the API is unavailable
 * Fix: the plugin now uses the new Fio API endpoint (fioapi.fio.cz)
-* Fix: Czech texts in the TinyMCE dialog, account number format "number/bank code"
+* Fix: account number format "number/bank code"
 * Fix: uninstall removes all accounts, tokens and cached data
 * Updated DataTables to version 3 (no jQuery or moment.js needed), Guzzle and other dependencies
 * Requires WordPress 7.0, tested with WordPress 7.1

@@ -6,16 +6,11 @@ namespace FioTransactions\Frontend;
 
 final class Frontend {
 
-	private $renderer;
-
-	public function __construct( Renderer $renderer ) {
-		$this->renderer = $renderer;
+	public function __construct() {
 		$this->initHooks();
 	}
 
 	private function initHooks() {
-		( new Shortcode( $this->renderer ) );
-
 		add_action( 'wp_enqueue_scripts', array( self::class, 'registerStylesAndScripts' ) );
 	}
 
