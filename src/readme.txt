@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -28,6 +28,8 @@ V postranním panelu bloku se nastavuje:
 - filtr podle specifického symbolu a začátku variabilního symbolu,
 - zobrazené sloupce: datum, částka, protiúčet, název protiúčtu, VS, SS, KS, zpráva pro příjemce, poznámka, typ.
 
+Nad tabulkou může návštěvník přepínat mezi všemi, příchozími a odchozími transakcemi.
+
 **Jsme na GitHubu**
 [https://github.com/skaut/skaut-fio-bank-transactions/](https://github.com/skaut/skaut-fio-bank-transactions/)
 
@@ -47,7 +49,9 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.3 =
+= 1.3.4 =
+* New: buttons "Všechny transakce", "Příchozí" and "Odchozí" above the table
+* Fix: the ordering arrows are always on the right side of the column header
 * Removed: the [fio] shortcode and the button in the classic editor (TinyMCE); tables are inserted only with the block "Transakce z Fio banky". Existing [fio] shortcodes have to be replaced with the block.
 * New: the admin menu "Fio Bank" uses the same dollar icon as the block
 * The plugin is maintained again: the "discontinued support" notice was removed

@@ -278,21 +278,31 @@ final class Renderer {
 		// phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase -- Public hook name kept for backwards compatibility.
 		do_action( FIOTRANSACTIONS_NAME . '_transactionsForTable', $transactions );
 
-		$html = '<table class="fioTransactionsTable"><thead><tr>';
+		$html  = '<div class="fioTransactions">';
+		$html .= '<div class="fioTransactionsFilter" role="group" aria-label="' . esc_attr__( 'Zobrazit transakce', 'skaut-fio-bank-transactions' ) . '" hidden>';
+		foreach ( array(
+			'all' => __( 'Všechny transakce', 'skaut-fio-bank-transactions' ),
+			'in'  => __( 'Příchozí', 'skaut-fio-bank-transactions' ),
+			'out' => __( 'Odchozí', 'skaut-fio-bank-transactions' ),
+		) as $direction => $label ) {
+			$html .= '<button type="button" class="fioTransactionsFilter__button" data-direction="' . esc_attr( $direction ) . '" aria-pressed="' . ( 'all' === $direction ? 'true' : 'false' ) . '">' . esc_html( $label ) . '</button>';
+		}
+		$html .= '</div>';
+		$html .= '<table class="fioTransactionsTable"><thead><tr>';
 		foreach ( $columns as $column ) {
 			$html .= '<th>' . esc_html( self::COLUMNS[ $column ] ) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 
 		foreach ( $transactions as $transaction ) {
-			$html .= '<tr>';
+			$html .= '<tr data-direction="' . ( floatval( $transaction['amount'] ) < 0 ? 'out' : 'in' ) . '">';
 			foreach ( $columns as $column ) {
 				$html .= $this->renderCell( $column, $transaction );
 			}
 			$html .= '</tr>';
 		}
 
-		$html .= '</tbody></table>';
+		$html .= '</tbody></table></div>';
 
 		// phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase -- Public hook name kept for backwards compatibility.
 		return strval( apply_filters( FIOTRANSACTIONS_NAME . '_tableHtml', $html ) );
