@@ -39,7 +39,7 @@ final class Shortcode {
 				$incomeOutcome = FIOTRANSACTIONS_NAME . '_income';
 			}
 			$html .= '<tr>';
-			$html .= '<td class="' . FIOTRANSACTIONS_NAME . '_date">' . esc_html( $transaction->getDate()->format( 'd.m.Y' ) ) . '</td>';
+			$html .= '<td class="' . FIOTRANSACTIONS_NAME . '_date" data-order="' . esc_attr( $transaction->getDate()->format( 'Y-m-d' ) ) . '">' . esc_html( $transaction->getDate()->format( 'd.m.Y' ) ) . '</td>';
 			$html .= '<td class="' . FIOTRANSACTIONS_NAME . '_amount ' . $incomeOutcome . '">' . esc_html( number_format( $transaction->getAmount(), 2, ',', ' ' ) ) . ' ' . esc_html( $transaction->getCurrency() ) . '</td>';
 			$counterAccount = (string) $transaction->getSenderAccountNumber();
 			if ( '' !== (string) $transaction->getSenderBankCode() ) {
@@ -62,7 +62,7 @@ final class Shortcode {
 	public function enqueueStylesAndScripts() {
 		wp_enqueue_style(
 			FIOTRANSACTIONS_NAME . '_datatables',
-			FIOTRANSACTIONS_URL . 'bundled/jquery.dataTables.min.css',
+			FIOTRANSACTIONS_URL . 'bundled/dataTables.dataTables.min.css',
 			array(),
 			FIOTRANSACTIONS_VERSION,
 			'all'
@@ -70,24 +70,8 @@ final class Shortcode {
 
 		wp_enqueue_script(
 			FIOTRANSACTIONS_NAME . '_datatables',
-			FIOTRANSACTIONS_URL . 'bundled/jquery.dataTables.min.js',
-			array( 'jquery' ),
-			FIOTRANSACTIONS_VERSION,
-			true
-		);
-
-		wp_enqueue_script(
-			'fio-momentjs',
-			FIOTRANSACTIONS_URL . 'bundled/moment.min.js',
-			array( FIOTRANSACTIONS_NAME . '_datatables' ),
-			FIOTRANSACTIONS_VERSION,
-			true
-		);
-
-		wp_enqueue_script(
-			'fio-datetime-momentjs',
-			FIOTRANSACTIONS_URL . 'bundled/datetime-moment.js',
-			array( 'fio-momentjs' ),
+			FIOTRANSACTIONS_URL . 'bundled/dataTables.min.js',
+			array(),
 			FIOTRANSACTIONS_VERSION,
 			true
 		);
@@ -103,7 +87,7 @@ final class Shortcode {
 		wp_enqueue_script(
 			FIOTRANSACTIONS_NAME,
 			$this->frontendDirUrl . 'js/fio-frontend.js',
-			array( 'jquery' ),
+			array( FIOTRANSACTIONS_NAME . '_datatables' ),
 			FIOTRANSACTIONS_VERSION,
 			true
 		);

@@ -1,27 +1,13 @@
-(function ($) {
-    'use strict';
+( function () {
+	'use strict';
 
-    $.fn.dataTable.moment( 'DD.MM.YYYY' );
-    var $dataTable = $('.fioTransactionsTable').DataTable({
-        responsive: true,
-        language: {
-            url: fioTransactionsFrontendLocalize.datatablesFilesUrl + '/cs.json',
-            search: "Hledat",
-            clear: "Zrušit"
-        },
-        columnDefs: [
-            {
-                "targets": [0],
-                "render": $.fn.dataTable.moment('DD.MM.YYYY')
-            }
-        ],
-        order: [[ 0, 'desc' ]]
-    });
-
-    $dataTable.on('init.dt', function () {
-        $(this).find('th').each(function () {
-            $(this).html('<span>' + $(this).html() + '</span>');
-        });
-    });
-
-})(jQuery);
+	document.querySelectorAll( '.fioTransactionsTable' ).forEach( function ( table ) {
+		// The date column is sorted by its ISO `data-order` attribute.
+		new window.DataTable( table, {
+			language: {
+				url: window.fioTransactionsFrontendLocalize.datatablesFilesUrl + '/cs.json',
+			},
+			order: [ [ 0, 'desc' ] ],
+		} );
+	} );
+} )();

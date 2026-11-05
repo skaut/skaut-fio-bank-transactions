@@ -66,23 +66,11 @@ gulp.task( 'build:deps:npm:datatables.net:files', function () {
 
 gulp.task( 'build:deps:npm:datatables.net', gulp.parallel( 'build:deps:npm:datatables.net:files', function () {
 	return gulp
-		.src( ['node_modules/datatables.net-dt/css/jquery.dataTables.min.css', 'node_modules/datatables.net/js/jquery.dataTables.min.js', 'node_modules/datatables.net-plugins/sorting/datetime-moment.js'] )
+		.src( ['node_modules/datatables.net-dt/css/dataTables.dataTables.min.css', 'node_modules/datatables.net/js/dataTables.min.js'] )
 		.pipe( gulp.dest( 'dist/bundled/' ) );
 } ) );
 
-gulp.task( 'build:deps:npm:moment', function () {
-	return gulp
-		.src( 'node_modules/moment/min/moment.min.js' )
-		.pipe( gulp.dest( 'dist/bundled/' ) );
-} );
-
-gulp.task(
-	'build:deps:npm',
-	gulp.series(
-		'build:deps:npm:datatables.net',
-		'build:deps:npm:moment',
-	)
-);
+gulp.task( 'build:deps:npm', gulp.series( 'build:deps:npm:datatables.net' ) );
 
 gulp.task(
 	'build:deps',
