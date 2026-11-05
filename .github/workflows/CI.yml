@@ -4,12 +4,12 @@ on:
     branches: "*"
   pull_request:
 env:
-  php-version: 8.1
+  php-version: 8.3
   node-version: 22
   cache-version: 1
 jobs:
   platform-check:
-    name: "PHP 7.4 compatibility"
+    name: "PHP 8.3 compatibility"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -18,7 +18,7 @@ jobs:
       - name: "Setup PHP"
         uses: shivammathur/setup-php@2.40.0
         with:
-          php-version: 7.4
+          php-version: 8.3
           coverage: none
 
       - name: "Check dependency compatibility"

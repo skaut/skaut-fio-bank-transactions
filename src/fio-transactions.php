@@ -7,8 +7,8 @@
  * Author:            Junák - český skaut
  * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
- * Requires at least: 6.3
- * Requires PHP:      7.4
+ * Requires at least: 7.0
+ * Requires PHP:      8.3
  */
 
 namespace FioTransactions;
@@ -107,7 +107,7 @@ class FioTransactions {
 	}
 
 	protected function isCompatibleVersionOfWp(): bool {
-		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '6.3', '>=' ) ) {
+		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '7.0', '>=' ) ) {
 			return true;
 		}
 
@@ -115,7 +115,7 @@ class FioTransactions {
 	}
 
 	protected function isCompatibleVersionOfPhp(): bool {
-		if ( version_compare( PHP_VERSION, '7.4', '>=' ) ) {
+		if ( version_compare( PHP_VERSION, '8.3', '>=' ) ) {
 			return true;
 		}
 
@@ -125,12 +125,12 @@ class FioTransactions {
 	public function activation() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 6.3 nebo vyšší!', 'skaut-fio-bank-transactions' ) );
+			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 7.0 nebo vyšší!', 'skaut-fio-bank-transactions' ) );
 		}
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'skaut-fio-bank-transactions' ) );
+			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 8.3 nebo vyšší!', 'skaut-fio-bank-transactions' ) );
 		}
 	}
 
@@ -186,7 +186,7 @@ WHERE `option_name` LIKE %s
 			if ( is_plugin_active( FIOTRANSACTIONS_PLUGIN_BASENAME ) ) {
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 6.3 nebo vyšší!', 'skaut-fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 7.0 nebo vyšší!', 'skaut-fio-bank-transactions' ), 'warning' );
 
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only hides the core "Plugin activated" notice.
 				if ( isset( $_GET['activate'] ) ) {
@@ -199,7 +199,7 @@ WHERE `option_name` LIKE %s
 			if ( is_plugin_active( FIOTRANSACTIONS_PLUGIN_BASENAME ) ) {
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'skaut-fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 8.3 nebo vyšší!', 'skaut-fio-bank-transactions' ), 'warning' );
 
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only hides the core "Plugin activated" notice.
 				if ( isset( $_GET['activate'] ) ) {

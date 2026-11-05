@@ -1,9 +1,9 @@
 === Fio bank - transactions ===
 Contributors: skaut, davidulus, marekdedic, kalich5
 Tags: skaut, shortcode, block, fio, transactions
-Requires at least: 6.3
+Requires at least: 7.0
 Tested up to: 7.1
-Requires PHP: 7.4
+Requires PHP: 8.3
 Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,8 +17,8 @@ Plugin má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je m
 == Description ==
 
 <h2> Minimální požadavky</h2>
-- WordPress 6.3 a vyšší
-- PHP 7.4 a vyšší
+- WordPress 7.0 a vyšší
+- PHP 8.3 a vyšší
 
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode nebo blok „Transakce z Fio banky“. Je možno přidávat více účtů a zobrazovat si je na různých stránkách a příspěvcích.
 
@@ -66,7 +66,7 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 * Fix: Czech texts in the TinyMCE dialog, account number format "number/bank code"
 * Fix: uninstall removes all accounts, tokens and cached data
 * Updated DataTables to version 3 (no jQuery or moment.js needed), Guzzle and other dependencies
-* Requires WordPress 6.3, tested with WordPress 7.1
+* Requires WordPress 7.0 and PHP 8.3, tested with WordPress 7.1
 
 = 1.2.3 =
 * Added a deprecation notice
