@@ -3,7 +3,7 @@
  * Plugin Name:       Fio bank - transactions
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
  * Description:       Zobrazování transakcí z Fio banky.
- * Version:           1.3.1
+ * Version:           1.3.2
  * Author:            Junák - český skaut
  * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
@@ -29,7 +29,7 @@ define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
 define( 'FIOTRANSACTIONS_NAME', 'fio_bank_transactions' );
-define( 'FIOTRANSACTIONS_VERSION', '1.3.1' );
+define( 'FIOTRANSACTIONS_VERSION', '1.3.2' );
 
 class FioTransactions {
 
@@ -83,15 +83,6 @@ class FioTransactions {
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
-
-		// Plugin deprecation notice
-		add_action( 'admin_notices', array( $this, 'deprecation_notice' ) );
-	}
-
-	public function deprecation_notice() {
-		echo '<div class="notice notice-error"><p>';
-		echo 'Plugin Fio bank – transactions má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.';
-		echo '</p></div>';
 	}
 
 	protected function init() {

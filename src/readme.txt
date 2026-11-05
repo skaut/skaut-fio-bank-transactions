@@ -4,15 +4,11 @@ Tags: skaut, shortcode, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode nebo blok.
-
-== PŘERUŠENÍ PODPORY PLUGINU ==
-
-Plugin má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.
 
 == Description ==
 
@@ -57,7 +53,8 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.1 =
+= 1.3.2 =
+* The plugin is maintained again: the "discontinued support" notice was removed
 * Security: the Fio API token is no longer written to the PHP error log
 * Security: only editors and administrators (filter fio_bank_transactions_embed_capability) can display account transactions; contributors can no longer show any account in a post preview
 * Security: the list of accounts is no longer printed on every admin page for every user
