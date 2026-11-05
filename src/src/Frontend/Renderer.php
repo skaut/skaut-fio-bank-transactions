@@ -20,6 +20,11 @@ final class Renderer {
 	const MAX_DAYS        = 90;
 	const DEFAULT_PERIOD  = 'days';
 	const DEFAULT_COLUMNS = 'date,amount,account,message,comment,type';
+	/**
+	 * Allowed numbers of rows per page; -1 = all.
+	 */
+	const PAGE_LENGTHS        = array( 10, 25, 50, 100, -1 );
+	const DEFAULT_PAGE_LENGTH = 10;
 
 	/**
 	 * Available periods: key => label.
@@ -57,20 +62,28 @@ final class Renderer {
 	 * Normalizes user supplied block attributes.
 	 *
 	 * @param array<string, mixed> $atts Raw attributes.
-	 * @return array{account: int, period: string, days: int, columns: array<int, string>, ss: string, vs_prefix: string}
+	 * @return array{account: int, period: string, days: int, columns: array<int, string>, ss: string, vs_prefix: string, search: bool, paging: bool, page_length: int}
 	 */
 	public static function normalizeAttributes( array $atts ): array {
 		$atts = array_merge(
 			array(
-				'account'   => 0,
-				'period'    => self::DEFAULT_PERIOD,
-				'days'      => self::DEFAULT_DAYS,
-				'columns'   => self::DEFAULT_COLUMNS,
-				'ss'        => '',
-				'vs_prefix' => '',
+				'account'     => 0,
+				'period'      => self::DEFAULT_PERIOD,
+				'days'        => self::DEFAULT_DAYS,
+				'columns'     => self::DEFAULT_COLUMNS,
+				'ss'          => '',
+				'vs_prefix'   => '',
+				'search'      => true,
+				'paging'      => true,
+				'page_length' => self::DEFAULT_PAGE_LENGTH,
 			),
 			$atts
 		);
+
+		$pageLength = intval( $atts['page_length'] );
+		if ( ! in_array( $pageLength, self::PAGE_LENGTHS, true ) ) {
+			$pageLength = self::DEFAULT_PAGE_LENGTH;
+		}
 
 		$days = absint( $atts['days'] );
 		if ( $days < 1 ) {
@@ -95,13 +108,23 @@ final class Renderer {
 		}
 
 		return array(
-			'account'   => absint( $atts['account'] ),
-			'period'    => $period,
-			'days'      => min( $days, self::MAX_DAYS ),
-			'columns'   => $columns,
-			'ss'        => preg_replace( '/\D/', '', strval( $atts['ss'] ) ),
-			'vs_prefix' => preg_replace( '/\D/', '', strval( $atts['vs_prefix'] ) ),
+			'account'     => absint( $atts['account'] ),
+			'period'      => $period,
+			'days'        => min( $days, self::MAX_DAYS ),
+			'columns'     => $columns,
+			'ss'          => preg_replace( '/\D/', '', strval( $atts['ss'] ) ),
+			'vs_prefix'   => preg_replace( '/\D/', '', strval( $atts['vs_prefix'] ) ),
+			'search'      => self::toBool( $atts['search'] ),
+			'paging'      => self::toBool( $atts['paging'] ),
+			'page_length' => $pageLength,
 		);
+	}
+
+	/**
+	 * @param mixed $value Boolean attribute value.
+	 */
+	private static function toBool( $value ): bool {
+		return ! in_array( $value, array( false, 0, '0', 'false', 'no', 'off', '' ), true );
 	}
 
 	/**
@@ -143,7 +166,7 @@ final class Renderer {
 		wp_enqueue_style( FIOTRANSACTIONS_NAME );
 		wp_enqueue_script( FIOTRANSACTIONS_NAME );
 
-		return $this->prepareTable( $transactions, $atts['columns'] );
+		return $this->prepareTable( $transactions, $atts['columns'], $atts );
 	}
 
 	/**
@@ -274,7 +297,10 @@ final class Renderer {
 	 * @param array<int, array<string, string|float>> $transactions
 	 * @param array<int, string>                      $columns
 	 */
-	private function prepareTable( array $transactions, array $columns ): string {
+	/**
+	 * @param array{search: bool, paging: bool, page_length: int} $options Table options.
+	 */
+	private function prepareTable( array $transactions, array $columns, array $options ): string {
 		// phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase -- Public hook name kept for backwards compatibility.
 		do_action( FIOTRANSACTIONS_NAME . '_transactionsForTable', $transactions );
 
@@ -288,7 +314,7 @@ final class Renderer {
 			$html .= '<button type="button" class="fioTransactionsFilter__button" data-direction="' . esc_attr( $direction ) . '" aria-pressed="' . ( 'all' === $direction ? 'true' : 'false' ) . '">' . esc_html( $label ) . '</button>';
 		}
 		$html .= '</div>';
-		$html .= '<table class="fioTransactionsTable"><thead><tr>';
+		$html .= '<table class="fioTransactionsTable" data-searching="' . ( $options['search'] ? 'true' : 'false' ) . '" data-paging="' . ( $options['paging'] ? 'true' : 'false' ) . '" data-page-length="' . esc_attr( strval( $options['page_length'] ) ) . '"><thead><tr>';
 		foreach ( $columns as $column ) {
 			$html .= '<th>' . esc_html( self::COLUMNS[ $column ] ) . '</th>';
 		}

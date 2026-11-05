@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,6 +26,7 @@ V postranním panelu bloku se nastavuje:
 - účet,
 - období: posledních N dní (max. 90, Fio banka bez dodatečné autorizace vydá jen posledních 90 dní), posledních 7 dní, tento měsíc nebo minulý měsíc,
 - filtr podle specifického symbolu a začátku variabilního symbolu,
+- zobrazení tabulky: vyhledávání (zapnout/vypnout), stránkování (vypnuté = všechny transakce najednou) a počet řádků na stránce (10, 25, 50, 100 nebo vše),
 - zobrazené sloupce: datum, částka, protiúčet, název protiúčtu, VS, SS, KS, zpráva pro příjemce, poznámka, typ.
 
 Nad tabulkou může návštěvník přepínat mezi všemi, příchozími a odchozími transakcemi.
@@ -49,7 +50,8 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.4 =
+= 1.3.5 =
+* New: block settings "Zobrazit vyhledávání", "Stránkování" and "Počet řádků na stránce" (10, 25, 50, 100 or all)
 * New: buttons "Všechny transakce", "Příchozí" and "Odchozí" above the table
 * Fix: the ordering arrows are always on the right side of the column header
 * Removed: the [fio] shortcode and the button in the classic editor (TinyMCE); tables are inserted only with the block "Transakce z Fio banky". Existing [fio] shortcodes have to be replaced with the block.

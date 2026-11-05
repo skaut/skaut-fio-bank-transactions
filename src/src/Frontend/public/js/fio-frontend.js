@@ -25,8 +25,13 @@
 					url:
 						window.fioTransactionsFrontendLocalize
 							.datatablesFilesUrl + '/cs.json',
+					lengthLabels: { '-1': 'Vše' },
 				},
 				order: [[0, 'desc']],
+				searching: table.dataset.searching !== 'false',
+				paging: table.dataset.paging !== 'false',
+				pageLength: parseInt(table.dataset.pageLength, 10) || 10,
+				lengthMenu: [10, 25, 50, 100, -1],
 			});
 
 			const wrapper = table.closest('.fioTransactions');

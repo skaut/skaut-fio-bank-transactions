@@ -49,31 +49,44 @@ final class Block {
 				'render_callback' => array( $this, 'render' ),
 				'supports'        => array( 'html' => false ),
 				'attributes'      => array(
-					'account'  => array(
+					'account'    => array(
 						'type'    => 'number',
 						'default' => 0,
 					),
-					'period'   => array(
+					'period'     => array(
 						'type'    => 'string',
 						'enum'    => array_keys( Renderer::PERIODS ),
 						'default' => Renderer::DEFAULT_PERIOD,
 					),
-					'days'     => array(
+					'days'       => array(
 						'type'    => 'number',
 						'default' => Renderer::DEFAULT_DAYS,
 					),
-					'columns'  => array(
+					'columns'    => array(
 						'type'    => 'array',
 						'items'   => array( 'type' => 'string' ),
 						'default' => explode( ',', Renderer::DEFAULT_COLUMNS ),
 					),
-					'ss'       => array(
+					'ss'         => array(
 						'type'    => 'string',
 						'default' => '',
 					),
-					'vsPrefix' => array(
+					'vsPrefix'   => array(
 						'type'    => 'string',
 						'default' => '',
+					),
+					'showSearch' => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'paging'     => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'pageLength' => array(
+						'type'    => 'number',
+						'enum'    => Renderer::PAGE_LENGTHS,
+						'default' => Renderer::DEFAULT_PAGE_LENGTH,
 					),
 				),
 			)
@@ -88,12 +101,15 @@ final class Block {
 
 		return $this->renderer->render(
 			array(
-				'account'   => $attributes['account'] ?? 0,
-				'period'    => $attributes['period'] ?? Renderer::DEFAULT_PERIOD,
-				'days'      => $attributes['days'] ?? Renderer::DEFAULT_DAYS,
-				'columns'   => implode( ',', array_map( 'strval', $columns ) ),
-				'ss'        => $attributes['ss'] ?? '',
-				'vs_prefix' => $attributes['vsPrefix'] ?? '',
+				'account'     => $attributes['account'] ?? 0,
+				'period'      => $attributes['period'] ?? Renderer::DEFAULT_PERIOD,
+				'days'        => $attributes['days'] ?? Renderer::DEFAULT_DAYS,
+				'columns'     => implode( ',', array_map( 'strval', $columns ) ),
+				'ss'          => $attributes['ss'] ?? '',
+				'vs_prefix'   => $attributes['vsPrefix'] ?? '',
+				'search'      => $attributes['showSearch'] ?? true,
+				'paging'      => $attributes['paging'] ?? true,
+				'page_length' => $attributes['pageLength'] ?? Renderer::DEFAULT_PAGE_LENGTH,
 			)
 		);
 	}

@@ -9,6 +9,7 @@
 	const SelectControl = wp.components.SelectControl;
 	const TextControl = wp.components.TextControl;
 	const CheckboxControl = wp.components.CheckboxControl;
+	const ToggleControl = wp.components.ToggleControl;
 	const Placeholder = wp.components.Placeholder;
 	const ServerSideRender = wp.serverSideRender;
 	const data = window.fioTransactionsBlock || {
@@ -91,6 +92,40 @@
 						setAttributes({ vsPrefix: onlyDigits(value) });
 					},
 				})
+			),
+			el(
+				PanelBody,
+				{ title: 'Zobrazení tabulky', initialOpen: false },
+				el(ToggleControl, {
+					label: 'Zobrazit vyhledávání',
+					checked: attributes.showSearch,
+					onChange(value) {
+						setAttributes({ showSearch: value });
+					},
+				}),
+				el(ToggleControl, {
+					label: 'Stránkování',
+					help: attributes.paging
+						? 'Tabulka se dělí na stránky.'
+						: 'Zobrazí se všechny transakce najednou.',
+					checked: attributes.paging,
+					onChange(value) {
+						setAttributes({ paging: value });
+					},
+				}),
+				attributes.paging &&
+					el(SelectControl, {
+						label: 'Počet řádků na stránce',
+						value: String(attributes.pageLength),
+						options: [10, 25, 50, 100]
+							.map(function (n) {
+								return { value: String(n), label: String(n) };
+							})
+							.concat([{ value: '-1', label: 'Vše' }]),
+						onChange(value) {
+							setAttributes({ pageLength: parseInt(value, 10) });
+						},
+					})
 			),
 			el(
 				PanelBody,
