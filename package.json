@@ -49,7 +49,7 @@
     "@wordpress/eslint-plugin": "^17.12.0",
     "@wordpress/stylelint-config": "^21.39.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-compat": "^4.2.0",
+    "eslint-plugin-compat": "^7.0.2",
     "gulp": "^5.0.0",
     "gulp-replace": "^1.1.4",
     "gulp-shell": "^0.8.0",
