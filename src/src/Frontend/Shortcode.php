@@ -4,8 +4,9 @@ declare( strict_types=1 );
 
 namespace FioTransactions\Frontend;
 
-use FioTransactions\api\AccountFactory;
+use FioTransactions\Api\AccountFactory;
 use FioTransactions\Accounts\AccountsInit;
+use FioTransactions\Utils\Helpers;
 
 final class Shortcode {
 
@@ -40,7 +41,11 @@ final class Shortcode {
 			$html .= '<tr>';
 			$html .= '<td class="' . FIOTRANSACTIONS_NAME . '_date">' . esc_html( $transaction->getDate()->format( 'd.m.Y' ) ) . '</td>';
 			$html .= '<td class="' . FIOTRANSACTIONS_NAME . '_amount ' . $incomeOutcome . '">' . esc_html( number_format( $transaction->getAmount(), 2, ',', ' ' ) ) . ' ' . esc_html( $transaction->getCurrency() ) . '</td>';
-			$html .= '<td>' . esc_html( $transaction->getSenderAccountNumber() ) . '\\' . $transaction->getSenderBankCode() . '</td>';
+			$counterAccount = (string) $transaction->getSenderAccountNumber();
+			if ( '' !== (string) $transaction->getSenderBankCode() ) {
+				$counterAccount .= '/' . $transaction->getSenderBankCode();
+			}
+			$html .= '<td>' . esc_html( $counterAccount ) . '</td>';
 			$html .= '<td>' . esc_html( $transaction->getUserMessage() ) . '</td>';
 			$html .= '<td>' . esc_html( $transaction->getComment() ) . '</td>';
 			$html .= '<td>' . esc_html( $transaction->getTransactionType() ) . '</td>';
@@ -113,7 +118,14 @@ final class Shortcode {
 	}
 
 	public function processShortcode( array $atts = array() ): string {
-		if ( isset( $atts['account'] ) && $atts['account'] > 0 ) {
+		if ( isset( $atts['account'] ) && absint( $atts['account'] ) > 0 ) {
+			// The shortcode may only be used by trusted users - otherwise e.g. a contributor could
+			// display transactions of any account in a post preview just by guessing its ID.
+			$post = get_post();
+			if ( $post instanceof \WP_Post && ! Helpers::userCanEmbedAccounts( (int) $post->post_author ) ) {
+				return '';
+			}
+
 			$accountsWpQuery = new \WP_Query(
 				array(
 					'post_type'      => AccountsInit::ACCOUNTS_TYPE_SLUG,
@@ -129,18 +141,23 @@ final class Shortcode {
 
 			$token = get_post_meta( $accountsWpQuery->posts[0], FIOTRANSACTIONS_NAME . '_token', true );
 
+			if ( ! is_string( $token ) || '' === $token ) {
+				return '';
+			}
+
 			$account = $this->accountFactory->createByToken( $token );
 
 			try {
 				$transactions = $account->getTransactionsSince( '-1 year' );
 				$transactions = array_reverse( $transactions );
-			} catch ( \Exception $e ) {
-				// Only for debug purposes, will be deleted in version 1.0
+			} catch ( \Throwable $e ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( $e->getMessage() );
+					// The exception message contains the request URL including the secret API token - never log it unredacted.
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'Fio bank transactions: ' . get_class( $e ) . ': ' . str_replace( $token, '***', $e->getMessage() ) );
 				}
 
-				return '<div>' . __( 'Chyba při spojení s Fio bankou.', 'fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . __( 'Zkuste to znovu.', 'fio-bank-transactions' ) . '</a></div>';
+				return '<div>' . esc_html__( 'Chyba při spojení s Fio bankou.', 'fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . esc_html__( 'Zkuste to znovu.', 'fio-bank-transactions' ) . '</a></div>';
 			}
 
 			return $this->prepareTable( $transactions );

@@ -35,11 +35,21 @@ final class Admin {
 			return;
 		}
 
-		if ( array_key_exists( FIOTRANSACTIONS_NAME . '_token', $_POST ) ) {
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_revision( $postId ) ) {
+			return;
+		}
+
+		if ( get_post_type( $postId ) !== AccountsInit::ACCOUNTS_TYPE_SLUG || ! current_user_can( 'edit_post', $postId ) ) {
+			return;
+		}
+
+		if ( array_key_exists( FIOTRANSACTIONS_NAME . '_token', $_POST ) && is_string( $_POST[ FIOTRANSACTIONS_NAME . '_token' ] ) ) {
+			// Fio API tokens are alphanumeric only; strip anything else.
+			$token = preg_replace( '/[^a-zA-Z0-9]/', '', sanitize_text_field( wp_unslash( $_POST[ FIOTRANSACTIONS_NAME . '_token' ] ) ) );
 			update_post_meta(
 				$postId,
 				FIOTRANSACTIONS_NAME . '_token',
-				sanitize_meta( FIOTRANSACTIONS_NAME . '_token', wp_unslash( $_POST[ FIOTRANSACTIONS_NAME . '_token' ] ), 'post' )
+				sanitize_meta( FIOTRANSACTIONS_NAME . '_token', $token, 'post' )
 			);
 		}
 	}

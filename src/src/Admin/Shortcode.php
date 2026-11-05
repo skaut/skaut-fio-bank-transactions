@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace FioTransactions\Admin;
 
 use FioTransactions\Accounts\AccountsInit;
+use FioTransactions\Utils\Helpers;
 
 final class Shortcode {
 
@@ -44,6 +45,15 @@ final class Shortcode {
 	}
 
 	public function initAvailableAccounts() {
+		// Only users allowed to embed accounts need the list (it was printed on every admin page for every user, including subscribers).
+		if ( ! Helpers::userCanEmbedAccounts( get_current_user_id() ) ) {
+			return;
+		}
+
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || 'post' !== $screen->base ) {
+			return;
+		}
 		?>
 		<script>
 			window.accountOptions = [];

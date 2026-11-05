@@ -51,6 +51,26 @@ class Helpers {
 		return current_user_can( self::getFioManagerCapability() );
 	}
 
+	/**
+	 * Capability a user needs to embed account transactions via the [fio] shortcode.
+	 *
+	 * Contributors and authors must not be able to display (e.g. in a post preview) transactions
+	 * of an arbitrary account just by guessing its ID.
+	 */
+	public static function getFioEmbedCapability(): string {
+		static $capability = '';
+
+		if ( $capability === '' ) {
+			$capability = strval( apply_filters( FIOTRANSACTIONS_NAME . '_embed_capability', 'edit_others_posts' ) );
+		}
+
+		return $capability;
+	}
+
+	public static function userCanEmbedAccounts( int $userId ): bool {
+		return user_can( $userId, self::getFioEmbedCapability() ) || user_can( $userId, self::getFioManagerCapability() );
+	}
+
 	public static function getCurrentUrl(): string {
 		if ( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
 			return esc_url_raw( ( isset( $_SERVER['HTTPS'] ) ? 'https' : 'http' ) . '://' . wp_unslash( $_SERVER['HTTP_HOST'] ) . wp_unslash( $_SERVER['REQUEST_URI'] ) );

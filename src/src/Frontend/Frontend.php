@@ -9,6 +9,7 @@ use FioTransactions\Api\AccountFactory;
 final class Frontend {
 
 	private $accountFactory;
+	private $frontendDirUrl = '';
 
 	public function __construct( AccountFactory $accountFactory ) {
 		$this->accountFactory = $accountFactory;
