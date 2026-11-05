@@ -4,7 +4,7 @@ Tags: skaut, shortcode, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,7 +57,7 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.0 =
+= 1.3.1 =
 * Security: the Fio API token is no longer written to the PHP error log
 * Security: only editors and administrators (filter fio_bank_transactions_embed_capability) can display account transactions; contributors can no longer show any account in a post preview
 * Security: the list of accounts is no longer printed on every admin page for every user
