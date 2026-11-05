@@ -314,7 +314,7 @@ final class Renderer {
 			$html .= '<button type="button" class="fioTransactionsFilter__button" data-direction="' . esc_attr( $direction ) . '" aria-pressed="' . ( 'all' === $direction ? 'true' : 'false' ) . '">' . esc_html( $label ) . '</button>';
 		}
 		$html .= '</div>';
-		$html .= '<table class="fioTransactionsTable" data-searching="' . ( $options['search'] ? 'true' : 'false' ) . '" data-paging="' . ( $options['paging'] ? 'true' : 'false' ) . '" data-page-length="' . esc_attr( strval( $options['page_length'] ) ) . '"><thead><tr>';
+		$html .= '<table class="fioTransactionsTable" data-fio-search="' . ( $options['search'] ? 'true' : 'false' ) . '" data-fio-paging="' . ( $options['paging'] ? 'true' : 'false' ) . '" data-fio-page-length="' . esc_attr( strval( $options['page_length'] ) ) . '"><thead><tr>';
 		foreach ( $columns as $column ) {
 			$html .= '<th>' . esc_html( self::COLUMNS[ $column ] ) . '</th>';
 		}

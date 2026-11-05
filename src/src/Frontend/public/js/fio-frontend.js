@@ -28,9 +28,15 @@
 					lengthLabels: { '-1': 'Vše' },
 				},
 				order: [[0, 'desc']],
-				searching: table.dataset.searching !== 'false',
-				paging: table.dataset.paging !== 'false',
-				pageLength: parseInt(table.dataset.pageLength, 10) || 10,
+				// Searching must stay on, otherwise DataTables skips the direction filter as well;
+				// only the search box is hidden. The options use data-fio-* attributes, because
+				// DataTables reads data-* attributes of the table (e.g. data-searching) as its own options.
+				layout: {
+					topEnd:
+						table.dataset.fioSearch === 'false' ? null : 'search',
+				},
+				paging: table.dataset.fioPaging !== 'false',
+				pageLength: parseInt(table.dataset.fioPageLength, 10) || 10,
 				lengthMenu: [10, 25, 50, 100, -1],
 			});
 

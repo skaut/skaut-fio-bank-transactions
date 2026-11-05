@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,7 +50,8 @@ Je potřeba vytvořit nový token podle [návodu.](https://napoveda.fapi.cz/arti
 
 == Changelog ==
 
-= 1.3.6 =
+= 1.3.7 =
+* Fix: the buttons "Příchozí", "Odchozí" and "Všechny transakce" did not filter the table when the search box was hidden
 * Fix: updated link to the guide on how to create a Fio API token
 * New: block settings "Zobrazit vyhledávání", "Stránkování" and "Počet řádků na stránce" (10, 25, 50, 100 or all)
 * New: buttons "Všechny transakce", "Příchozí" and "Odchozí" above the table
