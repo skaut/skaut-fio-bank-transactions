@@ -1,44 +1,50 @@
 (function () {
-    tinymce.PluginManager.add('fio_bank_transactions_accounts', function (editor, url) {
-        editor.addButton('fio_bank_transactions_accounts', {
-            title: 'insert_account_transactions',
-            icon: 'dashicons-money',
-            onclick: function () {
-                var accounts = window.accountOptions,
-                    accountsOptions = [],
-                    body = [];
+	'use strict';
 
-                for (var key in accounts) {
-                    if (accounts.hasOwnProperty(key)) {
-                        accountsOptions.push({text: accounts[key].text, value: accounts[key].value});
-                    }
-                }
-                body.push({
-                    type: 'listbox', name: 'account', label: 'account', values: accountsOptions
-                });
-                accountsOptions.unshift({text: '------', value: null});
+	function viewport() {
+		return {
+			width: window.innerWidth || document.documentElement.clientWidth,
+			height: window.innerHeight || document.documentElement.clientHeight,
+		};
+	}
 
-                editor.windowManager.open({
-                    title: 'account_pick',
-                    body: body,
-                    minWidth: Math.min(viewport().width, 450),
-                    minHeight: Math.min(viewport().height, 250),
-                    onsubmit: function (e) {
-                        if (e.data.account) {
-                            editor.insertContent('[fio account="' + e.data.account + '"]');
-                        }
-                    }
-                });
-            }
-        });
-    });
+	window.tinymce.PluginManager.add(
+		'fio_bank_transactions_accounts',
+		function (editor) {
+			editor.addButton('fio_bank_transactions_accounts', {
+				title: 'Vložit tabulku transakcí z Fio banky',
+				icon: 'dashicons-money',
+				onclick() {
+					const accountsOptions = [
+						{ text: '— Vyberte účet —', value: '' },
+					].concat(
+						(window.accountOptions || []).map(function (account) {
+							return { text: account.text, value: account.value };
+						})
+					);
+
+					editor.windowManager.open({
+						title: 'Vložit transakce z Fio banky',
+						body: [
+							{
+								type: 'listbox',
+								name: 'account',
+								label: 'Účet',
+								values: accountsOptions,
+							},
+						],
+						minWidth: Math.min(viewport().width, 450),
+						minHeight: Math.min(viewport().height, 250),
+						onsubmit(e) {
+							if (e.data.account) {
+								editor.insertContent(
+									'[fio account="' + e.data.account + '"]'
+								);
+							}
+						},
+					});
+				},
+			});
+		}
+	);
 })();
-
-function viewport() {
-    var e = window, a = 'inner';
-    if (!('innerWidth' in window )) {
-        a = 'client';
-        e = document.documentElement || document.body;
-    }
-    return {width: e[a + 'Width'], height: e[a + 'Height']};
-}

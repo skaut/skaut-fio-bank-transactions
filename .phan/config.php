@@ -23,18 +23,27 @@ return array(
 		// 'tests',
 		'.phan',
 		'dist/vendor',
-		// 'vendor/skaut/phan-wordpress-stubs/stubs',
+		'vendor/php-stubs/wordpress-stubs',
 	),
 	'file_list'                                 => array(
 		'scoper.inc.php',
 	),
 	'exclude_analysis_directory_list'           => array(
 		'dist/vendor/',
-		// 'vend0or/skaut/phan-wordpress-stubs/stubs',
+		'vendor/php-stubs/wordpress-stubs',
 	),
 	'suppress_issue_types'                      => array(
 		'PhanPluginDuplicateConditionalNullCoalescing',
 		'PhanPluginMixedKeyNoKey',
+		// Classes register their hooks in the constructor and are instantiated only for that.
+		'PhanNoopNew',
+		// Hook callbacks are intentionally instance methods.
+		'PhanPluginPossiblyStaticPublicMethod',
+		'PhanPluginPossiblyStaticProtectedMethod',
+		'PhanPluginPossiblyStaticPrivateMethod',
+		'PhanPluginPossiblyStaticClosure',
+		// False positive for the php-scoper prefixed dependencies.
+		'PhanAccessMethodInternal',
 	),
 	'plugins'                                   => array(
 		'AlwaysReturnPlugin',

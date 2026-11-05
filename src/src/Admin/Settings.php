@@ -39,7 +39,7 @@ final class Settings {
 
 	public function addSettingsLinkToPluginsTable( array $links = array() ): array {
 		$mylinks = array(
-			'<a href="' . admin_url( 'admin.php?page=' . FIOTRANSACTIONS_NAME ) . '">' . __( 'Settings' ) . '</a>',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=' . FIOTRANSACTIONS_NAME ) ) . '">' . esc_html__( 'Nastavení', 'skaut-fio-bank-transactions' ) . '</a>',
 		);
 
 		return array_merge( $links, $mylinks );
@@ -47,7 +47,7 @@ final class Settings {
 
 	public function addHelpLinkToPluginsTable( array $links = array() ): array {
 		$mylinks = array(
-			'<a href="' . self::HELP_PAGE_URL . '" target="_blank">' . __( 'Help' ) . '</a>',
+			'<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Nápověda', 'skaut-fio-bank-transactions' ) . '</a>',
 		);
 
 		return array_merge( $links, $mylinks );
@@ -55,23 +55,13 @@ final class Settings {
 
 	public function setupSettingPage() {
 		add_menu_page(
-			__( 'Obecné', 'fio-transactions' ),
-			__( 'Fio Bank', 'fio-transactions' ),
+			__( 'Obecné', 'skaut-fio-bank-transactions' ),
+			__( 'Fio Bank', 'skaut-fio-bank-transactions' ),
 			Helpers::getFioManagerCapability(),
 			FIOTRANSACTIONS_NAME,
 			array( $this, 'printSettingPage' ),
 			$this->adminDirUrl . 'img/fio.png'
 		);
-
-		/*
-		add_submenu_page(
-			FIOTRANSACTIONS_NAME,
-			__( 'Obecné', 'fio-transactions' ),
-			__( 'Obecné', 'fio-transactions' ),
-			Helpers::getFioManagerCapability(),
-			FIOTRANSACTIONS_NAME,
-			[ $this, 'printSettingPage' ]
-		);*/
 	}
 
 	public function printSettingPage() {
@@ -81,13 +71,13 @@ final class Settings {
 		</script>
 		<?php
 		if ( ! current_user_can( Helpers::getFioManagerCapability() ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
+			wp_die( esc_html__( 'Nemáte dostatečná oprávnění pro přístup k této stránce.', 'skaut-fio-bank-transactions' ) );
 		}
 
 		settings_errors();
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Test', 'fio-transactions' ); ?></h1>
+			<h1><?php esc_html_e( 'Test', 'skaut-fio-bank-transactions' ); ?></h1>
 			<form method="POST" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
 				<?php
 				settings_fields( FIOTRANSACTIONS_NAME );
@@ -102,16 +92,21 @@ final class Settings {
 	public function setupSettingFields() {
 		add_settings_section(
 			FIOTRANSACTIONS_NAME . '_settings',
-			__( 'Test', 'fio-transactions' ),
+			__( 'Test', 'skaut-fio-bank-transactions' ),
 			function () {
-				printf( esc_html__( 'Návod pro nastavení pluginu najdete v %1$snápovědě%2$s.', 'fio-bank-transactions' ), '<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank">', '</a>' );
+				printf(
+					/* translators: 1: opening link tag, 2: closing link tag */
+					esc_html__( 'Návod pro nastavení pluginu najdete v %1$snápovědě%2$s.', 'skaut-fio-bank-transactions' ),
+					'<a href="' . esc_url( self::HELP_PAGE_URL ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
 			},
 			FIOTRANSACTIONS_NAME
 		);
 
 		add_settings_field(
 			FIOTRANSACTIONS_NAME . '_test',
-			__( 'Test', 'fio-transactions' ),
+			__( 'Test', 'skaut-fio-bank-transactions' ),
 			array( $this, 'fieldTest' ),
 			FIOTRANSACTIONS_NAME,
 			FIOTRANSACTIONS_NAME . '_settings'
@@ -131,5 +126,4 @@ final class Settings {
 	public function fieldTest() {
 		echo '<input name="' . esc_attr( FIOTRANSACTIONS_NAME ) . '_test" id="' . esc_attr( FIOTRANSACTIONS_NAME ) . '_test" type="text" value="' . esc_attr( get_option( FIOTRANSACTIONS_NAME . '_test' ) ) . '" class="regular-text" />';
 	}
-
 }

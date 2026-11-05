@@ -1,5 +1,5 @@
-.mce-i-dashicons-money:after {
-	font-family: "dashicons";
+.mce-i-dashicons-money::after {
+	font-family: dashicons;
 	content: "\f526";
 	display: block;
 	font-size: 20px;

@@ -24,7 +24,7 @@ final class Shortcode {
 		add_action(
 			'admin_init',
 			function () {
-				if ( get_user_option( 'rich_editing' ) ) {
+				if ( 'true' === get_user_option( 'rich_editing' ) ) {
 					add_filter( 'mce_external_plugins', array( $this, 'registerTinymcePlugin' ) );
 					add_filter( 'mce_buttons', array( $this, 'addTinymceButton' ) );
 				}
@@ -51,7 +51,10 @@ final class Shortcode {
 		}
 
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		if ( ! $screen || 'post' !== $screen->base ) {
+		if ( ! $screen instanceof \WP_Screen ) {
+			return;
+		}
+		if ( 'post' !== $screen->base ) {
 			return;
 		}
 		?>
@@ -59,12 +62,11 @@ final class Shortcode {
 			window.accountOptions = [];
 
 			<?php
-			foreach ( (array) $this->accountsInit->getAllAccounts() as $account ) {
+			foreach ( $this->accountsInit->getAllAccounts() as $account ) {
 				echo 'window.accountOptions.push({text: "' . esc_js( $account->post_title ) . '", value: "' . esc_js( $account->ID ) . '"});';
 			}
 			?>
 		</script>
 		<?php
 	}
-
 }
