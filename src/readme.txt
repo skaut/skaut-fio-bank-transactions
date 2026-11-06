@@ -12,6 +12,10 @@ Displays a table of transactions from Fio banka accounts using a block.
 
 == Description ==
 
+= Limited support =
+
+The plugin has limited support. No new features will be added; it is only checked from time to time that everything works. You can keep using the plugin.
+
 The plugin displays a table of transactions from a Fio banka (Czech bank) account using the "Fio bank transactions" block. You can add multiple accounts and show them on different pages and posts.
 
 = Minimum requirements =
