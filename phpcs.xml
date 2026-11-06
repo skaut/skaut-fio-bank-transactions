@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <ruleset>
-	<config name="ignore_warnings_on_exit" value="1"/>
 	<file>src</file>
 	<!--file>tests</file-->
 	<file>.phan</file>
@@ -12,25 +11,36 @@
 	<arg name="extensions" value="php"/>
 	<arg name="parallel" value="8"/>
 
-	<config name="testVersion" value="7.4-8.0"/>
+	<config name="testVersion" value="8.3-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
-	<config name="minimum_supported_wp_version" value="5.0"/>
-	<!--rule ref="WordPress"/>
+	<config name="minimum_supported_wp_version" value="7.0"/>
+	<rule ref="WordPress">
+		<!-- The plugin uses PSR-style naming (camelCase methods/variables, PascalCase class files). -->
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Code is documented through types; docblocks are not required everywhere. -->
+		<exclude name="Squiz.Commenting"/>
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="FioTransactions"/>
+			<property name="prefixes" type="array">
+				<element value="FioTransactions"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="fio-bank-transactions"/>
+			<property name="text_domain" type="array">
+				<element value="skaut-fio-bank-transactions"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
 		<properties>
 			<property name="blank_line_check" value="true"/>
 		</properties>
-	</rule-->
-	<rule ref="WordPress.Security"/>
+	</rule>
 </ruleset>

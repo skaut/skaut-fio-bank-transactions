@@ -14,14 +14,13 @@ trait TAccount {
 		$this->downloader = $downloader;
 	}
 
-	protected function getTransactionsListFromTo( \DateTimeInterface $from, \DateTimeInterface $to ) {
-		$transactionList = $this->downloader->downloadFromTo( $from, $to );
+	protected function getTransactionsListFromTo( \DateTimeInterface $from, \DateTimeInterface $until ) {
+		$transactionList = $this->downloader->downloadFromTo( $from, $until );
 
 		return $transactionList;
 	}
 
-	protected function getTransactions( \DateTimeInterface $from, \DateTimeInterface $to ): array {
-		return $this->getTransactionsListFromTo( $from, $to )->getTransactions();
+	protected function getTransactions( \DateTimeInterface $from, \DateTimeInterface $until ): array {
+		return $this->getTransactionsListFromTo( $from, $until )->getTransactions();
 	}
-
 }

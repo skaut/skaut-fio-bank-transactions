@@ -1,8 +1,8 @@
-WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes shortcode.
+WordPress plugin pro zobrazování tabulky transakcí z Fio banky přes blok „Transakce z Fio banky“.
 
-# PŘERUŠENÍ PODPORY PLUGINU
+# OMEZENÁ PODPORA PLUGINU
 
-Plugin má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.
+Plugin má omezenou podporu. Nebudou přidávány žádné nové funkce, probíhá jen namátková kontrola, že vše funguje. Plugin je možné dál používat.
 
 ## O pluginu
 
@@ -10,4 +10,4 @@ Kdo si chcete plugin stáhnout je na https://cs.wordpress.org/plugins/skaut-fio-
 
 Nápověda k pluginu je na https://napoveda.skaut.cz/dobryweb/skaut-fio-bank-transactions
 
-Nápady na nové funkce buď tady na GitHubu https://github.com/skaut/skaut-fio-bank-transactions/issues
+Pokud narazíte na chybu, nahlaste ji tady na GitHubu https://github.com/skaut/skaut-fio-bank-transactions/issues

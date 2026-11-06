@@ -4,20 +4,82 @@ declare( strict_types=1 );
 
 namespace FioTransactions\Frontend;
 
-use FioTransactions\Api\AccountFactory;
-
 final class Frontend {
 
-	private $accountFactory;
-
-	public function __construct( AccountFactory $accountFactory ) {
-		$this->accountFactory = $accountFactory;
-		$this->frontendDirUrl = plugin_dir_url( __FILE__ ) . 'public/';
+	public function __construct() {
 		$this->initHooks();
 	}
 
 	private function initHooks() {
-		( new Shortcode( $this->accountFactory ) );
+		add_action( 'wp_enqueue_scripts', array( self::class, 'registerStylesAndScripts' ) );
 	}
 
+	/**
+	 * Registers the assets; they are enqueued by Renderer only on pages which contain a table.
+	 */
+	public static function registerStylesAndScripts() {
+		$frontendDirUrl = plugin_dir_url( __FILE__ ) . 'public/';
+
+		wp_register_style(
+			FIOTRANSACTIONS_NAME . '_datatables',
+			FIOTRANSACTIONS_URL . 'bundled/dataTables.dataTables.min.css',
+			array(),
+			FIOTRANSACTIONS_VERSION,
+			'all'
+		);
+
+		wp_register_script(
+			FIOTRANSACTIONS_NAME . '_datatables',
+			FIOTRANSACTIONS_URL . 'bundled/dataTables.min.js',
+			array(),
+			FIOTRANSACTIONS_VERSION,
+			true
+		);
+
+		wp_register_style(
+			FIOTRANSACTIONS_NAME,
+			$frontendDirUrl . 'css/fio-frontend.css',
+			array( FIOTRANSACTIONS_NAME . '_datatables' ),
+			FIOTRANSACTIONS_VERSION,
+			'all'
+		);
+
+		wp_register_script(
+			FIOTRANSACTIONS_NAME,
+			$frontendDirUrl . 'js/fio-frontend.js',
+			array( FIOTRANSACTIONS_NAME . '_datatables' ),
+			FIOTRANSACTIONS_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			FIOTRANSACTIONS_NAME,
+			'fioTransactionsFrontendLocalize',
+			array(
+				'languageUrl' => self::getDataTablesLanguageUrl(),
+				'all'         => __( 'All', 'skaut-fio-bank-transactions' ),
+			)
+		);
+	}
+
+	/**
+	 * URL of the DataTables translation matching the site language, or '' for English.
+	 */
+	private static function getDataTablesLanguageUrl(): string {
+		$locale     = determine_locale();
+		$candidates = array_unique(
+			array(
+				str_replace( '_', '-', $locale ),
+				strtok( $locale, '_' ),
+			)
+		);
+
+		foreach ( $candidates as $candidate ) {
+			if ( is_string( $candidate ) && '' !== $candidate && file_exists( FIOTRANSACTIONS_PATH . 'bundled/datatables-files/' . $candidate . '.json' ) ) {
+				return FIOTRANSACTIONS_URL . 'bundled/datatables-files/' . $candidate . '.json';
+			}
+		}
+
+		return '';
+	}
 }

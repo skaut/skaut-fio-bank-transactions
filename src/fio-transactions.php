@@ -2,16 +2,25 @@
 /**
  * Plugin Name:       Fio bank - transactions
  * Plugin URI:        https://github.com/skaut/skaut-fio-bank-transactions
- * Description:       Zobrazování transakcí z Fio banky.
- * Version:           1.2.3
+ * Description:       Displays transactions of Fio banka accounts in a block.
+ * Version:           2.0.0
  * Author:            Junák - český skaut
  * Author URI:        https://github.com/skaut
  * Text Domain:       skaut-fio-bank-transactions
+ * License:           GPLv3 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
+ * Requires at least: 7.0
+ * Requires PHP:      8.3
  */
 
 namespace FioTransactions;
 
-use FioTransactions\Services\Services;
+use FioTransactions\Accounts\AccountsInit;
+use FioTransactions\Admin\Admin;
+use FioTransactions\Api\AccountFactory;
+use FioTransactions\Frontend\Frontend;
+use FioTransactions\Frontend\Renderer;
+use FioTransactions\General\General;
 use FioTransactions\Utils\Helpers;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,22 +31,24 @@ define( 'FIOTRANSACTIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FIOTRANSACTIONS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FIOTRANSACTIONS_URL', plugin_dir_url( __FILE__ ) );
 define( 'FIOTRANSACTIONS_NAME', 'fio_bank_transactions' );
-define( 'FIOTRANSACTIONS_VERSION', '1.2.3' );
+define( 'FIOTRANSACTIONS_VERSION', '2.0.0' );
 
 class FioTransactions {
 
 	public function __construct() {
 		$this->initHooks();
 
-		// if incompatible version of WP / PHP or deactivating plugin right now => don´t init
+		// If incompatible version of WP / PHP or deactivating plugin right now => don't init.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only check of the core deactivation request.
 		if ( ! $this->isCompatibleVersionOfWp() ||
-			 ! $this->isCompatibleVersionOfPhp() ||
-			 ( isset( $_GET['action'], $_GET['plugin'] ) &&
-			   'deactivate' == $_GET['action'] &&
-			   FIOTRANSACTIONS_PLUGIN_BASENAME == $_GET['plugin'] )
+			! $this->isCompatibleVersionOfPhp() ||
+			( isset( $_GET['action'], $_GET['plugin'] ) &&
+				'deactivate' === $_GET['action'] &&
+				FIOTRANSACTIONS_PLUGIN_BASENAME === $_GET['plugin'] )
 		) {
 			return;
 		}
+		// phpcs:enable
 
 		require __DIR__ . '/vendor/scoper-autoload.php';
 
@@ -47,7 +58,6 @@ class FioTransactions {
 
 		require __DIR__ . '/src/Admin/Admin.php';
 		require __DIR__ . '/src/Admin/Settings.php';
-		require __DIR__ . '/src/Admin/Shortcode.php';
 
 		require __DIR__ . '/src/Api/IAccount.php';
 		require __DIR__ . '/src/Api/IAccountFactory.php';
@@ -55,12 +65,13 @@ class FioTransactions {
 		require __DIR__ . '/src/Api/Account.php';
 		require __DIR__ . '/src/Api/AccountFactory.php';
 
+		require __DIR__ . '/src/Blocks/Block.php';
+
 		require __DIR__ . '/src/Frontend/Frontend.php';
-		require __DIR__ . '/src/Frontend/Shortcode.php';
+		require __DIR__ . '/src/Frontend/Renderer.php';
+		require __DIR__ . '/src/Frontend/TableSettings.php';
 
 		require __DIR__ . '/src/General/General.php';
-
-		require __DIR__ . '/src/Services/Services.php';
 
 		require __DIR__ . '/src/Utils/Helpers.php';
 
@@ -73,36 +84,30 @@ class FioTransactions {
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
-
-		// Plugin deprecation notice
-		add_action( 'admin_notices', array( $this, 'deprecation_notice' ) );
-	}
-
-	function deprecation_notice() {
-		echo '<div class="notice notice-error"><p>';
-		echo 'Plugin Fio bank – transactions má přerušenou podporu a nebude dále aktualizován od dubna 2024. Je možné ho nadále používat, ale nebudou přidány žádné nová funkce a jakékoliv chyby nebudou opraveny.';
-		echo '</p></div>';
 	}
 
 	protected function init() {
-		( Services::getServicesContainer()['general'] );
+		$accountsInit = new AccountsInit();
+		$renderer     = new Renderer( new AccountFactory() );
+
+		( new General( $accountsInit, $renderer ) );
 		if ( is_admin() ) {
-			( Services::getServicesContainer()['admin'] );
+			( new Admin() );
 		} else {
-			( Services::getServicesContainer()['frontend'] );
+			( new Frontend() );
 		}
 	}
 
-	protected function isCompatibleVersionOfWp() {
-		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+	protected function isCompatibleVersionOfWp(): bool {
+		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '7.0', '>=' ) ) {
 			return true;
 		}
 
 		return false;
 	}
 
-	protected function isCompatibleVersionOfPhp() {
-		if ( version_compare( PHP_VERSION, '7.4', '>=' ) ) {
+	protected function isCompatibleVersionOfPhp(): bool {
+		if ( version_compare( PHP_VERSION, '8.3', '>=' ) ) {
 			return true;
 		}
 
@@ -112,12 +117,12 @@ class FioTransactions {
 	public function activation() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( esc_html__( 'The Fio bank - transactions plugin requires WordPress 7.0 or newer.', 'skaut-fio-bank-transactions' ) );
 		}
 
 		if ( ! $this->isCompatibleVersionOfPhp() ) {
 			deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
-			wp_die( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ) );
+			wp_die( esc_html__( 'The Fio bank - transactions plugin requires PHP 8.3 or newer.', 'skaut-fio-bank-transactions' ) );
 		}
 	}
 
@@ -126,6 +131,7 @@ class FioTransactions {
 
 	public static function uninstall() {
 		global $wpdb;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Uninstall cleanup, nothing to cache.
 		$options = $wpdb->get_results(
 			$wpdb->prepare(
 				"
@@ -133,11 +139,35 @@ SELECT `option_name`
 FROM $wpdb->options
 WHERE `option_name` LIKE %s
 ",
-				array( FIOTRANSACTIONS_NAME . '_%' )
+				$wpdb->esc_like( FIOTRANSACTIONS_NAME . '_' ) . '%'
 			)
 		);
 		foreach ( $options as $option ) {
 			delete_option( $option->option_name );
+		}
+
+		// Cached transactions.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+				$wpdb->esc_like( '_transient_' . FIOTRANSACTIONS_NAME . '_' ) . '%',
+				$wpdb->esc_like( '_transient_timeout_' . FIOTRANSACTIONS_NAME . '_' ) . '%'
+			)
+		);
+		// phpcs:enable
+
+		// Accounts including their API tokens (post meta) and revisions.
+		$accountIds = get_posts(
+			array(
+				'post_type'        => 'fio_accounts',
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'fields'           => 'ids',
+				'suppress_filters' => true,
+			)
+		);
+		foreach ( $accountIds as $accountId ) {
+			wp_delete_post( intval( $accountId ), true );
 		}
 
 		return true;
@@ -148,8 +178,9 @@ WHERE `option_name` LIKE %s
 			if ( is_plugin_active( FIOTRANSACTIONS_PLUGIN_BASENAME ) ) {
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi WordPress 4.9.6 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'The Fio bank - transactions plugin requires WordPress 7.0 or newer.', 'skaut-fio-bank-transactions' ), 'warning' );
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only hides the core "Plugin activated" notice.
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
 				}
@@ -160,8 +191,9 @@ WHERE `option_name` LIKE %s
 			if ( is_plugin_active( FIOTRANSACTIONS_PLUGIN_BASENAME ) ) {
 				deactivate_plugins( FIOTRANSACTIONS_PLUGIN_BASENAME );
 
-				Helpers::showAdminNotice( esc_html__( 'Plugin Fio Bank transactions vyžaduje verzi PHP 7.4 nebo vyšší!', 'fio-bank-transactions' ), 'warning' );
+				Helpers::showAdminNotice( esc_html__( 'The Fio bank - transactions plugin requires PHP 8.3 or newer.', 'skaut-fio-bank-transactions' ), 'warning' );
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only hides the core "Plugin activated" notice.
 				if ( isset( $_GET['activate'] ) ) {
 					unset( $_GET['activate'] );
 				}

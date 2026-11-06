@@ -3,6 +3,9 @@
  * PHP-Scoper configuration
  *
  * @package skaut-fio-bank-transactions
+ *
+ * The Isolated\ Finder is provided by PHP-Scoper at runtime.
+ * @phan-file-suppress PhanUndeclaredClassMethod, PhanUndeclaredTypeReturnType
  */
 
 use Isolated\Symfony\Component\Finder\Finder;
@@ -12,7 +15,7 @@ use Isolated\Symfony\Component\Finder\Finder;
  *
  * @return Finder The initialized Finder.
  */
-function dependency_finder() {
+function dependency_finder() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Build script, not part of the plugin.
 	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec
 	exec( 'composer show --no-dev --name-only', $dependencies );
 	$finder = Finder::create()->files()->name( array( '*.php', '/LICENSE(.txt)?/' ) )->in( 'vendor' );
@@ -25,12 +28,12 @@ function dependency_finder() {
 }
 
 return array(
-	'prefix'                     => 'FioTransactions\\Vendor',
-	'output-dir'                 => 'dist/vendor',
-	'expose-global-constants'    => true,
-	'expose-global-classes'      => false,
-	'expose-global-functions'    => false,
-	'finders'                    => array(
+	'prefix'                  => 'FioTransactions\\Vendor',
+	'output-dir'              => 'dist/vendor',
+	'expose-global-constants' => true,
+	'expose-global-classes'   => false,
+	'expose-global-functions' => false,
+	'finders'                 => array(
 		dependency_finder(),
 		Finder::create()->files()
 			->name( array( '*.php', '/LICENSE(.txt)?/' ) )
@@ -41,9 +44,8 @@ return array(
 			->depth( 0 )
 			->in( 'vendor' ),
 	),
-	'patchers'                   => array(
+	'patchers'                => array(
 		static function ( $file_path, $prefix, $contents ) {
-			$regex_prefix = mb_ereg_replace( '\\\\', '\\\\\\\\', $prefix );
 			$replace_prefix = mb_ereg_replace( '\\\\', '\\\\', $prefix );
 
 			if ( __DIR__ . '/vendor/composer/autoload_real.php' === $file_path ) {

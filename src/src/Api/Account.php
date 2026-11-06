@@ -16,12 +16,11 @@ final class Account implements IAccount {
 		$this->__parentConstruct( $downloader );
 	}
 
-	public function getTransactionsFromTo( string $from, string $to ): array {
-		return $this->getTransactions( new \DateTimeImmutable( $from ), new \DateTimeImmutable( $to ) );
+	public function getTransactionsFromTo( string $from, string $until ): array {
+		return $this->getTransactions( new \DateTimeImmutable( $from ), new \DateTimeImmutable( $until ) );
 	}
 
 	public function getTransactionsSince( string $since ): array {
 		return $this->getTransactions( new \DateTimeImmutable( $since ), new \DateTimeImmutable() );
 	}
-
 }

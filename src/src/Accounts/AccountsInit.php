@@ -31,33 +31,33 @@ final class AccountsInit {
 
 	public function registerPostType() {
 		$labels       = array(
-			'name'                  => _x( 'Správa účtů', 'Post Type General Name', 'fio-bank-transactions' ),
-			'singular_name'         => _x( 'Účet', 'Post Type Singular Name', 'fio-bank-transactions' ),
-			'menu_name'             => __( 'Správa účtů', 'fio-bank-transactions' ),
-			'name_admin_bar'        => __( 'Správa účtů', 'fio-bank-transactions' ),
-			'archives'              => __( 'Archiv účtů', 'fio-bank-transactions' ),
-			'attributes'            => __( 'Atributy', 'fio-bank-transactions' ),
-			'parent_item_colon'     => __( 'Nadřazený účet', 'fio-bank-transactions' ),
-			'all_items'             => __( 'Správa účtů', 'fio-bank-transactions' ),
-			'add_new_item'          => __( 'Přidat nový účet', 'fio-bank-transactions' ),
-			'add_new'               => __( 'Přidat účet', 'fio-bank-transactions' ),
-			'new_item'              => __( 'Nový účet', 'fio-bank-transactions' ),
-			'edit_item'             => __( 'Upravit účet', 'fio-bank-transactions' ),
-			'update_item'           => __( 'Aktualizovat účet', 'fio-bank-transactions' ),
-			'view_item'             => __( 'Zobrazit účet', 'fio-bank-transactions' ),
-			'view_items'            => __( 'Zobrazit účet', 'fio-bank-transactions' ),
-			'search_items'          => __( 'Hledat v účtech', 'fio-bank-transactions' ),
-			'not_found'             => __( 'Žádné účty', 'fio-bank-transactions' ),
-			'not_found_in_trash'    => __( 'Koš je prázdný', 'fio-bank-transactions' ),
-			'featured_image'        => __( 'Náhledový obrázek', 'fio-bank-transactions' ),
-			'set_featured_image'    => __( 'Zadat náhledový obrázek', 'fio-bank-transactions' ),
-			'remove_featured_image' => __( 'Odstranit náhledový obrázek', 'fio-bank-transactions' ),
-			'use_featured_image'    => __( 'Použít jako náhledový obrázek', 'fio-bank-transactions' ),
-			'insert_into_item'      => __( 'Vložit do účtu', 'fio-bank-transactions' ),
-			'uploaded_to_this_item' => __( 'Přiřazeno k tomuto účtu', 'fio-bank-transactions' ),
-			'items_list'            => __( 'Seznam účtů', 'fio-bank-transactions' ),
-			'items_list_navigation' => __( 'Navigace v seznamu účtů', 'fio-bank-transactions' ),
-			'filter_items_list'     => __( 'Filtrovat účty', 'fio-bank-transactions' ),
+			'name'                  => _x( 'Accounts', 'Post Type General Name', 'skaut-fio-bank-transactions' ),
+			'singular_name'         => _x( 'Account', 'Post Type Singular Name', 'skaut-fio-bank-transactions' ),
+			'menu_name'             => __( 'Accounts', 'skaut-fio-bank-transactions' ),
+			'name_admin_bar'        => __( 'Accounts', 'skaut-fio-bank-transactions' ),
+			'archives'              => __( 'Account archives', 'skaut-fio-bank-transactions' ),
+			'attributes'            => __( 'Account attributes', 'skaut-fio-bank-transactions' ),
+			'parent_item_colon'     => __( 'Parent account:', 'skaut-fio-bank-transactions' ),
+			'all_items'             => __( 'Accounts', 'skaut-fio-bank-transactions' ),
+			'add_new_item'          => __( 'Add new account', 'skaut-fio-bank-transactions' ),
+			'add_new'               => __( 'Add account', 'skaut-fio-bank-transactions' ),
+			'new_item'              => __( 'New account', 'skaut-fio-bank-transactions' ),
+			'edit_item'             => __( 'Edit account', 'skaut-fio-bank-transactions' ),
+			'update_item'           => __( 'Update account', 'skaut-fio-bank-transactions' ),
+			'view_item'             => __( 'View account', 'skaut-fio-bank-transactions' ),
+			'view_items'            => __( 'View accounts', 'skaut-fio-bank-transactions' ),
+			'search_items'          => __( 'Search accounts', 'skaut-fio-bank-transactions' ),
+			'not_found'             => __( 'No accounts found', 'skaut-fio-bank-transactions' ),
+			'not_found_in_trash'    => __( 'No accounts found in Trash', 'skaut-fio-bank-transactions' ),
+			'featured_image'        => __( 'Featured image', 'skaut-fio-bank-transactions' ),
+			'set_featured_image'    => __( 'Set featured image', 'skaut-fio-bank-transactions' ),
+			'remove_featured_image' => __( 'Remove featured image', 'skaut-fio-bank-transactions' ),
+			'use_featured_image'    => __( 'Use as featured image', 'skaut-fio-bank-transactions' ),
+			'insert_into_item'      => __( 'Insert into account', 'skaut-fio-bank-transactions' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this account', 'skaut-fio-bank-transactions' ),
+			'items_list'            => __( 'Accounts list', 'skaut-fio-bank-transactions' ),
+			'items_list_navigation' => __( 'Accounts list navigation', 'skaut-fio-bank-transactions' ),
+			'filter_items_list'     => __( 'Filter accounts list', 'skaut-fio-bank-transactions' ),
 		);
 		$capabilities = array(
 			'edit_post'              => Helpers::getFioManagerCapability(),
@@ -76,7 +76,7 @@ final class AccountsInit {
 			'create_posts'           => Helpers::getFioManagerCapability(),
 		);
 		$args         = array(
-			'label'               => __( 'Účty', 'fio-bank-transactions' ),
+			'label'               => __( 'Accounts', 'skaut-fio-bank-transactions' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'author', 'revisions' ),
 			'hierarchical'        => false,
@@ -99,7 +99,7 @@ final class AccountsInit {
 
 	public function defaultContent( string $content ): string {
 		global $post_type;
-		if ( $post_type == self::ACCOUNTS_TYPE_SLUG ) {
+		if ( self::ACCOUNTS_TYPE_SLUG === $post_type ) {
 			$content = '';
 		}
 
@@ -108,8 +108,8 @@ final class AccountsInit {
 
 	public function titlePlaceholder( string $title ): string {
 		global $post_type;
-		if ( $post_type == self::ACCOUNTS_TYPE_SLUG ) {
-			$title = __( 'Zadejte název účtu', 'fio-bank-transactions' );
+		if ( self::ACCOUNTS_TYPE_SLUG === $post_type ) {
+			$title = __( 'Enter the account name', 'skaut-fio-bank-transactions' );
 		}
 
 		return $title;
@@ -119,20 +119,25 @@ final class AccountsInit {
 		$post                                 = get_post();
 		$messages[ self::ACCOUNTS_TYPE_SLUG ] = array(
 			0  => '', // Unused. Messages start at index 1.
-			1  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type updated.
-			2  => __( 'Hotovo', 'fio-bank-transactions' ), // Custom field updated.
-			3  => __( 'Hotovo', 'fio-bank-transactions' ), // Custom field deleted.
-			4  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type updated.
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Účet byl obnoven na starší verzi z %s' ), wp_post_revision_title( absint( $_GET['revision'] ), false ) ) : false,
-			6  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type published.
-			7  => __( 'Účet byl uložen', 'fio-bank-transactions' ), // My Post Type saved.
-			8  => __( 'Hotovo', 'fio-bank-transactions' ), // My Post Type submitted.
+			1  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // My Post Type updated.
+			2  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // Custom field updated.
+			3  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // Custom field deleted.
+			4  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // My Post Type updated.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only, mirrors WordPress core.
+			5  => isset( $_GET['revision'] ) ? sprintf( /* translators: %s: revision title */ __( 'Account restored to revision from %s.', 'skaut-fio-bank-transactions' ), wp_post_revision_title( absint( $_GET['revision'] ), false ) ) : false,
+			6  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // My Post Type published.
+			7  => __( 'Account saved.', 'skaut-fio-bank-transactions' ), // My Post Type saved.
+			8  => __( 'Account updated.', 'skaut-fio-bank-transactions' ), // My Post Type submitted.
 			9  => sprintf(
-				__( 'Účet byl naplánován na: <strong>%1$s</strong>.' ),
-				// translators: Publish box date format, see http://php.net/date
-				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) )
+				/* translators: %1$s: date */
+				__( 'Account scheduled for: <strong>%1$s</strong>.', 'skaut-fio-bank-transactions' ),
+				// translators: Publish box date format, see https://www.php.net/manual/datetime.format.php
+				date_i18n(
+					__( 'M j, Y @ G:i' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- Core date format string.
+					$post instanceof \WP_Post ? intval( strtotime( $post->post_date ) ) : time()
+				)
 			),
-			10 => __( 'Koncept účtu aktualizován', 'fio-bank-transactions' ), // My Post Type draft updated.
+			10 => __( 'Account draft updated.', 'skaut-fio-bank-transactions' ), // My Post Type draft updated.
 		);
 
 		return $messages;
@@ -147,11 +152,6 @@ final class AccountsInit {
 			)
 		);
 
-		if ( $accountsWpQuery->have_posts() ) {
-			return $accountsWpQuery->posts;
-		}
-
-		return array();
+		return is_array( $accountsWpQuery->posts ) ? $accountsWpQuery->posts : array();
 	}
-
 }
