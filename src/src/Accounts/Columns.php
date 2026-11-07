@@ -37,7 +37,7 @@ class Columns {
 	}
 
 	public function lastModifiedAdminColumn( array $columns = array() ): array {
-		$columns['modified_last'] = __( 'Naposledy upraveno', 'fio-bank-transactions' );
+		$columns['modified_last'] = __( 'Last modified', 'skaut-fio-bank-transactions' );
 
 		return $columns;
 	}
@@ -49,17 +49,23 @@ class Columns {
 	}
 
 	public function lastModifiedAdminColumnContent( string $columnName, int $postId ) {
-		if ( 'modified_last' != $columnName ) {
+		if ( 'modified_last' !== $columnName ) {
 			return;
 		}
 
-		$post           = get_post( $postId );
-		$modifiedDate   = sprintf( _x( 'Před %s', '%s = human-readable time difference', 'fio-bank-transactions' ), human_time_diff( strtotime( $post->post_modified ), current_time( 'timestamp' ) ) );
+		$post = get_post( $postId );
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+		$modifiedDate = sprintf(
+			/* translators: %s: human-readable time difference */
+			_x( '%s ago', '%s = human-readable time difference', 'skaut-fio-bank-transactions' ),
+			human_time_diff( intval( strtotime( $post->post_modified_gmt . ' UTC' ) ), time() )
+		);
 		$modifiedAuthor = get_the_modified_author();
 
 		echo esc_html( $modifiedDate );
 		echo '<br>';
 		echo '<strong>' . esc_html( $modifiedAuthor ) . '</strong>';
 	}
-
 }

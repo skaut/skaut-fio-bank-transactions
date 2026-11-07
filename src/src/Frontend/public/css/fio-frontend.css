@@ -6,3 +6,48 @@
 .fio_bank_transactions_outcome {
 	color: #b00;
 }
+
+.fioTransactionsFilter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-bottom: 1em;
+}
+
+.fioTransactionsFilter[hidden] {
+	display: none;
+}
+
+.fioTransactionsFilter__button {
+	padding: 0.4em 1em;
+	border: 1px solid currentcolor;
+	border-radius: 4px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.fioTransactionsFilter__button[aria-pressed="true"] {
+	background: #1e5aa8;
+	border-color: #1e5aa8;
+	color: #fff;
+}
+
+/* Column title always on the left, ordering arrows always on the right (DataTables puts them on the left for numbers and dates). */
+.fioTransactions table.dataTable thead > tr > th {
+	text-align: left;
+}
+
+.fioTransactions table.dataTable thead > tr > th div.dt-column-header {
+	flex-direction: row;
+}
+
+.fioTransactions table.dataTable tbody td.dt-type-date,
+.fioTransactions table.dataTable tbody td.dt-type-numeric {
+	text-align: left;
+}
+
+.fioTransactions table.dataTable tbody td.fio_bank_transactions_amount {
+	text-align: right;
+}

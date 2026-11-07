@@ -1,6 +1,6 @@
 {
   "name": "skaut-fio-bank-transactions",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "A WordPress plugin to show transactions from Fio Bank",
   "keywords": [
     "wordpress",
@@ -35,37 +35,39 @@
     "build": "gulp build",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:php:phan": "export PHAN_DISABLE_XDEBUG_WARN=1; vendor/bin/phan",
+    "lint:php:phan": "PHAN_DISABLE_XDEBUG_WARN=1 vendor/bin/phan --no-progress-bar $(php -m | grep -q \"^ast$\" || echo --allow-polyfill-parser)",
     "lint:php:phpcs": "vendor/bin/phpcs",
-    "lint:php:phpmd": "vendor/bin/phpmd src,.phan/config.php,scoper.inc.php text phpmd.xml",
+    "lint:php:phpmd": "vendor/bin/phpmd analyze --format text --ruleset phpmd.xml src .phan/config.php scoper.inc.php",
     "lint:php": "run-p -c --aggregate-output lint:php:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
-    "lint:ts": "run-p -c --aggregate-output lint:ts:*",
-    "disabled_lint": "run-p -c --aggregate-output lint:*",
-    "lint": "npm run lint:php:phpcs"
+    "lint": "run-p -c --aggregate-output lint:css lint:js lint:php",
+    "lint:js:eslint": "eslint --color \"src/**/*.js\" gulpfile.js",
+    "lint:js": "run-p -c --aggregate-output lint:js:*"
   },
   "devDependencies": {
     "@wordpress/browserslist-config": "^5.39.0",
-    "@wordpress/eslint-plugin": "^17.12.0",
-    "@wordpress/stylelint-config": "^21.39.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-compat": "^4.2.0",
+    "@wordpress/eslint-plugin": "^28.1.0",
+    "@wordpress/stylelint-config": "^27.1.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-compat": "^7.0.2",
     "gulp": "^5.0.0",
     "gulp-replace": "^1.1.4",
     "gulp-shell": "^0.8.0",
     "merge-stream": "^2.0.0",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^5.0.5",
-    "stylelint": "^14.16.1",
-    "stylelint-no-unsupported-browser-features": "^7.0.0"
+    "rimraf": "^6.1.4",
+    "stylelint": "^17.16.0",
+    "stylelint-no-unsupported-browser-features": "^8.1.2"
   },
   "browserslist": [
     "extends @wordpress/browserslist-config"
   ],
   "dependencies": {
-    "datatables.net": "^1.13.11",
-    "datatables.net-dt": "^1.13.11",
-    "datatables.net-plugins": "^1.13.6",
-    "moment": "^2.30.1"
-  }
+    "datatables.net": "^3.1.5",
+    "datatables.net-dt": "^3.1.5",
+    "datatables.net-plugins": "^3.1.5"
+  },
+  "overrides": {
+    "minimatch@>=7.0.0 <11.0.1": "^11.0.4"
+  },
+  "prettier": "@wordpress/prettier-config"
 }

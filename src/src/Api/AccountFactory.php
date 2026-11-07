@@ -11,5 +11,4 @@ final class AccountFactory implements IAccountFactory {
 	public function createByToken( string $token ): IAccount {
 		return new Account( new Downloader( $token ) );
 	}
-
 }

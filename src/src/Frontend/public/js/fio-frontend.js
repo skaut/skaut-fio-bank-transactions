@@ -1,27 +1,64 @@
-(function ($) {
-    'use strict';
+(function () {
+	'use strict';
 
-    $.fn.dataTable.moment( 'DD.MM.YYYY' );
-    var $dataTable = $('.fioTransactionsTable').DataTable({
-        responsive: true,
-        language: {
-            url: fioTransactionsFrontendLocalize.datatablesFilesUrl + '/cs.json',
-            search: "Hledat",
-            clear: "Zrušit"
-        },
-        columnDefs: [
-            {
-                "targets": [0],
-                "render": $.fn.dataTable.moment('DD.MM.YYYY')
-            }
-        ],
-        order: [[ 0, 'desc' ]]
-    });
+	const DataTable = window.DataTable;
+	const directions = new WeakMap();
+	const localize = window.fioTransactionsFrontendLocalize;
 
-    $dataTable.on('init.dt', function () {
-        $(this).find('th').each(function () {
-            $(this).html('<span>' + $(this).html() + '</span>');
-        });
-    });
+	// Rows of a table are shown according to the direction selected above it.
+	DataTable.ext.search.push(function (settings, searchData, dataIndex) {
+		const api = new DataTable.Api(settings);
+		const direction = directions.get(api.table().node()) || 'all';
+		if (direction === 'all') {
+			return true;
+		}
+		const row = api.row(dataIndex).node();
 
-})(jQuery);
+		return row.getAttribute('data-direction') === direction;
+	});
+
+	document
+		.querySelectorAll('.fioTransactionsTable')
+		.forEach(function (table) {
+			// The date column is sorted by its ISO `data-order` attribute.
+			const dataTable = new DataTable(table, {
+				language: {
+					url: localize.languageUrl || undefined,
+					lengthLabels: { '-1': localize.all },
+				},
+				order: [[0, 'desc']],
+				// Searching must stay on, otherwise DataTables skips the direction filter as well;
+				// only the search box is hidden. The options use data-fio-* attributes, because
+				// DataTables reads data-* attributes of the table (e.g. data-searching) as its own options.
+				layout: {
+					topEnd:
+						table.dataset.fioSearch === 'false' ? null : 'search',
+				},
+				paging: table.dataset.fioPaging !== 'false',
+				pageLength: parseInt(table.dataset.fioPageLength, 10) || 10,
+				lengthMenu: [10, 25, 50, 100, -1],
+			});
+
+			const wrapper = table.closest('.fioTransactions');
+			const filter = wrapper
+				? wrapper.querySelector('.fioTransactionsFilter')
+				: null;
+			if (!filter) {
+				return;
+			}
+			const buttons = filter.querySelectorAll('button');
+			buttons.forEach(function (button) {
+				button.addEventListener('click', function () {
+					directions.set(table, button.dataset.direction);
+					buttons.forEach(function (other) {
+						other.setAttribute(
+							'aria-pressed',
+							other === button ? 'true' : 'false'
+						);
+					});
+					dataTable.draw();
+				});
+			});
+			filter.hidden = false;
+		});
+})();

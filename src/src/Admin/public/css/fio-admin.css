@@ -1,12 +1,3 @@
-.mce-i-dashicons-money:after {
-	font-family: "dashicons";
-	content: "\f526";
-	display: block;
-	font-size: 20px;
-	color: #000;
-	text-align: center;
-}
-
 .toplevel_page_fio_bank_transactions ul li.wp-first-item {
 	display: none;
 }

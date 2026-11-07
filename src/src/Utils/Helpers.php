@@ -6,27 +6,17 @@ namespace FioTransactions\Utils;
 
 class Helpers {
 
-	public static function isSessionStarted(): bool {
-		if ( php_sapi_name() !== 'cli' ) {
-			if ( version_compare( phpversion(), '5.4.0', '>=' ) ) {
-				return session_status() === PHP_SESSION_ACTIVE ? true : false;
-			} else {
-				return session_id() === '' ? false : true;
-			}
-		}
-
-		return false;
-	}
-
 	public static function showAdminNotice( string $message, string $type = 'warning', string $hideNoticeOnPage = '' ) {
 		add_action(
 			'admin_notices',
 			function () use ( $message, $type, $hideNoticeOnPage ) {
-				if ( ! $hideNoticeOnPage || $hideNoticeOnPage != get_current_screen()->id ) {
+				$screen   = get_current_screen();
+				$screenId = $screen instanceof \WP_Screen ? $screen->id : '';
+				if ( '' === $hideNoticeOnPage || $hideNoticeOnPage !== $screenId ) {
 					$class = 'notice notice-' . $type . ' is-dismissible';
 					printf(
 						'<div class="%1$s"><p>%2$s</p><button type="button" class="notice-dismiss">
-		<span class="screen-reader-text">' . esc_html__( 'Zavřít' ) . '</span>
+		<span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'skaut-fio-bank-transactions' ) . '</span>
 	</button></div>',
 						esc_attr( $class ),
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -40,39 +30,30 @@ class Helpers {
 	public static function getFioManagerCapability(): string {
 		static $capability = '';
 
-		if ( $capability === '' ) {
+		if ( '' === $capability ) {
 			$capability = apply_filters( FIOTRANSACTIONS_NAME . '_manager_capability', 'manage_options' );
 		}
 
 		return $capability;
 	}
 
-	public static function userIsFioManager(): bool {
-		return current_user_can( self::getFioManagerCapability() );
-	}
+	/**
+	 * Capability a user needs to embed account transactions via the block.
+	 *
+	 * Contributors and authors must not be able to display (e.g. in a post preview) transactions
+	 * of an arbitrary account just by guessing its ID.
+	 */
+	public static function getFioEmbedCapability(): string {
+		static $capability = '';
 
-	public static function getCurrentUrl(): string {
-		if ( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
-			return esc_url_raw( ( isset( $_SERVER['HTTPS'] ) ? 'https' : 'http' ) . '://' . wp_unslash( $_SERVER['HTTP_HOST'] ) . wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		}
-		return '';
-	}
-
-	public static function validateNonceFromUrl( string $url, string $nonceName ) {
-		if ( ! wp_verify_nonce( self::getNonceFromUrl( urldecode( $url ), $nonceName ), $nonceName ) ) {
-			wp_nonce_ays( $nonceName );
-		}
-	}
-
-	public static function getNonceFromUrl( string $url, string $nonceName ): string {
-		$result = array();
-		if ( preg_match( '~' . $nonceName . '=([^\&,\s,\/,\#,\%,\?]*)~', $url, $result ) ) {
-			if ( is_array( $result ) && isset( $result[1] ) && $result[1] ) {
-				return $result[1];
-			}
+		if ( '' === $capability ) {
+			$capability = strval( apply_filters( FIOTRANSACTIONS_NAME . '_embed_capability', 'edit_others_posts' ) );
 		}
 
-		return '';
+		return $capability;
 	}
 
+	public static function userCanEmbedAccounts( int $userId ): bool {
+		return user_can( $userId, self::getFioEmbedCapability() ) || user_can( $userId, self::getFioManagerCapability() );
+	}
 }
