@@ -3,6 +3,7 @@ on:
   push:
     branches: "*"
   pull_request:
+  workflow_dispatch:
 env:
   php-version: 8.3
   node-version: 22
@@ -78,6 +79,20 @@ jobs:
         with:
           name: "build-artifact"
           path: dist
+
+      - name: "Prepare plugin package"
+        id: package
+        run: |
+          mkdir -p package
+          cp -r dist package/${{ github.event.repository.name }}
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # The downloaded artifact is a ZIP with the plugin folder inside, ready to be uploaded in WordPress (Plugins > Add New > Upload Plugin).
+      - name: "Upload plugin ZIP"
+        uses: actions/upload-artifact@v7
+        with:
+          name: "${{ github.event.repository.name }}.${{ steps.package.outputs.version }}"
+          path: package
 
   lint:
     name: "Lint"
