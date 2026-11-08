@@ -47,13 +47,14 @@ final class Renderer {
 			return '';
 		}
 
-		list( $from, $until ) = TableSettings::getDateRange( $atts['period'], $atts['days'], new \DateTimeImmutable( 'now', wp_timezone() ) );
-		$transactions         = $this->getTransactions( $token, $from, $until );
+		$transactions = $this->getTransactions( $token );
 		if ( null === $transactions ) {
 			return '<div>' . esc_html__( 'Could not connect to Fio banka.', 'skaut-fio-bank-transactions' ) . ' <a href="javascript:location.reload(true);">' . esc_html__( 'Try again.', 'skaut-fio-bank-transactions' ) . '</a></div>';
 		}
 
-		$transactions = self::filterTransactions( $transactions, $atts['ss'], $atts['vs_prefix'] );
+		list( $from, $until ) = TableSettings::getDateRange( $atts['period'], $atts['days'], new \DateTimeImmutable( 'now', wp_timezone() ) );
+		$transactions         = self::filterByDate( $transactions, $from, $until );
+		$transactions         = self::filterTransactions( $transactions, $atts['ss'], $atts['vs_prefix'] );
 
 		wp_enqueue_style( FIOTRANSACTIONS_NAME );
 		wp_enqueue_script( FIOTRANSACTIONS_NAME );
@@ -88,9 +89,12 @@ final class Renderer {
 	 *
 	 * @return array<int, array<string, string|float>>|null Null when no data is available.
 	 */
-	private function getTransactions( string $token, string $from, string $until ): ?array {
-		$cacheKey   = FIOTRANSACTIONS_NAME . '_tx_' . md5( $token . '|' . $from . '|' . $until );
+	private function getTransactions( string $token ): ?array {
+		// One download (the whole 90 day window) per token, shared by all blocks and periods - every
+		// period needs only a subset, and a separate request per period would hit the API limit.
+		$cacheKey   = FIOTRANSACTIONS_NAME . '_tx_' . md5( $token );
 		$staleKey   = $cacheKey . '_stale';
+		$waitKey    = $cacheKey . '_wait';
 		$cached     = get_transient( $cacheKey );
 		$expiration = intval( apply_filters( FIOTRANSACTIONS_NAME . '_cache_expiration', 15 * 60 ) );
 
@@ -98,10 +102,22 @@ final class Renderer {
 			return $cached;
 		}
 
+		// After a failed request do not call the API again for 30 seconds, otherwise every page load
+		// (or every change in the block editor preview) would hit the rate limit again.
+		if ( false !== get_transient( $waitKey ) ) {
+			$stale = get_transient( $staleKey );
+
+			return is_array( $stale ) ? $stale : null;
+		}
+
+		list( $from, $until ) = TableSettings::getDateRange( TableSettings::DEFAULT_PERIOD, TableSettings::MAX_DAYS, new \DateTimeImmutable( 'now', wp_timezone() ) );
+
 		try {
 			$account      = $this->accountFactory->createByToken( $token );
 			$transactions = array_reverse( array_map( array( self::class, 'transactionToArray' ), $account->getTransactionsFromTo( $from, $until ) ) );
 		} catch ( \Throwable $e ) {
+			set_transient( $waitKey, 1, 30 );
+
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 				// The exception message contains the request URL including the secret API token - never log it unredacted.
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
@@ -117,6 +133,23 @@ final class Renderer {
 		set_transient( $staleKey, $transactions, 7 * 24 * 60 * 60 );
 
 		return $transactions;
+	}
+
+	/**
+	 * @param array<int, array<string, string|float>> $transactions
+	 * @return array<int, array<string, string|float>>
+	 */
+	public static function filterByDate( array $transactions, string $from, string $until ): array {
+		return array_values(
+			array_filter(
+				$transactions,
+				static function ( array $transaction ) use ( $from, $until ): bool {
+					$date = strval( $transaction['date'] );
+
+					return $date >= $from && $date <= $until;
+				}
+			)
+		);
 	}
 
 	/**

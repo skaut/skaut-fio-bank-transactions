@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions, bank
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,10 @@ Create a new token following [this guide](https://napoveda.fapi.cz/article/31-ja
 Without an additional authorization in the internet banking, the Fio API provides only the transactions of the last 90 days.
 
 == Changelog ==
+
+= 2.0.1 =
+* Fix: "Could not connect to Fio banka" when the block settings were changed or several blocks used the same account - all periods now share one download per account (the Fio API allows one request per 30 seconds)
+* Fix: after a failed request the API is not called again for 30 seconds; the last downloaded data is shown meanwhile
 
 = 2.0.0 =
 * All texts of the plugin are in English and prepared for translation on translate.wordpress.org
