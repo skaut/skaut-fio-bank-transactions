@@ -7,6 +7,7 @@ namespace FioTransactions\Frontend;
 use FioTransactions\Accounts\AccountsInit;
 use FioTransactions\Api\IAccountFactory;
 use FioTransactions\Utils\Helpers;
+use FioTransactions\Utils\TokenStorage;
 
 /**
  * Renders the transactions table of the block.
@@ -42,8 +43,14 @@ final class Renderer {
 			return '';
 		}
 
-		$token = get_post_meta( intval( ( $accountsWpQuery->posts ?? array( 0 ) )[0] ), FIOTRANSACTIONS_NAME . '_token', true );
-		if ( ! is_string( $token ) || '' === $token ) {
+		$accountId = intval( ( $accountsWpQuery->posts ?? array( 0 ) )[0] );
+		$token     = TokenStorage::get( $accountId );
+		if ( '' === $token ) {
+			// Only the people who can fix it see why the table is missing.
+			if ( TokenStorage::hasToken( $accountId ) && current_user_can( Helpers::getFioManagerCapability() ) ) {
+				return '<div>' . esc_html__( 'The token of this account cannot be decrypted (the FIO_BANK_TRANSACTIONS_KEY constant is missing or was changed). Enter the token again in the account settings.', 'skaut-fio-bank-transactions' ) . '</div>';
+			}
+
 			return '';
 		}
 
