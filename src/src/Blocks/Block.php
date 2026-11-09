@@ -34,12 +34,10 @@ final class Block {
 		wp_register_script(
 			FIOTRANSACTIONS_NAME . '_block',
 			plugin_dir_url( __FILE__ ) . 'public/js/block.js',
-			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-server-side-render', 'wp-i18n' ),
+			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-server-side-render' ),
 			FIOTRANSACTIONS_VERSION,
 			true
 		);
-		// Translations come from the translate.wordpress.org language packs.
-		wp_set_script_translations( FIOTRANSACTIONS_NAME . '_block', 'skaut-fio-bank-transactions' );
 
 		register_block_type(
 			self::NAME,
@@ -119,6 +117,39 @@ final class Block {
 	}
 
 	/**
+	 * Texts of the block editor controls. They are translated here (PHP translations from the
+	 * language pack) and passed to the editor script, so the script needs no JSON translation file.
+	 *
+	 * @return array<string, string>
+	 */
+	private static function getLabels(): array {
+		return array(
+			'title'                => __( 'Fio bank transactions', 'skaut-fio-bank-transactions' ),
+			'account'              => __( 'Account', 'skaut-fio-bank-transactions' ),
+			'selectAccount'        => __( '— Select an account —', 'skaut-fio-bank-transactions' ),
+			'settings'             => __( 'Settings', 'skaut-fio-bank-transactions' ),
+			'period'               => __( 'Period', 'skaut-fio-bank-transactions' ),
+			'days'                 => sprintf(
+				/* translators: %d: maximum number of days */
+				__( 'Number of days (max. %d)', 'skaut-fio-bank-transactions' ),
+				TableSettings::MAX_DAYS
+			),
+			'daysHelp'             => __( 'Without an additional authorization, Fio banka provides only the last 90 days.', 'skaut-fio-bank-transactions' ),
+			'specificSymbol'       => __( 'Only this specific symbol (SS)', 'skaut-fio-bank-transactions' ),
+			'variableSymbolPrefix' => __( 'Only variable symbols starting with', 'skaut-fio-bank-transactions' ),
+			'tableDisplay'         => __( 'Table display', 'skaut-fio-bank-transactions' ),
+			'showSearch'           => __( 'Show search', 'skaut-fio-bank-transactions' ),
+			'pagination'           => __( 'Pagination', 'skaut-fio-bank-transactions' ),
+			'paginationOn'         => __( 'The table is split into pages.', 'skaut-fio-bank-transactions' ),
+			'paginationOff'        => __( 'All transactions are shown at once.', 'skaut-fio-bank-transactions' ),
+			'rowsPerPage'          => __( 'Rows per page', 'skaut-fio-bank-transactions' ),
+			'all'                  => __( 'All', 'skaut-fio-bank-transactions' ),
+			'columns'              => __( 'Columns', 'skaut-fio-bank-transactions' ),
+			'notAllowed'           => __( 'You are not allowed to insert transactions of bank accounts.', 'skaut-fio-bank-transactions' ),
+		);
+	}
+
+	/**
 	 * Passes the list of accounts and columns to the editor script.
 	 */
 	public function addEditorData() {
@@ -159,6 +190,7 @@ final class Block {
 					'postType'   => AccountsInit::ACCOUNTS_TYPE_SLUG,
 					'maxDays'    => TableSettings::MAX_DAYS,
 					'defaultDay' => TableSettings::DEFAULT_DAYS,
+					'labels'     => self::getLabels(),
 				)
 			) . ';',
 			'before'
