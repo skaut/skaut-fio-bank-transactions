@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - "*"
+permissions:
+  contents: write
 env:
   php-version: 8.3
   node-version: 22
@@ -87,22 +89,17 @@ jobs:
         run: |
           sed -n '/=\s\?${{ steps.version.outputs.VERSION }}\s\?=/{:a;n;/=.*/b;p;ba}' ${{ github.event.repository.name }}/readme.txt > body.md
 
-      - name: "Create a release"
-        id: create_release
-        uses: actions/create-release@v1.1.4
+      # Creates the release, or - when it already exists (e.g. created in the GitHub UI, which also
+      # pushes the tag that started this workflow) - only uploads the ZIP to it.
+      - name: "Create or update the release"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Version ${{ github.ref }}
-          body_path: ./body.md
-
-      - name: "Upload release asset"
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist.zip
-          asset_name: ${{ github.event.repository.name }}.${{ steps.version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+          ASSET: ${{ github.event.repository.name }}.${{ steps.version.outputs.VERSION }}.zip
+        run: |
+          mv dist.zip "$ASSET"
+          if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$VERSION" "$ASSET" --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$VERSION" "$ASSET" --title "Version $VERSION" --notes-file body.md --repo "$GITHUB_REPOSITORY"
+          fi
