@@ -12,8 +12,6 @@
 	const ToggleControl = wp.components.ToggleControl;
 	const Placeholder = wp.components.Placeholder;
 	const ServerSideRender = wp.serverSideRender;
-	const __ = wp.i18n.__;
-	const sprintf = wp.i18n.sprintf;
 	const data = window.fioTransactionsBlock || {
 		accounts: [],
 		periods: [],
@@ -21,19 +19,19 @@
 		canEmbed: false,
 		maxDays: 90,
 		defaultDay: 90,
+		labels: {},
 	};
+	// All texts are translated in PHP (Block::getLabels()) and passed in the inline data.
+	const labels = data.labels;
 
 	function accountSelect(attributes, setAttributes) {
 		return el(SelectControl, {
-			label: __('Account', 'skaut-fio-bank-transactions'),
+			label: labels.account,
 			value: String(attributes.account || ''),
 			options: [
 				{
 					value: '',
-					label: __(
-						'— Select an account —',
-						'skaut-fio-bank-transactions'
-					),
+					label: labels.selectAccount,
 				},
 			].concat(
 				data.accounts.map(function (account) {
@@ -63,10 +61,10 @@
 			null,
 			el(
 				PanelBody,
-				{ title: __('Settings', 'skaut-fio-bank-transactions') },
+				{ title: labels.settings },
 				accountSelect(attributes, setAttributes),
 				el(SelectControl, {
-					label: __('Period', 'skaut-fio-bank-transactions'),
+					label: labels.period,
 					value: attributes.period,
 					options: data.periods,
 					onChange(value) {
@@ -75,18 +73,8 @@
 				}),
 				attributes.period === 'days' &&
 					el(TextControl, {
-						label: sprintf(
-							/* translators: %d: maximum number of days */
-							__(
-								'Number of days (max. %d)',
-								'skaut-fio-bank-transactions'
-							),
-							data.maxDays
-						),
-						help: __(
-							'Without an additional authorization, Fio banka provides only the last 90 days.',
-							'skaut-fio-bank-transactions'
-						),
+						label: labels.days,
+						help: labels.daysHelp,
 						type: 'number',
 						min: 1,
 						max: data.maxDays,
@@ -99,20 +87,14 @@
 						},
 					}),
 				el(TextControl, {
-					label: __(
-						'Only this specific symbol (SS)',
-						'skaut-fio-bank-transactions'
-					),
+					label: labels.specificSymbol,
 					value: attributes.ss,
 					onChange(value) {
 						setAttributes({ ss: onlyDigits(value) });
 					},
 				}),
 				el(TextControl, {
-					label: __(
-						'Only variable symbols starting with',
-						'skaut-fio-bank-transactions'
-					),
+					label: labels.variableSymbolPrefix,
 					value: attributes.vsPrefix,
 					onChange(value) {
 						setAttributes({ vsPrefix: onlyDigits(value) });
@@ -122,27 +104,21 @@
 			el(
 				PanelBody,
 				{
-					title: __('Table display', 'skaut-fio-bank-transactions'),
+					title: labels.tableDisplay,
 					initialOpen: false,
 				},
 				el(ToggleControl, {
-					label: __('Show search', 'skaut-fio-bank-transactions'),
+					label: labels.showSearch,
 					checked: attributes.showSearch,
 					onChange(value) {
 						setAttributes({ showSearch: value });
 					},
 				}),
 				el(ToggleControl, {
-					label: __('Pagination', 'skaut-fio-bank-transactions'),
+					label: labels.pagination,
 					help: attributes.paging
-						? __(
-								'The table is split into pages.',
-								'skaut-fio-bank-transactions'
-							)
-						: __(
-								'All transactions are shown at once.',
-								'skaut-fio-bank-transactions'
-							),
+						? labels.paginationOn
+						: labels.paginationOff,
 					checked: attributes.paging,
 					onChange(value) {
 						setAttributes({ paging: value });
@@ -150,10 +126,7 @@
 				}),
 				attributes.paging &&
 					el(SelectControl, {
-						label: __(
-							'Rows per page',
-							'skaut-fio-bank-transactions'
-						),
+						label: labels.rowsPerPage,
 						value: String(attributes.pageLength),
 						options: [10, 25, 50, 100]
 							.map(function (n) {
@@ -162,10 +135,7 @@
 							.concat([
 								{
 									value: '-1',
-									label: __(
-										'All',
-										'skaut-fio-bank-transactions'
-									),
+									label: labels.all,
 								},
 							]),
 						onChange(value) {
@@ -176,7 +146,7 @@
 			el(
 				PanelBody,
 				{
-					title: __('Columns', 'skaut-fio-bank-transactions'),
+					title: labels.columns,
 					initialOpen: false,
 				},
 				data.columns.map(function (column) {
@@ -211,25 +181,16 @@
 				Placeholder,
 				{
 					icon: 'money-alt',
-					label: __(
-						'Fio bank transactions',
-						'skaut-fio-bank-transactions'
-					),
+					label: labels.title,
 				},
-				__(
-					'You are not allowed to insert transactions of bank accounts.',
-					'skaut-fio-bank-transactions'
-				)
+				labels.notAllowed
 			);
 		} else if (!attributes.account) {
 			content = el(
 				Placeholder,
 				{
 					icon: 'money-alt',
-					label: __(
-						'Fio bank transactions',
-						'skaut-fio-bank-transactions'
-					),
+					label: labels.title,
 				},
 				accountSelect(attributes, setAttributes)
 			);
@@ -245,7 +206,7 @@
 
 	wp.blocks.registerBlockType('skaut-fio-bank-transactions/transactions', {
 		apiVersion: 3,
-		title: __('Fio bank transactions', 'skaut-fio-bank-transactions'),
+		title: labels.title,
 		icon: 'money-alt',
 		category: 'widgets',
 		edit: Edit,
