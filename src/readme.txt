@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions, bank
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,8 +49,9 @@ The plugin connects to the Fio banka API (https://fioapi.fio.cz) to download the
 
 1. Install and activate the plugin.
 2. Create a token in the Fio internet banking following [this guide](https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance) (in Czech).
-3. Add an account in "Fio Bank" > "Accounts" and enter the token.
-4. Insert the "Fio bank transactions" block into a page or a post.
+3. Open "Fio Bank" > "Accounts" and click "Create the encryption key". The plugin creates the file wp-content/fio-bank-transactions-key.php with a random key. Alternatively, define the key in wp-config.php: `define( 'FIO_BANK_TRANSACTIONS_KEY', 'a long random string' );`.
+4. Add an account in "Fio Bank" > "Accounts" and enter the token.
+5. Insert the "Fio bank transactions" block into a page or a post.
 
 == Frequently Asked Questions ==
 
@@ -62,11 +63,25 @@ The plugin connects to the Fio banka API (https://fioapi.fio.cz) to download the
 
 Create a new token following [this guide](https://napoveda.fapi.cz/article/31-jak-vytvorit-token-ve-fio-bance) (in Czech).
 
+= How is the Fio token stored? =
+
+The tokens are stored encrypted (libsodium) with a key that is not stored in the database, so a leaked database or backup does not reveal them. The key is in the file wp-content/fio-bank-transactions-key.php (created with the "Create the encryption key" button) or in the `FIO_BANK_TRANSACTIONS_KEY` constant in wp-config.php, which takes precedence. Accounts can be added only after the key exists. Tokens saved by older versions are encrypted automatically.
+
+Do not delete or change the key and copy the key file when moving the site - otherwise the tokens have to be entered again. When the plugin is uninstalled, the key file is deleted together with the tokens.
+
+The saved token is never shown in the administration again, only asterisks and its last four characters; it can only be replaced with a new token from the Fio internet banking. Use a token with the "view only" permission: it can only read the account history.
+
 = Why can I display only the last 90 days? =
 
 Without an additional authorization in the internet banking, the Fio API provides only the transactions of the last 90 days.
 
 == Changelog ==
+
+= 2.1.0 =
+* Security: the Fio tokens are stored encrypted with a key outside the database - the "Create the encryption key" button creates wp-content/fio-bank-transactions-key.php, or define the FIO_BANK_TRANSACTIONS_KEY constant in wp-config.php; existing tokens are encrypted automatically
+* Security: accounts can be added only after the encryption key exists; tokens are never saved as plain text
+* Security: the saved token is no longer shown in the account settings, only asterisks and its last four characters; it can only be replaced with a new token
+* Fix: deleting the plugin removes all its data - also accounts in the trash or unfinished drafts with their tokens, and on a multisite network the data of every site, which were left behind before (new uninstall.php); a reinstalled plugin is no longer active again right away on the site of a network where it was active
 
 = 2.0.2 =
 * Fix: the block settings in the editor were not translated - the texts are now translated in PHP and passed to the editor script
