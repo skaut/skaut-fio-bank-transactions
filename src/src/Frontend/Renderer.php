@@ -48,7 +48,7 @@ final class Renderer {
 		if ( '' === $token ) {
 			// Only the people who can fix it see why the table is missing.
 			if ( TokenStorage::hasToken( $accountId ) && current_user_can( Helpers::getFioManagerCapability() ) ) {
-				return '<div>' . esc_html__( 'The token of this account cannot be decrypted (the FIO_BANK_TRANSACTIONS_KEY constant is missing or was changed). Enter the token again in the account settings.', 'skaut-fio-bank-transactions' ) . '</div>';
+				return '<div>' . esc_html__( 'The token of this account cannot be decrypted (the encryption key is missing or was changed). Enter the token again in the account settings.', 'skaut-fio-bank-transactions' ) . '</div>';
 			}
 
 			return '';

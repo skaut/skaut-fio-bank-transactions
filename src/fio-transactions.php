@@ -22,6 +22,7 @@ use FioTransactions\Frontend\Frontend;
 use FioTransactions\Frontend\Renderer;
 use FioTransactions\General\General;
 use FioTransactions\Utils\Helpers;
+use FioTransactions\Utils\TokenStorage;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -170,6 +171,12 @@ WHERE `option_name` LIKE %s
 		foreach ( $accountIds as $accountId ) {
 			wp_delete_post( intval( $accountId ), true );
 		}
+
+		// The encryption key is useless without the tokens.
+		if ( ! class_exists( TokenStorage::class ) ) {
+			require __DIR__ . '/src/Utils/TokenStorage.php';
+		}
+		TokenStorage::deleteKeyFile();
 
 		return true;
 	}
