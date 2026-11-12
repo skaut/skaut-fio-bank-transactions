@@ -81,7 +81,7 @@ Without an additional authorization in the internet banking, the Fio API provide
 * Security: the Fio tokens are stored encrypted with a key outside the database - the "Create the encryption key" button creates wp-content/fio-bank-transactions-key.php, or define the FIO_BANK_TRANSACTIONS_KEY constant in wp-config.php; existing tokens are encrypted automatically
 * Security: accounts can be added only after the encryption key exists; tokens are never saved as plain text
 * Security: the saved token is no longer shown in the account settings, only asterisks and its last four characters; it can only be replaced with a new token
-* Fix: deleting the plugin removes all its data - also accounts in the trash or unfinished drafts with their tokens, which were left behind before (new uninstall.php)
+* Fix: deleting the plugin removes all its data - also accounts in the trash or unfinished drafts with their tokens, and on a multisite network the data of every site, which were left behind before (new uninstall.php)
 
 = 2.0.2 =
 * Fix: the block settings in the editor were not translated - the texts are now translated in PHP and passed to the editor script

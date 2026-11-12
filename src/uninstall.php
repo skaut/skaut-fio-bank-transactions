@@ -9,6 +9,9 @@
  * - options and cached transactions,
  * - the encryption key file (the tokens it protected are gone).
  *
+ * On a multisite network this is done for every site of the network: the plugin is deleted from the
+ * network admin, where WordPress runs this file only in the context of the main site.
+ *
  * @package skaut-fio-bank-transactions
  */
 
@@ -21,9 +24,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 const UNINSTALL_PREFIX = 'fio_bank_transactions_';
 
 /**
- * Runs the cleanup (a function, so the variables do not leak into the global scope).
+ * Removes the data of the plugin from the current site.
  */
-function uninstall() {
+function uninstall_site() {
 	global $wpdb;
 
 	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- One-off cleanup, nothing to cache.
@@ -49,6 +52,27 @@ function uninstall() {
 	);
 
 	// phpcs:enable
+}
+
+/**
+ * Runs the cleanup on every site (a function, so the variables do not leak into the global scope).
+ */
+function uninstall() {
+	if ( is_multisite() ) {
+		$siteIds = get_sites(
+			array(
+				'fields' => 'ids',
+				'number' => 0,
+			)
+		);
+		foreach ( $siteIds as $siteId ) {
+			switch_to_blog( intval( $siteId ) );
+			uninstall_site();
+			restore_current_blog();
+		}
+	} else {
+		uninstall_site();
+	}
 
 	if ( file_exists( strval( constant( 'WP_CONTENT_DIR' ) ) . '/fio-bank-transactions-key.php' ) ) {
 		wp_delete_file( strval( constant( 'WP_CONTENT_DIR' ) ) . '/fio-bank-transactions-key.php' );
