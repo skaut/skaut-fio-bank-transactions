@@ -22,7 +22,6 @@ use FioTransactions\Frontend\Frontend;
 use FioTransactions\Frontend\Renderer;
 use FioTransactions\General\General;
 use FioTransactions\Utils\Helpers;
-use FioTransactions\Utils\TokenStorage;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -85,7 +84,6 @@ class FioTransactions {
 
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
-		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 	}
 
 	protected function init() {
@@ -131,55 +129,6 @@ class FioTransactions {
 	public function deactivation() {
 	}
 
-	public static function uninstall() {
-		global $wpdb;
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Uninstall cleanup, nothing to cache.
-		$options = $wpdb->get_results(
-			$wpdb->prepare(
-				"
-SELECT `option_name`
-FROM $wpdb->options
-WHERE `option_name` LIKE %s
-",
-				$wpdb->esc_like( FIOTRANSACTIONS_NAME . '_' ) . '%'
-			)
-		);
-		foreach ( $options as $option ) {
-			delete_option( $option->option_name );
-		}
-
-		// Cached transactions.
-		$wpdb->query(
-			$wpdb->prepare(
-				"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
-				$wpdb->esc_like( '_transient_' . FIOTRANSACTIONS_NAME . '_' ) . '%',
-				$wpdb->esc_like( '_transient_timeout_' . FIOTRANSACTIONS_NAME . '_' ) . '%'
-			)
-		);
-		// phpcs:enable
-
-		// Accounts including their API tokens (post meta) and revisions.
-		$accountIds = get_posts(
-			array(
-				'post_type'        => 'fio_accounts',
-				'post_status'      => 'any',
-				'numberposts'      => -1,
-				'fields'           => 'ids',
-				'suppress_filters' => true,
-			)
-		);
-		foreach ( $accountIds as $accountId ) {
-			wp_delete_post( intval( $accountId ), true );
-		}
-
-		// The encryption key is useless without the tokens.
-		if ( ! class_exists( TokenStorage::class ) ) {
-			require __DIR__ . '/src/Utils/TokenStorage.php';
-		}
-		TokenStorage::deleteKeyFile();
-
-		return true;
-	}
 
 	public function checkVersionAndPossiblyDeactivatePlugin() {
 		if ( ! $this->isCompatibleVersionOfWp() ) {

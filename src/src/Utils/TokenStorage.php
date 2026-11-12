@@ -96,15 +96,6 @@ final class TokenStorage {
 	}
 
 	/**
-	 * Removes the key file (on uninstall, together with the tokens).
-	 */
-	public static function deleteKeyFile() {
-		if ( file_exists( self::keyFilePath() ) ) {
-			wp_delete_file( self::keyFilePath() );
-		}
-	}
-
-	/**
 	 * Saves the token encrypted. Returns false when no key exists (tokens are never saved as plain text).
 	 */
 	public static function save( int $postId, string $token ): bool {
