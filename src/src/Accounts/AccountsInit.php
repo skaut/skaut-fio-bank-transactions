@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace FioTransactions\Accounts;
 
 use FioTransactions\Utils\Helpers;
+use FioTransactions\Utils\TokenStorage;
 
 final class AccountsInit {
 
@@ -73,7 +74,8 @@ final class AccountsInit {
 			'delete_others_posts'    => Helpers::getFioManagerCapability(),
 			'edit_private_posts'     => Helpers::getFioManagerCapability(),
 			'edit_published_posts'   => Helpers::getFioManagerCapability(),
-			'create_posts'           => Helpers::getFioManagerCapability(),
+			// No new accounts until the encryption key exists (tokens are never stored as plain text).
+			'create_posts'           => TokenStorage::isEncryptionEnabled() ? Helpers::getFioManagerCapability() : 'do_not_allow',
 		);
 		$args         = array(
 			'label'               => __( 'Accounts', 'skaut-fio-bank-transactions' ),
