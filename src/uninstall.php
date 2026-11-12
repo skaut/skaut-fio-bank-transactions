@@ -7,6 +7,8 @@
  * - all accounts, in any status (published, draft, trash, auto-draft) and their revisions,
  * - the Fio API tokens and any other post meta of the plugin, even of orphaned posts,
  * - options and cached transactions,
+ * - the plugin from the list of active plugins of the site (otherwise a reinstalled plugin would be
+ *   active again on a site of a network right away) and the uninstall hook of older versions,
  * - the encryption key file (the tokens it protected are gone).
  *
  * On a multisite network this is done for every site of the network: the plugin is deleted from the
@@ -52,6 +54,22 @@ function uninstall_site() {
 	);
 
 	// phpcs:enable
+
+	// The plugin is deleted, so it is no longer active here. WordPress itself removes it only from the
+	// main site; a site of a network would keep it in its list and a reinstalled plugin would be
+	// active again right away.
+	$pluginFile    = strval( constant( 'WP_UNINSTALL_PLUGIN' ) );
+	$activePlugins = get_option( 'active_plugins' );
+	if ( is_array( $activePlugins ) && in_array( $pluginFile, $activePlugins, true ) ) {
+		update_option( 'active_plugins', array_values( array_diff( $activePlugins, array( $pluginFile ) ) ) );
+	}
+
+	// Uninstall hook registered by older versions in the options of this site.
+	$uninstallPlugins = get_option( 'uninstall_plugins' );
+	if ( is_array( $uninstallPlugins ) && isset( $uninstallPlugins[ $pluginFile ] ) ) {
+		unset( $uninstallPlugins[ $pluginFile ] );
+		update_option( 'uninstall_plugins', $uninstallPlugins );
+	}
 }
 
 /**
