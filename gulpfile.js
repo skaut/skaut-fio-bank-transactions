@@ -9,7 +9,9 @@ gulp.task(
 );
 
 gulp.task('build:deps:composer:certs', function () {
-	return gulp.src(['vendor/**/*.pem']).pipe(gulp.dest('dist/vendor/'));
+	return gulp
+		.src(['vendor/**/*.pem', '!vendor/**/{tests,test,Tests,Test}/**'])
+		.pipe(gulp.dest('dist/vendor/'));
 });
 
 gulp.task(

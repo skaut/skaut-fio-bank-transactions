@@ -18,7 +18,8 @@ use Isolated\Symfony\Component\Finder\Finder;
 function dependency_finder() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Build script, not part of the plugin.
 	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec
 	exec( 'composer show --no-dev --name-only', $dependencies );
-	$finder = Finder::create()->files()->name( array( '*.php', '/LICENSE(.txt)?/' ) )->in( 'vendor' );
+	// Tests of the dependencies are not needed in the plugin (some packages ship them, e.g. mhujer/fio-api-php).
+	$finder = Finder::create()->files()->name( array( '*.php', '/LICENSE(.txt)?/' ) )->exclude( array( 'tests', 'test', 'Tests', 'Test' ) )->in( 'vendor' );
 
 	foreach ( $dependencies as $dependency ) {
 		$finder->path( '#^' . $dependency . '/#' );
