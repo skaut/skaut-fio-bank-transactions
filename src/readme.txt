@@ -78,6 +78,7 @@ Without an additional authorization in the internet banking, the Fio API provide
 == Changelog ==
 
 = 2.1.1 =
+* The plugin package no longer contains the tests of the bundled libraries
 * Fix: version 2.1.0 from wordpress.org showed "Could not connect to Fio banka" for every account - the bundled libraries could not be loaded because of a build error (the build now checks that they load)
 
 = 2.1.0 =
