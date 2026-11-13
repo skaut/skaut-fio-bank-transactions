@@ -9,7 +9,9 @@ gulp.task(
 );
 
 gulp.task('build:deps:composer:certs', function () {
-	return gulp.src(['vendor/**/*.pem']).pipe(gulp.dest('dist/vendor/'));
+	return gulp
+		.src(['vendor/**/*.pem', '!vendor/**/{tests,test,Tests,Test}/**'])
+		.pipe(gulp.dest('dist/vendor/'));
 });
 
 gulp.task(
@@ -36,8 +38,9 @@ gulp.task(
 						)
 					)
 					.pipe(
+						// Newer Composer versions write no space after "=>", older ones do.
 						replace(
-							/'(.*)\\\\' => \n/g,
+							/'(.*)\\\\' => ?\n/g,
 							"'FioTransactions\\\\Vendor\\\\$1\\\\' => \n"
 						)
 					)
@@ -97,4 +100,9 @@ gulp.task('build:php:other', function () {
 
 gulp.task('build:php', gulp.parallel('build:php:base', 'build:php:other'));
 
-gulp.task('build', gulp.parallel('build:deps', 'build:php'));
+gulp.task('build:verify', shell.task('php scripts/verify-build.php dist'));
+
+gulp.task(
+	'build',
+	gulp.series(gulp.parallel('build:deps', 'build:php'), 'build:verify')
+);

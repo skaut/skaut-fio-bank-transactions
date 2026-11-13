@@ -4,6 +4,7 @@
 	<!--file>tests</file-->
 	<file>.phan</file>
 	<file>scoper.inc.php</file>
+	<file>scripts</file>
 
 	<arg name="basepath" value="./"/>
 	<arg name="colors"/>
