@@ -4,7 +4,7 @@ Tags: skaut, block, fio, transactions, bank
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -76,6 +76,9 @@ The saved token is never shown in the administration again, only asterisks and i
 Without an additional authorization in the internet banking, the Fio API provides only the transactions of the last 90 days.
 
 == Changelog ==
+
+= 2.1.1 =
+* Fix: version 2.1.0 from wordpress.org showed "Could not connect to Fio banka" for every account - the bundled libraries could not be loaded because of a build error (the build now checks that they load)
 
 = 2.1.0 =
 * Security: the Fio tokens are stored encrypted with a key outside the database - the "Create the encryption key" button creates wp-content/fio-bank-transactions-key.php, or define the FIO_BANK_TRANSACTIONS_KEY constant in wp-config.php; existing tokens are encrypted automatically
